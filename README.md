@@ -1,1 +1,1 @@
-# cro.geneea-client
+# cro-geneea-client
