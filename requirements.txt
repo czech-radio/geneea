@@ -4,3 +4,4 @@ docs
 lint
 black
 isort
+test

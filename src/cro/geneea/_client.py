@@ -6,14 +6,15 @@ from typing import Optional, Union
 from requests import post,get
 
 __API_KEY__=os.environ.get('GENEEA_API_KEY')
+__API_URL__=os.environ.get('GENEEA_API_URL')
 
 class Client:
     """
     Geneea API Client
     """
 
-    __filename__ = "";
-    __url__=f"https://api.geneea.com/v3/analysis/T:CRo-transcripts"
+    __filename__ = ""
+    __url__f"{=__API_URL__}"
     __date_format__:f"%Y-%m-%d"
     __text__=""
     __headers__={
@@ -27,14 +28,17 @@ class Client:
         response=callGeenea(__text__)
 
     @classmethod
-    def get_txt(_filename):
+    def get_txt(_filename) -> str:
+        raw = ""
         print("processing file: %s",_filename)
         with open(_filename,encoding='utf8') as f:
             line = f.readline()
             while line:
                 line = f.readline()
+                raw = raw + line
                 print(line)
-    
+        return raw
+
     @classmethod
     def callGeneea(str: input) -> tuple:
 
