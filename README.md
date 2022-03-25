@@ -31,9 +31,9 @@ pip install git+https://github.com/czech-radio/cro-geneea-client.git
 ```
 
 ## Usage
-
+```
 export GENEEA_API_KEY=xxx
 export GENEEA_API_URL=yyy
 
 cro.geneea -f "input_filename.txt"
-
+```
