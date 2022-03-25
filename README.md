@@ -4,12 +4,18 @@
 
 ## Purpose
 
+library reads contents of local text file _(utf-8)_ and sends it as a query to [Geneea](https://geneea.com/) API
+that returns JSON with its analysis
+
 &hellip;
 
-## Features
+## TODO
 
-- [ ] Do this.
-- [ ] Do that.
+- [ ] Text file corrections, could contain various newline character types, disturbing/unnecessary/varying headers etc.
+- [ ] Charset identification/normalization is to consider
+- [ ] building query+headers to a POST form
+- [ ] gathering/parsing JSON results into datamodel
+- [ ] outputting response from server to ```stdout```, writing to databse, storing as files etc.
 
 ## Installation
 
@@ -26,5 +32,8 @@ pip install git+https://github.com/czech-radio/cro-geneea-client.git
 
 ## Usage
 
-&hellip;
+export GENEEA_API_KEY=xxx
+export GENEEA_API_URL=yyy
+
+cro.geneea -f "input_filename.txt"
 
