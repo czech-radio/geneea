@@ -17,6 +17,6 @@ if __name__ == '__main__':
     
     print(F"Geneea API hello {args.file}")
 
-    client = GeneeaClient(str(f"args.file"))
+    client = GeneeaClient(args.file)
 
     # TODO arguments = parser.parse_args()

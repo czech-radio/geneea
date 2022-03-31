@@ -2,7 +2,7 @@
 
 from setuptools import setup, find_packages
 
-requirements=["nbformat>=4","nbconvert>=5","requests>=2","docs","lint","black","isort"]
+requirements=["requests","nbformat>=4","nbconvert>=5","requests>=2","docs","lint","black","isort"]
 
 with open('README.md') as f:
     readme = f.read()
