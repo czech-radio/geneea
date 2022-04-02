@@ -32,8 +32,11 @@ pip install git+https://github.com/czech-radio/cro-geneea-client.git
 
 ## Usage
 ```
-export GENEEA_API_KEY=xxx
-export GENEEA_API_URL=yyy
+export GENEEA_API_KEY=https://xxx/url/to/geneea/api
+export GENEEA_API_URL=apikeyinstringform
 
-cro.geneea -f "input_filename.txt"
+source .venv/bin/activate
+
+
+python src/ -f "input_filename.txt"
 ```
