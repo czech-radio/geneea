@@ -1,8 +1,11 @@
 import os
+import json
 import datetime as dt
 from enum import Enum
 
+from _datamodel import Entity
 from requests import post as POST
+from types import SimpleNamespace
 
 __API_KEY__=os.environ.get('GENEEA_API_KEY')
 __API_URL__=os.environ.get('GENEEA_API_URL')
@@ -19,6 +22,7 @@ class Client:
         filename=_filename
         text = self.get_txt(filename)
         response=self.callGeneea(text)
+        self.deserialize(response);
 
     @classmethod
     def get_txt(a,_filename):
@@ -32,7 +36,7 @@ class Client:
         return raw
 
     @classmethod
-    def callGeneea(self,str: input) -> tuple:
+    def callGeneea(self, _input) -> str:
         """
         get response from a server
         """
@@ -40,19 +44,27 @@ class Client:
         date_format=f"%Y-%m-%d"
         headers = {
                 'content-type': 'application/json',
-                'Authorization': 'user_key {__API_KEY__}'
+                'Authorization': f'user_key {__API_KEY__}'
                 }
-        text={'text': '{input}'}
+        text={'text': f'{_input}'}
         print(f"connecting to {__API_URL__} using key {__API_KEY__}")
-        data = POST(url, json=text, headers=headers).json()
-        print(data)
-        return data
+        data = []
+        try:
+            data = POST(url, json=text, headers=headers).json()
+            print("OK")
+        except:
+            e = sys.exc_info()[0]
+            print("connection error: ",e)
+
+        return json.dumps(data)
 
     @classmethod
-    def parse_results(tuple: input):
+    def deserialize(self,_input):
         """
         todo json to datamodel
         """
+        data = json.loads(_input, object_hook=lambda d: SimpleNamespace(**d))
+        print(data)
 
 
 
