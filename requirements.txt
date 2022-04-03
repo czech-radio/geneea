@@ -1,8 +1,0 @@
-# write third package here
-pandas
-requests
-docs
-lint
-black
-isort
-test
