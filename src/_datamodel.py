@@ -12,7 +12,9 @@ class Datamodel(object):
         self.itemSentiments = pd.DataFrame.from_dict(pd.json_normalize(self.itemSentiments), orient='columns')
         self.docSentiment = pd.DataFrame.from_dict(pd.json_normalize(self.docSentiment), orient='columns')
         
+        pd.set_option('display.max_rows', None)
+
         print(self.entities)
-        print(self.tags)
-        print(self.itemSentiments)
+        #print(self.tags)
+        #print(self.itemSentiments)
         print(self.docSentiment)
