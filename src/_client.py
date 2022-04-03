@@ -3,9 +3,8 @@ import json
 import datetime as dt
 from enum import Enum
 
-from _datamodel import Entity
+from _datamodel import Datamodel
 from requests import post as POST
-from types import SimpleNamespace
 
 __API_KEY__=os.environ.get('GENEEA_API_KEY')
 __API_URL__=os.environ.get('GENEEA_API_URL')
@@ -63,8 +62,7 @@ class Client:
         """
         todo json to datamodel
         """
-        data = json.loads(_input, object_hook=lambda d: SimpleNamespace(**d))
-        print(data)
+        datamodel = Datamodel(_input)
 
 
 
