@@ -2,6 +2,23 @@
 
 **The 𝔠𝔯𝔬-𝔤𝔢𝔫𝔢𝔢𝔞-𝔠𝔩𝔦𝔢𝔫𝔱 is a Python library to work with Geneea NLP REST service.**
 
+![Python](https://img.shields.io/badge/Language-Python-blue.svg)
+[![build: tests](https://github.com/czech-radio/cro-transcript-client/actions/workflows/main.yml/badge.svg)](https://github.com/czech-radio/cro-transcript-client/actions/workflows/main.yml)
+[![style: black](https://img.shields.io/badge/style-black-000000.svg)](https://github.com/psf/black)
+[![quality: bugs](https://sonarcloud.io/api/project_badges/measure?project=czech-radio_cro-transcript-client&metric=bugs)](https://sonarcloud.io/dashboard?id=czech-radio_cro-transcript-client)
+[![quality: code smells](https://sonarcloud.io/api/project_badges/measure?project=czech-radio_cro-transcript-client&metric=code_smells)](https://sonarcloud.io/dashboard?id=czech-radio_cro-transcript-client)
+[![quality: reliability](https://sonarcloud.io/api/project_badges/measure?project=czech-radio_cro-transcript-client&metric=reliability_rating)](https://sonarcloud.io/dashboard?id=czech-radio_cro-transcript-client)
+
+- Status: developed (maintained)
+- Version: 0.1.0-alpha (latest)
+- Release: https://github.com/czech-radio/cro-transcript-client/releases/
+- Website: https://czech-radio.github.io/cro-transcript-client/.
+- Category: library, client
+- Suppport: Python 3.9+, Windows, macOS, Ubuntu
+
+:star: Star us on GitHub — it motivates us!
+
+
 ## Purpose
 
 library reads contents of local text file _(utf-8)_ and sends it as a query to [Geneea](https://geneea.com/) API
