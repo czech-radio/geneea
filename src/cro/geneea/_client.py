@@ -3,9 +3,8 @@ import json
 import os
 from enum import Enum
 
-from requests import post as POST
-
 from _datamodel import Datamodel
+from requests import post as POST
 
 __API_KEY__ = os.environ.get("GENEEA_API_KEY")
 __API_URL__ = os.environ.get("GENEEA_API_URL")

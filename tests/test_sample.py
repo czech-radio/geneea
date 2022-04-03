@@ -1,8 +1,6 @@
-
 import pytest
 
 from cro.geneea import __version__
-
 
 """
 Package tests

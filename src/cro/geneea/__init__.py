@@ -2,7 +2,6 @@
 
 from cro.geenea._client import Client as Client
 
-
 __all__ = tuple(["Client"])
 
 
