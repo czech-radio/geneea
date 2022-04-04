@@ -97,10 +97,12 @@ client.get_relations(phrase)
 ### Use as a command line program.
 
 ```shell
- cro.geneea --file <file_name> -type <type_name>
+cro.geneea --file <file_name> -type <type_name>
+```
 
 e.g.
 
+```
 cro.geneea --file ./data/input.txt --type analysis
 
 ANALYSIS
