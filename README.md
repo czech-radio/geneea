@@ -14,7 +14,7 @@
 - Release: https://github.com/czech-radio/cro-geneea-client/releases/
 - Website: https://czech-radio.github.io/cro-geneea-client/.
 - Category: library, client
-- Suppport: Python 3.9+, Windows, macOS, Ubuntu
+- Suppport: Python 3.10+, Windows, macOS, Ubuntu
 
 :star: Star us on GitHub — it motivates us!
 
