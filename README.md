@@ -51,8 +51,9 @@ Activate the virtual environment.
 
 ```shell
 source .venv/bin/activate
+```
 
-Install the package.```
+Install the package.
 
 ```
 pip install git+https://github.com/czech-radio/cro-geneea-client.git
@@ -64,11 +65,14 @@ Export the environent variables.
 
 __UNIX__
 
+
 ```shell
 export GENEEA_API_KEY=https://xxx/url/to/geneea/api
 export GENEEA_API_URL=apikeyinstringform
 ```
+
 __Windows__
+
 
 ```shell
 ...
@@ -90,7 +94,6 @@ client.get_tags(phrase)
 client.get_relations(phrase)
 
 ```
-
 
 ### Use as a command line program.
 
