@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from cro.geenea._client import Client as Client
+from cro.geneea._client import Client as Client
 
 __all__ = tuple(["Client"])
 
