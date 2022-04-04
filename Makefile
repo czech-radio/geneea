@@ -1,5 +1,5 @@
 init:
-	pip install -r requirements.txt
+	pip install -e ".[test,docs,lint]"
 
 test:
-	nosetests -v -s
+	pytest -v -s
