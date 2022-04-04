@@ -2,7 +2,7 @@
 
 import argparse
 
-from _client import Client as GeneeaClient
+from cro.geneea._client import Client as GeneeaClient
 
 """
 The command line interface.
@@ -16,8 +16,6 @@ if __name__ == "__main__":
 
     args = parser.parse_args()
 
-    print(f"Geneea API hello {args.file}")
+    client = GeneeaClient()
 
-    client = GeneeaClient(args.file)
-
-    # TODO arguments = parser.parse_args()
+    result = client.analyze("Toto je testovací věta!")

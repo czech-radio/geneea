@@ -47,17 +47,35 @@ that returns JSON with its analysis.
 
 One can install package from the GitHub repository.
 
+Activate the virtual environment.
+
+```shell
+source .venv/bin/activate
+
+Install the package.```
+
 ```
 pip install git+https://github.com/czech-radio/cro-geneea-client.git
 ```
 
 ## Usage
-```
+
+Export the environent variables.
+
+__UNIX__
+
+```shell
 export GENEEA_API_KEY=https://xxx/url/to/geneea/api
 export GENEEA_API_URL=apikeyinstringform
+```
+__Windows__
 
-source .venv/bin/activate
+```shell
+...
+```
 
+Use as command line program.
 
-python src/ -f "input_filename.txt"
+```shell
+python src/cro/geneea -f <file_name>
 ```

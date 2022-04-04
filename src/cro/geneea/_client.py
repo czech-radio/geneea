@@ -1,65 +1,64 @@
-import datetime as dt
-import json
 import os
-from enum import Enum
+import sys
+import json
 
-from requests import post as POST
+from requests import post
 
 from cro.geneea._datamodel import Datamodel
 
-__API_KEY__ = os.environ.get("GENEEA_API_KEY")
-__API_URL__ = os.environ.get("GENEEA_API_URL")
 
+__API_KEY__ = os.environ.get("GENEEA_API_KEY")
 
 class Client:
-
     """
     Geneea API Client
     """
 
-    def __init__(self, _filename):
-        filename = _filename
-        text = self.get_txt(filename)
-        response = self.callGeneea(text)
-        self.deserialize(response)
+    __URL__ = "https://api.geneea.com/v3"
+
+
+    def __init__(self):
+        """
+        Please FIX this.
+        """
 
     @classmethod
-    def get_txt(a, _filename):
+    def get_txt(cls, file_name):
         raw = ""
-        print("processing file: ", _filename)
-        with open(_filename, encoding="utf8") as f:
-            line = f.readline()
+        print("Processing file: ", file_name)
+        with open(file_name, encoding="utf8") as file:
+            line = file.readline()
             while line:
-                line = f.readline()
+                line = file.readline()
                 raw = raw + line
         return raw
 
     @classmethod
-    def callGeneea(self, _input) -> str:
+    def analyze(cls, _input) -> str:
         """
-        get response from a server
+        Analyze a given text.
         """
-        url = f"{__API_URL__}"
-        date_format = f"%Y-%m-%d"
-        headers = {
-            "content-type": "application/json",
-            "Authorization": f"user_key {__API_KEY__}",
-        }
-        text = {"text": f"{_input}"}
-        print(f"connecting to {__API_URL__} using key {__API_KEY__}")
-        data = []
         try:
-            data = POST(url, json=text, headers=headers).json()
-            print("OK")
-        except:
-            e = sys.exc_info()[0]
-            print("connection error: ", e)
+            print(f"Connecting to {cls.__URL__} using key {__API_KEY__}")
 
-        return json.dumps(data)
+            text = {"text": f"{_input}"}
+
+            headers = {
+                "content-type": "application/json",
+                "Authorization": f"user_key {__API_KEY__}",
+            }
+
+            data = post(f"{cls.__URL__}/analysis", json = text, headers = headers).json()
+            return json.dumps(data)
+        except Exception as ex:
+            e = sys.exc_info()[0]
+            print("Connection error: ", e)
+            raise
+
 
     @classmethod
-    def deserialize(self, _input):
+    def deserialize(cls, input):
         """
         todo json to datamodel
         """
-        datamodel = Datamodel(_input)
+        datamodel = Datamodel(input)
