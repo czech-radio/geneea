@@ -74,7 +74,25 @@ __Windows__
 ...
 ```
 
-Use as command line program.
+### Use as a libray.
+
+```python
+import os
+from cro.geneea import Client
+
+client = client(key = os.environ.get("GENEEA_API_KEY"))
+
+phrase = GeneeaClient.read_phrases("input.txt")[0]
+
+client.get_analysis(phrase)
+client.get_sentiment(phrase)
+client.get_tags(phrase)
+client.get_relations(phrase)
+
+```
+
+
+### Use as a command line program.
 
 ```shell
  cro.geneea --file <file_name> -type <type_name>

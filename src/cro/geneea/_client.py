@@ -5,20 +5,20 @@ import logging
 
 from requests import get, post
 
-from cro.geneea._datamodel import Datamodel
+from cro.geneea._domain import Datamodel
 
 
 class Client:
     """
     Geneea REST API client for https://api.geneea.com/
 
-    Errors e.g.:
+    Possible errors e.g.:
     {'exception': 'Exception', 'message': 'The requested resource is not available.'}
     """
 
     __URL__ = "https://api.geneea.com/"
 
-    def __init__(self, key: str):
+    def __init__(self, key: str) -> None:
         self._key = key
         self.headers = {
             "content-type": "application/json",
@@ -29,11 +29,19 @@ class Client:
     def key(self) -> str:
         return self._key
 
+    @key.setter
+    def key(self, value: str) -> None:
+        self._key = value
+
     @classmethod
-    def read_phrases(cls, path) -> list[str]:
+    def read_phrases(cls, path: str) -> list[str]:
+        """
+        The helper method to load phrases from file.
+
+        Each phrase must be placed on separate line.
+        """
         with open(path, encoding="utf8") as file:
-            lines = file.readlines()
-            return lines
+            return file.readlines()
 
     def get_account(self) -> dict:
         """
