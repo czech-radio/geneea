@@ -12,6 +12,8 @@ class Client:
     """
     Geneea REST API client for https://api.geneea.com/
 
+    See example JSON output in project `data` folder.
+
     Possible errors e.g.:
     {'exception': 'Exception', 'message': 'The requested resource is not available.'}
     """
@@ -56,19 +58,17 @@ class Client:
             logging.error(ex)
             raise ex
 
-    def get_analysis(self, input) -> dict:
+    def get_analysis(self, text: str) -> dict:
         """
-        get analysis for the given input text.
+        Get analysis for the given input text.
 
         :param input: The input text to analyze.
         :return The analyzed input text.
-
-        See example JSON output in `data` folder.
         """
         try:
             response = post(
                 f"{self.__URL__}/v3/analysis",
-                json={"text": input},
+                json={"text": text},
                 headers=self.headers,
             )
             logging.info(response.status_code)
@@ -78,19 +78,17 @@ class Client:
             logging.error(ex)
             raise ex
 
-    def get_entities(self, input) -> dict:
+    def get_entities(self, text: str) -> dict:
         """
         Get entites for the given input text.
 
         :param input: The input text to analyze.
         :return The analyzed input text.
-
-        See example JSON output in `data` folder.
         """
         try:
             response = post(
                 f"{self.__URL__}/v3/entities",
-                json={"text": input},
+                json={"text": text},
                 headers=self.headers,
             )
             logging.info(response.status_code)
@@ -100,18 +98,16 @@ class Client:
             logging.error(ex)
             raise ex
 
-    def get_tags(self, input) -> dict:
+    def get_tags(self, text: str) -> dict:
         """
         Get tags for the given input text.
 
         :param input: The input text to analyze.
         :return The analyzed input text.
-
-        See example JSON output in `data` folder.
         """
         try:
             response = post(
-                f"{self.__URL__}/v3/tags", json={"text": input}, headers=self.headers
+                f"{self.__URL__}/v3/tags", json={"text": text}, headers=self.headers
             )
             logging.info(response.status_code)
             # @todo Check status code.
@@ -120,19 +116,17 @@ class Client:
             logging.error(ex)
             raise ex
 
-    def get_sentiment(self, input) -> dict:
+    def get_sentiment(self, text: str) -> dict:
         """
         Get sentiment for the given input text.
 
         :param input: The input text to analyze.
         :return The analyzed input text.
-
-        See example JSON output in `data` folder.
         """
         try:
             response = post(
                 f"{self.__URL__}/v3/sentiment",
-                json={"text": input},
+                json={"text": text},
                 headers=self.headers,
             )
             logging.info(response.status_code)
@@ -142,19 +136,17 @@ class Client:
             logging.error(ex)
             raise ex
 
-    def get_relations(self, input) -> dict:
+    def get_relations(self, text: str) -> dict:
         """
-        Get relation for the given input text.
+        Get relations for the given input text.
 
         :param input: The input text to analyze.
         :return The analyzed input text.
-
-        See example JSON output in `data` folder.
         """
         try:
             response = post(
                 f"{self.__URL__}/v3/relations",
-                json={"text": input},
+                json={"text": text},
                 headers=self.headers,
             )
             logging.info(response.status_code)
