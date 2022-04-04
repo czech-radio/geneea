@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+import os
 import argparse
 
 from cro.geneea._client import Client as GeneeaClient
@@ -16,6 +17,10 @@ if __name__ == "__main__":
 
     args = parser.parse_args()
 
-    client = GeneeaClient()
+    KEY = os.environ.get("GENEEA_API_KEY")
+
+    client = GeneeaClient(key = KEY)
 
     result = client.analyze("Toto je testovací věta!")
+
+    print(result)

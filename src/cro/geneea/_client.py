@@ -1,13 +1,12 @@
-import os
+# -*- coding: utf-8 -*-
+
 import sys
-import json
+import logging
 
 from requests import post
 
 from cro.geneea._datamodel import Datamodel
 
-
-__API_KEY__ = os.environ.get("GENEEA_API_KEY")
 
 class Client:
     """
@@ -17,10 +16,12 @@ class Client:
     __URL__ = "https://api.geneea.com/v3"
 
 
-    def __init__(self):
-        """
-        Please FIX this.
-        """
+    def __init__(self, key: str):
+        self._key = key
+
+    @property
+    def key(self) -> str:
+        return self._key
 
     @classmethod
     def get_txt(cls, file_name):
@@ -33,32 +34,29 @@ class Client:
                 raw = raw + line
         return raw
 
-    @classmethod
-    def analyze(cls, _input) -> str:
+    def analyze(self, input) -> str:
         """
-        Analyze a given text.
+        Analyze a given input text.
+
+        :param input: The input text to analyze.
+        :return The analyzed input text.
         """
         try:
-            print(f"Connecting to {cls.__URL__} using key {__API_KEY__}")
-
-            text = {"text": f"{_input}"}
-
             headers = {
                 "content-type": "application/json",
-                "Authorization": f"user_key {__API_KEY__}",
+                "Authorization": f"user_key {self.key}",
             }
+            data = post(f"{self.__URL__}/analysis", json = {"text": input}, headers = headers)
 
-            data = post(f"{cls.__URL__}/analysis", json = text, headers = headers).json()
-            return json.dumps(data)
+            return data.json()
+
         except Exception as ex:
-            e = sys.exc_info()[0]
-            print("Connection error: ", e)
-            raise
-
+            logging.error("Connection error: ", sys.exc_info()[0])
+            raise ex
 
     @classmethod
     def deserialize(cls, input):
         """
-        todo json to datamodel
+        TODO Convert JSON to model.
         """
         datamodel = Datamodel(input)
