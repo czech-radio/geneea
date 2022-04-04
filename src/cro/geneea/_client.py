@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
-import sys
 import logging
+import sys
 
 from requests import post
 
@@ -14,7 +14,6 @@ class Client:
     """
 
     __URL__ = "https://api.geneea.com/v3"
-
 
     def __init__(self, key: str):
         self._key = key
@@ -46,12 +45,14 @@ class Client:
                 "content-type": "application/json",
                 "Authorization": f"user_key {self.key}",
             }
-            data = post(f"{self.__URL__}/analysis", json = {"text": input}, headers = headers)
+            data = post(
+                f"{self.__URL__}/analysis", json={"text": input}, headers=headers
+            )
 
             return data.json()
 
         except Exception as ex:
-            logging.error("Connection error: ",ex)
+            logging.error("Connection error: ", ex)
             raise ex
 
     @classmethod

@@ -7,9 +7,8 @@ import pandas as pd
 
 
 class Datamodel(object):
-
     def __init__(self, input):
-        self.__dict__ = json.loads(input) # What is this?
+        self.__dict__ = json.loads(input)  # What is this?
 
         # ... and this vvvv ?
 
