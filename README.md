@@ -77,7 +77,7 @@ __Windows__
 $env:GENEEA_API_KEY=xxx
 ```
 
-### Use as a libray.
+### Use as a library
 
 ```python
 import os
@@ -94,7 +94,7 @@ client.get_relations(phrase)
 
 ```
 
-### Use as a command line program.
+### Use as a command line program
 
 ```shell
 cro.geneea --file <file_name> -type <type_name>
