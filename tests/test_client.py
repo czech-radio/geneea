@@ -2,19 +2,9 @@
 
 import pytest
 
-from cro.geneea import Client, __version__
-
-"""
-Package tests
--------------
-Test the project as a package e.g. check the version, style etc.
-"""
+from cro.geneea import Client
 
 
 @pytest.mark.client
 def test_client():
     assert Client(key=None) is not None
-
-
-def test_version():
-    assert __version__ == "0.1.0"

@@ -1,31 +1,39 @@
 # -*- coding: utf8 -*-
 
-import json
-from types import SimpleNamespace
+
+from __future__ import annotations
+
+from typing import Optional
 
 import pandas as pd
 
 
-class Datamodel(object):
-    def __init__(self, input):
-        self.__dict__ = json.loads(input)  # What is this?
+class Text:
 
-        # ... and this vvvv ?
+    def __init__(self, original: str, analyzed: dict):
+        self.original = original.strip()
+        self.analyzed = analyzed
 
-        # self.entities = pd.DataFrame.from_dict(
-        #     pd.json_normalize(self.entities), orient="columns"
-        # )
-        # self.tags = pd.DataFrame.from_dict(
-        #     pd.json_normalize(self.tags), orient="columns"
-        # )
-        # self.itemSentiments = pd.DataFrame.from_dict(
-        #     pd.json_normalize(self.itemSentiments), orient="columns"
-        # )
-        # self.docSentiment = pd.DataFrame.from_dict(
-        #     pd.json_normalize(self.docSentiment), orient="columns"
-        # )
+    def __eq__(self, that: Optional[Text]) -> bool:
+        return (self.original, self.analyzed) == (that.original, that.analyzed)
 
-        # print(self.entities)
-        # print(self.tags)
-        # print(self.itemSentiments)
-        # print(self.docSentiment)
+    def __hash__(self) -> int:
+        return hash((self.original, self.analyzed))
+
+    def __len__(self):
+        return len(self.original)
+
+    def entities(self) -> tuple[object]:
+        ...
+
+    def tags(self) -> tuple[object]:
+        ...
+
+    def relations(self) -> tuple[object]:
+        ...
+
+    def language(self) -> str:
+        ...
+
+    def sentiment(self) -> object:
+        ...

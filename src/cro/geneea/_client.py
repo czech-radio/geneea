@@ -5,7 +5,7 @@ import logging
 
 from requests import get, post
 
-from cro.geneea._domain import Datamodel
+from cro.geneea._domain import Text
 
 
 class Client:
