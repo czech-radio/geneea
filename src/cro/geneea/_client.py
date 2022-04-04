@@ -51,12 +51,12 @@ class Client:
             return data.json()
 
         except Exception as ex:
-            logging.error("Connection error: ", sys.exc_info()[0])
+            logging.error("Connection error: ",ex)
             raise ex
 
     @classmethod
-    def deserialize(cls, input):
+    def deserialize(cls, input: dict) -> Datamodel:
         """
         TODO Convert JSON to model.
         """
-        datamodel = Datamodel(input)
+        return Datamodel(input)
