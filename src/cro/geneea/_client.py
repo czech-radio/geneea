@@ -3,7 +3,7 @@
 
 import logging
 
-from requests import post, get
+from requests import get, post
 
 from cro.geneea._datamodel import Datamodel
 
@@ -59,7 +59,9 @@ class Client:
         """
         try:
             response = post(
-                f"{self.__URL__}/v3/analysis", json={"text": input}, headers=self.headers
+                f"{self.__URL__}/v3/analysis",
+                json={"text": input},
+                headers=self.headers,
             )
             logging.info(response.status_code)
             # @todo Check status code.
@@ -79,7 +81,9 @@ class Client:
         """
         try:
             response = post(
-                f"{self.__URL__}/v3/entities", json={"text": input}, headers=self.headers
+                f"{self.__URL__}/v3/entities",
+                json={"text": input},
+                headers=self.headers,
             )
             logging.info(response.status_code)
             # @todo Check status code.
@@ -119,7 +123,9 @@ class Client:
         """
         try:
             response = post(
-                f"{self.__URL__}/v3/sentiment", json={"text": input}, headers=self.headers
+                f"{self.__URL__}/v3/sentiment",
+                json={"text": input},
+                headers=self.headers,
             )
             logging.info(response.status_code)
             # @todo Check status code.
@@ -139,7 +145,9 @@ class Client:
         """
         try:
             response = post(
-                f"{self.__URL__}/v3/relations", json={"text": input}, headers=self.headers
+                f"{self.__URL__}/v3/relations",
+                json={"text": input},
+                headers=self.headers,
             )
             logging.info(response.status_code)
             # @todo Check status code.

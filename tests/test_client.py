@@ -1,6 +1,6 @@
 import pytest
 
-from cro.geneea import __version__, Client
+from cro.geneea import Client, __version__
 
 """
 Package tests
