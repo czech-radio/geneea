@@ -67,15 +67,14 @@ __UNIX__
 
 
 ```shell
-export GENEEA_API_KEY=https://xxx/url/to/geneea/api
-export GENEEA_API_URL=apikeyinstringform
+export GENEEA_API_KEY=xxx
 ```
 
 __Windows__
 
 
 ```shell
-...
+$env:GENEEA_API_KEY=xxx
 ```
 
 ### Use as a libray.
