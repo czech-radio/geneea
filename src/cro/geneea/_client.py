@@ -52,7 +52,7 @@ class Client:
             return data.json()
 
         except Exception as ex:
-            logging.error("Connection error: ", ex)
+            logging.error(f"Connection error {ex}")
             raise ex
 
     @classmethod
