@@ -9,7 +9,6 @@ import pandas as pd
 
 
 class Text:
-
     def __init__(self, original: str, analyzed: dict):
         self.original = original.strip()
         self.analyzed = analyzed
