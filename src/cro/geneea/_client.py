@@ -24,7 +24,7 @@ class Client:
         self._key = key
         self.headers = {
             "content-type": "application/json",
-            "Authorization": f"user_key {self.key}",
+            "Authorization": f"user_key {self._key}",
         }
 
     @property
