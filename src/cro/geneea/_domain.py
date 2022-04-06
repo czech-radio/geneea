@@ -28,21 +28,20 @@ class Text:
     def __len__(self):
         return len(self.original)
 
-
     def entities(self) -> tuple[object]:
-        _entities = pd.DataFrame.from_dict(self.analyzed['entities'])
+        _entities = pd.DataFrame.from_dict(self.analyzed["entities"])
         return _entities
 
     def tags(self) -> tuple[object]:
-        _tags = pd.DataFrame.from_dict(self.analyzed['tags'])
+        _tags = pd.DataFrame.from_dict(self.analyzed["tags"])
         return _tags
 
     def relations(self) -> tuple[object]:
-        _relations = pd.DataFrame.from_dict(self.analyzed['relations'])
+        _relations = pd.DataFrame.from_dict(self.analyzed["relations"])
         return _relations
 
     def language(self) -> str:
-        _language = self.analyzed['language']
+        _language = self.analyzed["language"]
         return _language
 
     def sentiment(self) -> object:
