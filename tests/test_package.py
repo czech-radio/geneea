@@ -1,4 +1,4 @@
-# -*- coding: utf8 -*-
+# -*- coding: utf-8 -*-
 
 """
 Test the project as a package e.g. check the version, style etc.
