@@ -19,7 +19,9 @@ jobs:
         runs-on: ubuntu-latest
         steps:
             - name: Check
-              uses: mristin/opinionated-commit-message@v3
+              uses: mristin/opinionated-commit-message@v2
+              with:
+                allow-one-liners: 'true'
 
     # @todo Run the black only once not for all builds.
     # check-python-formatting:
