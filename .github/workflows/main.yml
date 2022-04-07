@@ -41,5 +41,5 @@ jobs:
 
             - name: Test the code
               run: |
-                  pytest -m domain
-                  pytest -m client
+                  python -X utf8 -m pytest -m domain
+                  python -X utf8  pytest -m client
