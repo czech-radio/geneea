@@ -42,7 +42,7 @@ class Client:
 
         Each phrase must be placed on separate line.
         """
-        with open(path, encoding="utf8") as file:
+        with open(path, encoding="utf-8") as file:
             return file.readlines()  # @todo Strip each line.
 
     def get_account(self) -> dict:
