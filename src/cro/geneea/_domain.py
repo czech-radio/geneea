@@ -45,5 +45,5 @@ class Text:
         return _language
 
     def sentiment(self) -> object:
-        _sentiment = pd.DataFrame.from_dict(self.analyzed)
+        _sentiment = self.analyzed["docSentiment"]
         return _sentiment

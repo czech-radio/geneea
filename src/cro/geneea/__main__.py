@@ -30,12 +30,18 @@ def main():
 
     if args.type == "analysis":
         # ANALYSIS
-        print("ANALYSIS\n--------")
+        print("\nANALYSIS\n--------")
         result = client.get_analysis(phrases[0])
         text = Text(phrases[0], result)
 
+        print(f"complete JSON: {result}")
+        print("\nENTITIES\n--------")
         print(text.entities())
+        print("\nTAGS\n--------")
         print(text.tags())
+        print("\nRELATIONS\n--------")
+        print(text.relations())
+        print("\nSENTIMENT\n--------")
         print(text.sentiment())
 
     elif args.type == "account":
