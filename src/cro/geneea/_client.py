@@ -36,14 +36,31 @@ class Client:
         self._key = value
 
     @classmethod
+    def read_txt(cls, path: str) -> str:
+        """
+        multiline text file loading
+        """
+
+        lines = ""
+        with open(path, encoding="utf-8") as f:
+            line = f.readline()
+            while line:
+                line = f.readline()
+                lines = lines + line
+        return lines
+
+    @classmethod
     def read_phrases(cls, path: str) -> list[str]:
         """
         The helper method to load phrases from file.
 
         Each phrase must be placed on separate line.
+
         """
         with open(path, encoding="utf-8") as file:
-            return file.readlines()  # @todo Strip each line.
+            line = file.readlines()
+
+        return line
 
     def get_account(self) -> dict:
         """

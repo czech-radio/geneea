@@ -27,12 +27,13 @@ def main():
     client = GeneeaClient(key=KEY)
 
     phrases = GeneeaClient.read_phrases(args.file)
+    fulltext = GeneeaClient.read_txt(args.file)
 
     if args.type == "analysis":
         # ANALYSIS
         print("\nANALYSIS\n--------")
-        result = client.get_analysis(phrases[0])
-        text = Text(phrases[0], result)
+        result = client.get_analysis(fulltext)
+        text = Text(fulltext, result)
 
         print(f"complete JSON: {result}")
         print("\nENTITIES\n--------")
@@ -52,26 +53,26 @@ def main():
     elif args.type == "entities":
         # ENTITIES
         print("ENTITIES\n--------")
-        result = client.get_entities(phrases[0])
-        text = Text(phrases[0], result)
+        result = client.get_entities(fulltext)
+        text = Text(fulltext, result)
         print(text.entities())
     elif args.type == "tags":
         # TAGS
         print("TAGS\n--------")
-        result = client.get_tags(phrases[0])
-        text = Text(phrases[0], result)
+        result = client.get_tags(fulltext)
+        text = Text(fulltext, result)
         print(text.tags())
     elif args.type == "sentiment":
         # SENTIMENT
         print("SENTIMENT\n--------")
-        result = client.get_sentiment(phrases[0])
-        text = Text(phrases[0], result)
+        result = client.get_sentiment(fulltext)
+        text = Text(fulltext, result)
         print(text.sentiment())
     elif args.type == "relations":
         # REALATION
         print("RELATIONS\n--------")
-        result = client.get_relations(phrases[0])
-        text = Text(phrases[0], result)
+        result = client.get_relations(fulltext)
+        text = Text(fulltext, result)
         print(text.relations())
     else:
         print(
