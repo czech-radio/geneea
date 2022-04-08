@@ -11,6 +11,8 @@ import os
 from cro.geneea import Client as GeneeaClient
 from cro.geneea import Text as Text
 
+__DEBUG__ = false
+
 
 def main():
 
@@ -29,13 +31,17 @@ def main():
     phrases = GeneeaClient.read_phrases(args.file)
     fulltext = GeneeaClient.read_txt(args.file)
 
+    pd.set_option("display.max_rows", None)
+
     if args.type == "analysis":
         # ANALYSIS
         print("\nANALYSIS\n--------")
         result = client.get_analysis(fulltext)
         text = Text(fulltext, result)
 
-        print(f"complete JSON: {result}")
+        if __DEBUG__:
+            print(f"complete JSON: {result}")
+
         print("\nENTITIES\n--------")
         print(text.entities())
         print("\nTAGS\n--------")
