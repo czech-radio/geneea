@@ -41,7 +41,7 @@ class Client:
         multiline text file loading
         """
 
-        lines = ""
+        lines = "\n"
         with open(path, encoding="utf-8") as f:
             line = f.readline()
             while line:

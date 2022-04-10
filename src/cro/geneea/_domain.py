@@ -18,7 +18,7 @@ class Text:
     def __init__(self, original: str, analyzed: dict):
         self.original = original.strip()
         self.analyzed = analyzed
-        pd.set_option('display.max_rows', None)
+        pd.set_option("display.max_rows", None)
 
     def __eq__(self, that: Optional[Text]) -> bool:
         return (self.original, self.analyzed) == (that.original, that.analyzed)

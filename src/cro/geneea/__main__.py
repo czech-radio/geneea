@@ -28,8 +28,8 @@ def main():
 
     client = GeneeaClient(key=KEY)
 
-    phrases = GeneeaClient.read_phrases(args.file)
-    fulltext = GeneeaClient.read_txt(args.file)
+    # phrases = GeneeaClient.read_phrases(args.file)
+    fulltext = "\n".join(GeneeaClient.read_phrases(args.file))
 
     if args.type == "analysis":
         # ANALYSIS
