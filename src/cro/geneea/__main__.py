@@ -11,8 +11,6 @@ import os
 from cro.geneea import Client as GeneeaClient
 from cro.geneea import Text as Text
 
-__DEBUG__ = False
-
 
 def main():
 
@@ -28,56 +26,47 @@ def main():
 
     client = GeneeaClient(key=KEY)
 
-    fulltext = "\n".join(GeneeaClient.read_phrases(args.file))
+    text = "\n".join(GeneeaClient.read_phrases(args.file))
 
-    if args.type == "analysis":
-        # ANALYSIS
-        print("\nANALYSIS\n--------")
-        result = client.get_analysis(fulltext)
-        text = Text(fulltext, result)
+    match args.type:
 
-        if __DEBUG__:
-            print(f"complete JSON: {result}")
+        case "analysis":
+            # ANALYSIS
+            print("\nANALYSIS\n--------")
+            result = client.get_analysis(text)
+            print(result)
+            text = Text(text, result)
 
-        print("\nENTITIES\n--------")
-        print(text.entities())
-        print("\nTAGS\n--------")
-        print(text.tags())
-        print("\nRELATIONS\n--------")
-        print(text.relations())
-        print("\nSENTIMENT\n--------")
-        print(text.sentiment())
-
-    elif args.type == "account":
-        # ACCOUNT
-        print("ACCOUNT\n--------")
-        result = client.get_account()
-        print(result)
-    elif args.type == "entities":
-        # ENTITIES
-        print("ENTITIES\n--------")
-        result = client.get_entities(fulltext)
-        text = Text(fulltext, result)
-        print(text.entities())
-    elif args.type == "tags":
-        # TAGS
-        print("TAGS\n--------")
-        result = client.get_tags(fulltext)
-        text = Text(fulltext, result)
-        print(text.tags())
-    elif args.type == "sentiment":
-        # SENTIMENT
-        print("SENTIMENT\n--------")
-        result = client.get_sentiment(fulltext)
-        text = Text(fulltext, result)
-        print(text.sentiment())
-    elif args.type == "relations":
-        # REALATION
-        print("RELATIONS\n--------")
-        result = client.get_relations(fulltext)
-        text = Text(fulltext, result)
-        print(text.relations())
-    else:
-        print(
-            "Choose one of the following type: 'analysis', 'account', 'entities', 'tags', 'sentiment', 'relations'"
-        )
+        case "account":
+            # ACCOUNT
+            print("ACCOUNT\n--------")
+            result = client.get_account()
+            print(result)
+        case "entities":
+            # ENTITIES
+            print("ENTITIES\n--------")
+            result = client.get_entities(text)
+            text = Text(text, result)
+            print(text.entities())
+        case "tags":
+            # TAGS
+            print("TAGS\n--------")
+            result = client.get_tags(text)
+            text = Text(text, result)
+            print(text.tags())
+        case "sentiment":
+            # SENTIMENT
+            print("SENTIMENT\n--------")
+            result = client.get_sentiment(text)
+            text = Text(text, result)
+            print(text.sentiment())
+        case "relations":
+            # REALATION
+            print("RELATIONS\n--------")
+            result = client.get_relations(text)
+            text = Text(text, result)
+            print(text.relations())
+        case _:
+            print(
+                "Choose one of the following type: 'analysis', 'account', 'entities', 'tags', 'sentiment', 'relations'"
+            )
