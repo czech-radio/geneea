@@ -36,20 +36,6 @@ class Client:
         self._key = value
 
     @classmethod
-    def read_txt(cls, path: str) -> str:
-        """
-        multiline text file loading
-        """
-
-        lines = "\n"
-        with open(path, encoding="utf-8") as f:
-            line = f.readline()
-            while line:
-                line = f.readline()
-                lines = lines + line
-        return lines
-
-    @classmethod
     def read_phrases(cls, path: str) -> list[str]:
         """
         The helper method to load phrases from file.
