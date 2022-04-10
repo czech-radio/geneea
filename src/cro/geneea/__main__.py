@@ -28,41 +28,33 @@ def main():
 
     text = "\n".join(GeneeaClient.read_phrases(args.file))
 
+    print(f"{args.type.upper()}\n{len(args.type) * '-'}")
+
     match args.type:
 
         case "analysis":
-            # ANALYSIS
-            print("\nANALYSIS\n--------")
             result = client.get_analysis(text)
             print(result)
             text = Text(text, result)
 
         case "account":
-            # ACCOUNT
-            print("ACCOUNT\n--------")
             result = client.get_account()
             print(result)
+
         case "entities":
-            # ENTITIES
-            print("ENTITIES\n--------")
             result = client.get_entities(text)
             text = Text(text, result)
             print(text.entities())
+
         case "tags":
-            # TAGS
-            print("TAGS\n--------")
             result = client.get_tags(text)
             text = Text(text, result)
             print(text.tags())
         case "sentiment":
-            # SENTIMENT
-            print("SENTIMENT\n--------")
             result = client.get_sentiment(text)
             text = Text(text, result)
             print(text.sentiment())
         case "relations":
-            # REALATION
-            print("RELATIONS\n--------")
             result = client.get_relations(text)
             text = Text(text, result)
             print(text.relations())
