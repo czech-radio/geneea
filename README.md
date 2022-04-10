@@ -85,12 +85,21 @@ from cro.geneea import Client
 
 client = client(key = os.environ.get("GENEEA_API_KEY"))
 
-phrase = GeneeaClient.read_phrases("input.txt")[0]
+phrase = "\n".join(GeneeaClient.read_phrases("input.txt"))
 
-client.get_analysis(phrase)
-client.get_sentiment(phrase)
-client.get_tags(phrase)
-client.get_relations(phrase)
+# The full analysis.
+analysis = client.get_analysis(phrase)
+print(analysis)
+
+# Only the parts of analysis.
+sentiment = client.get_sentiment(phrase)
+print(sentiment)
+
+tags = client.get_tags(phrase)
+print(tags)
+
+relations = client.get_relations(phrase)
+print(relations)
 
 ```
 
