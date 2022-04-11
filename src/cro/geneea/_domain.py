@@ -29,6 +29,11 @@ class Text:
     def __len__(self):
         return len(self.original)
 
+    """
+    cast model first, then traslate to frames, optional
+
+    """
+
     def entities(self) -> tuple[object]:
         _entities = pd.DataFrame.from_dict(self.analyzed["entities"])
         return _entities
