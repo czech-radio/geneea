@@ -32,7 +32,7 @@ that returns JSON with its analysis.
 
 ### Development notes
 
-- [ ] Domain model
+- [ ] __General Domain Model__
   - [ ] Language: The language detected. 
   - [ ] Analysis:
     - [ ] Relations
@@ -45,9 +45,11 @@ that returns JSON with its analysis.
             Number | Ordinal | Money | Percent                           # numbers
             
   - [ ] Text = original + analyzed content (this should be persisted in DB)
-- [ ] Text file corrections, could contain various newline character types, disturbing/unnecessary/varying headers etc.
-- [ ] We assume tahat all input texts are UTF-8 encoded.
-- [ ] Serialize/Deserialize JSON results into domain model.
+  - [ ] Serialize/Deserialize JSON results into domain model.
+
+- We assume tahat all input texts are UTF-8 encoded.
+- Text corrections, could contain various newline character types, no diacritics etc.
+
 
 ## Installation
 
