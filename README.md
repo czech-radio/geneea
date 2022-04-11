@@ -30,13 +30,24 @@ that returns JSON with its analysis.
 
 - [ ] &hellip;
 
-### TODO
+### Development notes
 
+- [ ] Domain model
+  - [ ] Language: The language detected. 
+  - [ ] Analysis:
+    - [ ] Relations
+    - [ ] Tag
+    - [ ] Sentiment
+    - [ ] Entity =
+            Person | Organization | Location | Product | Event | General # basic
+            URL | Email | HashTag | Mention                              # internet
+            Date | Time | Duration | Set                                 # date and time
+            Number | Ordinal | Money | Percent                           # numbers
+            
+  - [ ] Text = original + analyzed content (this should be persisted in DB)
 - [ ] Text file corrections, could contain various newline character types, disturbing/unnecessary/varying headers etc.
-- [ ] Charset identification/normalization is to consider
-- [ ] building query+headers to a POST form
-- [ ] gathering/parsing JSON results into datamodel
-- [ ] outputting response from server to `stdout`, writing to databse, storing as files etc.
+- [ ] We assume tahat all input texts are UTF-8 encoded.
+- [ ] Serialize/Deserialize JSON results into domain model.
 
 ## Installation
 
