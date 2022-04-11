@@ -21,10 +21,7 @@
 
 ## Purpose
 
-The library <strike>reads contents of local text file _(utf-8)_</strike> and sends it as a query to [Geneea](https://geneea.com/) API
-that returns JSON with its analysis.
-
-&hellip;
+The library SDK wrapper for [Geneea](https://geneea.com/) API that returns raw JSON or Pythonic domain model.
 
 ## Features
 
