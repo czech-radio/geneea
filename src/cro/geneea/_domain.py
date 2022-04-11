@@ -1,8 +1,7 @@
 # -*- coding: utf-8 -*-
 
-
 from __future__ import annotations
-from collections import namedtuple as NamedTuple
+from typing import NamedTuple
 from typing import Optional
 
 import json
