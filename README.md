@@ -2,7 +2,7 @@
 
 **The 𝔠𝔯𝔬-𝔤𝔢𝔫𝔢𝔢𝔞-𝔠𝔩𝔦𝔢𝔫𝔱 is a Python library to work with Geneea NLP REST service.**
 
-![Python](https://img.shields.io/badge/Language-Python-blue.svg)
+![language-Python](https://img.shields.io/badge/language-Python-blue.svg)
 [![build: tests](https://github.com/czech-radio/cro-geneea-client/actions/workflows/main.yml/badge.svg)](https://github.com/czech-radio/cro-geneea-client/actions/workflows/main.yml)
 [![style: black](https://img.shields.io/badge/style-black-000000.svg)](https://github.com/psf/black)
 [![quality: bugs](https://sonarcloud.io/api/project_badges/measure?project=czech-radio_cro-geneea-client&metric=bugs)](https://sonarcloud.io/dashboard?id=czech-radio_cro-geneea-client)
