@@ -1,6 +1,6 @@
 # 𝔠𝔯𝔬-𝔤𝔢𝔫𝔢𝔢𝔞-𝔠𝔩𝔦𝔢𝔫𝔱
 
-**The 𝔠𝔯𝔬-𝔤𝔢𝔫𝔢𝔢𝔞-𝔠𝔩𝔦𝔢𝔫𝔱 is a Python library to work with Geneea NLP REST service.**
+**Python library to work with Geneea NLP REST service.**
 
 ![language-Python](https://img.shields.io/badge/language-Python-blue.svg)
 [![build: tests](https://github.com/czech-radio/cro-geneea-client/actions/workflows/main.yml/badge.svg)](https://github.com/czech-radio/cro-geneea-client/actions/workflows/main.yml)
