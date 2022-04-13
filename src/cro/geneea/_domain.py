@@ -1,8 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from __future__ import annotations
-from typing import NamedTuple
-from typing import Optional
+from typing import Optional, NamedTuple
 
 import json
 import pandas as pd
@@ -33,25 +32,37 @@ class Text:
 
     """
 
-    def entities(self) -> tuple[object]:
-        _entities = pd.DataFrame.from_dict(self.analyzed["entities"])
+    def analysis(self) -> Analysis:
+        _data = self.analyzed
+        _analysis = Analysis(
+            _data.original, language(), entities(), tags(), sentiment(), relations()
+        )
+        return _analysis
+
+    def entities(self) -> tuple(Entities):
+        _entities = self.analyzed["entities"]
         return _entities
 
-    def tags(self) -> tuple[object]:
-        _tags = pd.DataFrame.from_dict(self.analyzed["tags"])
+    def tags(self) -> tuple(Tags):
+        _tags = self.analyzed["tags"]
         return _tags
 
     def relations(self) -> tuple[object]:
-        _relations = pd.DataFrame.from_dict(self.analyzed["relations"])
+        _relations = self.analyzed["relations"]
         return _relations
 
     def language(self) -> str:
         _language = self.analyzed["language"]
         return _language
 
-    def sentiment(self) -> object:
+    def sentiment(self) -> Sentiment:
         _sentiment = self.analyzed["docSentiment"]
         return _sentiment
+
+
+# ??? def to_table(NamedTuple nt):
+# pd.DataFrame.from_dict(self.analyzed["tags"])
+#
 
 
 class Analysis:
@@ -62,10 +73,10 @@ class Analysis:
 
     text: Text
     language: str
-    entities: List[Entity]
-    tags: List[Tag]
+    entities: tuple(Entity)
+    tags: tuple(Tag)
     sentiment: Sentiment
-    relations: List[Relation]
+    relations: tuple(Relation)
 
 
 class Sentiment(NamedTuple):
