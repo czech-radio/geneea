@@ -9,5 +9,5 @@ from cro.geneea._domain import Model
 @pytest.mark.domain
 def test_text_model():
     assert (
-        Text(original="Toto je testovací věta", analyzed={"test": "test"}) is not None
+        Model(original="Toto je testovací věta", analyzed={"test": "test"}) is not None
     )
