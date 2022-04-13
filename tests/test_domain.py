@@ -3,7 +3,7 @@
 
 import pytest
 
-from cro.geneea._domain import Text
+from cro.geneea._domain import Model
 
 
 @pytest.mark.domain
