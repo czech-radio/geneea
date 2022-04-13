@@ -7,9 +7,6 @@ import json
 import pandas as pd
 
 
-
-
-
 class Analysis(NamedTuple):
     """
     top level class Analysis
@@ -31,6 +28,7 @@ class Entity(NamedTuple):
     id: str
     stdForm: str
     type: str
+
 
 entities: List[Entity] = []
 
@@ -109,9 +107,7 @@ class Model:
         entities: List[Entity] = []
 
         for entity in self.analyzed["entities"]:
-            entities.append(Entity(
-                entity["id"], entity["stdForm"], entity["type"]
-            ))
+            entities.append(Entity(entity["id"], entity["stdForm"], entity["type"]))
 
         return entities
 
@@ -119,21 +115,21 @@ class Model:
         tags: List[Tag] = []
 
         for tag in self.analyzed["tags"]:
-            tags.append(Tag(
-                tag["id"], tag["stdForm"], tag["type"], tag["relevance"]
-            ))
+            tags.append(Tag(tag["id"], tag["stdForm"], tag["type"], tag["relevance"]))
         return tags
 
     def relations(self) -> List[Relation]:
         relations: List[Relation] = []
         for relation in self.analyzed["relations"]:
-            relations.append(Relation(
-                relation["id"],
-                relation["name"],
-                relation["textRepr"],
-                relation["type"],
-                relation["args"],
-            ))
+            relations.append(
+                Relation(
+                    relation["id"],
+                    relation["name"],
+                    relation["textRepr"],
+                    relation["type"],
+                    relation["args"],
+                )
+            )
         return relations
 
     def language(self) -> str:
