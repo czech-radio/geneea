@@ -34,44 +34,60 @@ class Model:
 
     def analysis(self) -> Analysis:
         _data = self.analyzed
-        _analysis = Analysis(self.original, self.entities(), self.tags(), self.sentiment(), self.relations())
+        _analysis = Analysis(
+            self.original,
+            self.entities(),
+            self.tags(),
+            self.sentiment(),
+            self.relations(),
+        )
         return _analysis
 
     def entities(self) -> tuple(Entity):
-        select = self.analyzed["entities"]
         _entities = ()
-        for entity in select:
-            _entities = _entities + Entity(entity["id"],entity["stdForm"],entity["type"])
+        for entity in self.analyzed["entities"]:
+            _entities = _entities + Entity(
+                entity["id"], entity["stdForm"], entity["type"]
+            )
         return _entities
 
     def tags(self) -> tuple(Tag):
-        select = self.analyzed["tags"]
         _tags = ()
-        for tag in select:
-            _tags = _tags + Tag(tag["id"],tag["stdForm"],tag["type"],tag["relevance"])
+        for tag in self.analyzed["tags"]:
+            _tags = _tags + Tag(
+                tag["id"], tag["stdForm"], tag["type"], tag["relevance"]
+            )
         return _tags
 
     def relations(self) -> tuple(Relation):
-        select = self.analyzed["relations"]
         _relations = ()
-        for relation in select:
-            _relations = _relations + Relation(relation["id"], relation["name"], relation["textRepr"], relation["type"], relation["args"])
+        for relation in self.analyzed["relations"]:
+            _relations = _relations + Relation(
+                relation["id"],
+                relation["name"],
+                relation["textRepr"],
+                relation["type"],
+                relation["args"],
+            )
         return _relations
 
     def language(self) -> str:
-        _language = self.analyzed["language"]
-        return _language
+        return self.analyzed["language"]
 
     def sentiment(self) -> Sentiment:
         select = self.analyzed["docSentiment"]
-        return Sentiment(select["mean"],select["label"],select["positive"],select["negative"])
+        return Sentiment(
+            select["mean"], select["label"], select["positive"], select["negative"]
+        )
 
-    def as_dataframe(NamedTuple):
-        return
+    # def as_dataframe(NamedTuple):
+    #  return pd.DataFrame.from_dict()
+
 
 # ??? def to_table(NamedTuple nt):
 # pd.DataFrame.from_dict(self.analyzed["tags"])
 #
+
 
 class Analysis:
     """
@@ -84,6 +100,7 @@ class Analysis:
     tags: tuple(Tag)
     sentiment: Sentiment
     relations: tuple(Relation)
+
 
 class Entity(NamedTuple):
     """
@@ -99,6 +116,7 @@ class Sentiment(NamedTuple):
     """
     originally docSentiment, it keeps sentiment of a whole document
     """
+
     mean: float
     label: str
     positive: float
@@ -109,6 +127,7 @@ class Relation(NamedTuple):
     """
     TODO: entitiy connection?
     """
+
     id: str
     name: str
     textRepr: str

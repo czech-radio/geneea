@@ -26,9 +26,9 @@ class Client:
     def __init__(self, key: str) -> None:
         self._key = key
         self.headers = {
-                "content-type": "application/json",
-                "Authorization": f"user_key {self._key}",
-                }
+            "content-type": "application/json",
+            "Authorization": f"user_key {self._key}",
+        }
 
     @property
     def key(self) -> str:
@@ -73,11 +73,11 @@ class Client:
         """
         try:
             response = post(
-                    f"{self.__URL__}/v3/analysis",
-                    json={"text": text},
-                    headers=self.headers,
-                    timeout=DEFAULT_CONNECTION_TIMEOUT,
-                    )
+                f"{self.__URL__}/v3/analysis",
+                json={"text": text},
+                headers=self.headers,
+                timeout=DEFAULT_CONNECTION_TIMEOUT,
+            )
             logging.info(response.status_code)
             # @todo Check status code.
             return response.json()
@@ -94,11 +94,11 @@ class Client:
         """
         try:
             response = post(
-                    f"{self.__URL__}/v3/entities",
-                    json={"text": text},
-                    headers=self.headers,
-                    timeout=DEFAULT_CONNECTION_TIMEOUT,
-                    )
+                f"{self.__URL__}/v3/entities",
+                json={"text": text},
+                headers=self.headers,
+                timeout=DEFAULT_CONNECTION_TIMEOUT,
+            )
             logging.info(response.status_code)
             # @todo Check status code.
             return response.json()
@@ -115,11 +115,11 @@ class Client:
         """
         try:
             response = post(
-                    f"{self.__URL__}/v3/tags",
-                    json={"text": text},
-                    headers=self.headers,
-                    timeout=DEFAULT_CONNECTION_TIMEOUT,
-                    )
+                f"{self.__URL__}/v3/tags",
+                json={"text": text},
+                headers=self.headers,
+                timeout=DEFAULT_CONNECTION_TIMEOUT,
+            )
             logging.info(response.status_code)
             # @todo Check status code.
             return response.json()
@@ -136,11 +136,11 @@ class Client:
         """
         try:
             response = post(
-                    f"{self.__URL__}/v3/sentiment",
-                    json={"text": text},
-                    headers=self.headers,
-                    timeout=DEFAULT_CONNECTION_TIMEOUT,
-                    )
+                f"{self.__URL__}/v3/sentiment",
+                json={"text": text},
+                headers=self.headers,
+                timeout=DEFAULT_CONNECTION_TIMEOUT,
+            )
             logging.info(response.status_code)
             # @todo Check status code.
             return response.json()
@@ -157,11 +157,11 @@ class Client:
         """
         try:
             response = post(
-                    f"{self.__URL__}/v3/relations",
-                    json={"text": text},
-                    headers=self.headers,
-                    timeout=DEFAULT_CONNECTION_TIMEOUT,
-                    )
+                f"{self.__URL__}/v3/relations",
+                json={"text": text},
+                headers=self.headers,
+                timeout=DEFAULT_CONNECTION_TIMEOUT,
+            )
             logging.info(response.status_code)
             # @todo Check status code.
             return response.json()
