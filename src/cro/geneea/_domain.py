@@ -89,7 +89,7 @@ class Model:
 #
 
 
-class Analysis:
+class Analysis(NamedTuple):
     """
     top level class Analysis
     encapsluates lower level classes

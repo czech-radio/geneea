@@ -50,14 +50,17 @@ def main():
             result = client.get_tags(text)
             model = Model(text, result)
             print(model.tags())
+
         case "sentiment":
             result = client.get_sentiment(text)
             model = Model(text, result)
             print(model.sentiment())
+
         case "relations":
             result = client.get_relations(text)
             model = Model(text, result)
             print(model.relations())
+
         case _:
             print(
                 "Choose one of the following type: 'analysis', 'account', 'entities', 'tags', 'sentiment', 'relations'"
