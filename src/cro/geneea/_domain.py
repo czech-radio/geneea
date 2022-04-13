@@ -7,7 +7,7 @@ import json
 import pandas as pd
 
 
-class Text:
+class Model:
 
     """
     class to handle JSON respones
@@ -34,21 +34,28 @@ class Text:
 
     def analysis(self) -> Analysis:
         _data = self.analyzed
-        _analysis = Analysis(
-            _data.original, language(), entities(), tags(), sentiment(), relations()
-        )
+        _analysis = Analysis(self.original, self.entities(), self.tags(), self.sentiment(), self.relations())
         return _analysis
 
-    def entities(self) -> tuple(Entities):
-        _entities = self.analyzed["entities"]
+    def entities(self) -> tuple(Entity):
+        select = self.analyzed["entities"]
+        _entities = ()
+        for entity in select:
+            _entities = _entities + Entity(entity["id"],entity["stdForm"],entity["type"])
         return _entities
 
-    def tags(self) -> tuple(Tags):
-        _tags = self.analyzed["tags"]
+    def tags(self) -> tuple(Tag):
+        select = self.analyzed["tags"]
+        _tags = ()
+        for tag in select:
+            _tags = _tags + Tag(tag["id"],tag["stdForm"],tag["type"],tag["relevance"])
         return _tags
 
-    def relations(self) -> tuple[object]:
-        _relations = self.analyzed["relations"]
+    def relations(self) -> tuple(Relation):
+        select = self.analyzed["relations"]
+        _relations = ()
+        for relation in select:
+            _relations = _relations + Relation(relation["id"], relation["name"], relation["textRepr"], relation["type"], relation["args"])
         return _relations
 
     def language(self) -> str:
@@ -56,14 +63,15 @@ class Text:
         return _language
 
     def sentiment(self) -> Sentiment:
-        _sentiment = self.analyzed["docSentiment"]
-        return _sentiment
+        select = self.analyzed["docSentiment"]
+        return Sentiment(select["mean"],select["label"],select["positive"],select["negative"])
 
+    def as_dataframe(NamedTuple):
+        return
 
 # ??? def to_table(NamedTuple nt):
 # pd.DataFrame.from_dict(self.analyzed["tags"])
 #
-
 
 class Analysis:
     """
@@ -72,23 +80,10 @@ class Analysis:
     """
 
     text: Text
-    language: str
     entities: tuple(Entity)
     tags: tuple(Tag)
     sentiment: Sentiment
     relations: tuple(Relation)
-
-
-class Sentiment(NamedTuple):
-    """
-    originally docSentiment, it keeps sentiment of a whole document
-    """
-
-    mean: float
-    label: str
-    positive: float
-    negative: float
-
 
 class Entity(NamedTuple):
     """
@@ -96,19 +91,29 @@ class Entity(NamedTuple):
     """
 
     id: str
-    gkbId: str
-    text: str
+    stdForm: str
     type: str
+
+
+class Sentiment(NamedTuple):
+    """
+    originally docSentiment, it keeps sentiment of a whole document
+    """
+    mean: float
+    label: str
+    positive: float
+    negative: float
 
 
 class Relation(NamedTuple):
     """
     TODO: entitiy connection?
     """
-
+    id: str
     name: str
+    textRepr: str
     type: str
-    entity: Optional[Entity]
+    args: Optional[Entity]
 
 
 class Tag(NamedTuple):
@@ -117,4 +122,6 @@ class Tag(NamedTuple):
     """
 
     id: str
-    text: str
+    stdFrom: str
+    type: str
+    relevance: float

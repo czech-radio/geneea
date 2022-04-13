@@ -8,8 +8,8 @@ The command line interface.
 import argparse
 import os
 
-from cro.geneea import Client as GeneeaClient
-from cro.geneea import Text as Text
+from cro.geneea import Client
+from cro.geneea import Model
 
 
 def main():
@@ -24,9 +24,9 @@ def main():
 
     KEY = os.environ.get("GENEEA_API_KEY")
 
-    client = GeneeaClient(key=KEY)
+    client = Client(key=KEY)
 
-    text = "\n".join(GeneeaClient.read_phrases(args.file))
+    text = "\n".join(Client.read_phrases(args.file))
 
     print(f"{args.type.upper()}\n{len(args.type) * '-'}")
 
@@ -34,8 +34,8 @@ def main():
 
         case "analysis":
             result = client.get_analysis(text)
-            print(result)
-            text = Text(text, result)
+            model = Model(text, result)
+            print(model.analysis())
 
         case "account":
             result = client.get_account()
@@ -43,21 +43,21 @@ def main():
 
         case "entities":
             result = client.get_entities(text)
-            text = Text(text, result)
-            print(text.entities())
+            model = Model(text, result)
+            print(model.entities())
 
         case "tags":
             result = client.get_tags(text)
-            text = Text(text, result)
-            print(text.tags())
+            model = Model(text, result)
+            print(model.tags())
         case "sentiment":
             result = client.get_sentiment(text)
-            text = Text(text, result)
-            print(text.sentiment())
+            model = Model(text, result)
+            print(model.sentiment())
         case "relations":
             result = client.get_relations(text)
-            text = Text(text, result)
-            print(text.relations())
+            model = Model(text, result)
+            print(model.relations())
         case _:
             print(
                 "Choose one of the following type: 'analysis', 'account', 'entities', 'tags', 'sentiment', 'relations'"
