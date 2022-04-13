@@ -1,10 +1,72 @@
 # -*- coding: utf-8 -*-
 
 from __future__ import annotations
-from typing import Optional, NamedTuple
+from typing import Optional, List, NamedTuple
 
 import json
 import pandas as pd
+
+
+
+
+
+class Analysis(NamedTuple):
+    """
+    top level class Analysis
+    encapsluates lower level classes
+    """
+
+    text: Text
+    entities: tuple(Entity)
+    tags: tuple(Tag)
+    sentiment: Sentiment
+    relations: tuple(Relation)
+
+
+class Entity(NamedTuple):
+    """
+    exctracted entities, known ones gets gkbId
+    """
+
+    id: str
+    stdForm: str
+    type: str
+
+entities: List[Entity] = []
+
+
+class Sentiment(NamedTuple):
+    """
+    originally docSentiment, it keeps sentiment of a whole document
+    """
+
+    mean: float
+    label: str
+    positive: float
+    negative: float
+
+
+class Relation(NamedTuple):
+    """
+    TODO: entitiy connection?
+    """
+
+    id: str
+    name: str
+    textRepr: str
+    type: str
+    args: Optional[Entity]
+
+
+class Tag(NamedTuple):
+    """
+    tags derived from text
+    """
+
+    id: str
+    stdFrom: str
+    type: str
+    relevance: float
 
 
 class Model:
@@ -43,33 +105,36 @@ class Model:
         )
         return _analysis
 
-    def entities(self) -> tuple(Entity):
-        _entities = ()
+    def entities(self) -> List[Entity]:
+        entities: List[Entity] = []
+
         for entity in self.analyzed["entities"]:
-            _entities = _entities + Entity(
+            entities.append(Entity(
                 entity["id"], entity["stdForm"], entity["type"]
-            )
-        return _entities
+            ))
 
-    def tags(self) -> tuple(Tag):
-        _tags = ()
+        return entities
+
+    def tags(self) -> List[Tag]:
+        tags: List[Tag] = []
+
         for tag in self.analyzed["tags"]:
-            _tags = _tags + Tag(
+            tags.append(Tag(
                 tag["id"], tag["stdForm"], tag["type"], tag["relevance"]
-            )
-        return _tags
+            ))
+        return tags
 
-    def relations(self) -> tuple(Relation):
-        _relations = ()
+    def relations(self) -> List[Relation]:
+        relations: List[Relation] = []
         for relation in self.analyzed["relations"]:
-            _relations = _relations + Relation(
+            relations.append(Relation(
                 relation["id"],
                 relation["name"],
                 relation["textRepr"],
                 relation["type"],
                 relation["args"],
-            )
-        return _relations
+            ))
+        return relations
 
     def language(self) -> str:
         return self.analyzed["language"]
@@ -87,60 +152,3 @@ class Model:
 # ??? def to_table(NamedTuple nt):
 # pd.DataFrame.from_dict(self.analyzed["tags"])
 #
-
-
-class Analysis(NamedTuple):
-    """
-    top level class Analysis
-    encapsluates lower level classes
-    """
-
-    text: Text
-    entities: tuple(Entity)
-    tags: tuple(Tag)
-    sentiment: Sentiment
-    relations: tuple(Relation)
-
-
-class Entity(NamedTuple):
-    """
-    exctracted entities, known ones gets gkbId
-    """
-
-    id: str
-    stdForm: str
-    type: str
-
-
-class Sentiment(NamedTuple):
-    """
-    originally docSentiment, it keeps sentiment of a whole document
-    """
-
-    mean: float
-    label: str
-    positive: float
-    negative: float
-
-
-class Relation(NamedTuple):
-    """
-    TODO: entitiy connection?
-    """
-
-    id: str
-    name: str
-    textRepr: str
-    type: str
-    args: Optional[Entity]
-
-
-class Tag(NamedTuple):
-    """
-    tags derived from text
-    """
-
-    id: str
-    stdFrom: str
-    type: str
-    relevance: float
