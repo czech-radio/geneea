@@ -61,7 +61,13 @@ def main():
             model = Model(text, result)
             print(model.relations())
 
+        case "table":
+            result = client.get_entities(text)
+            model = Model(text, result)
+            df = model.to_table(model.entities())
+            print(df)
+
         case _:
             print(
-                "Choose one of the following type: 'analysis', 'account', 'entities', 'tags', 'sentiment', 'relations'"
+                "Choose one of the following type: 'analysis', 'account', 'entities', 'tags', 'sentiment', 'relations', 'table'"
             )
