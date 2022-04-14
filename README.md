@@ -97,21 +97,35 @@ client = client(key = os.environ.get("GENEEA_API_KEY"))
 
 phrase = "\n".join(GeneeaClient.read_phrases("input.txt"))
 
-# The full analysis.
+# The full analysis and create models
 analysis = client.get_analysis(phrase)
-print(analysis)
+model = Model(phrase,analysis)
+print(model.analysis())
 
-# Only the parts of analysis.
+# return model for detected entities
+entities = client.get_entities(phrase)
+model = Model(phrase,entities)
+print(model.entities())
+
+# get model for sentiment
 sentiment = client.get_sentiment(phrase)
-print(sentiment)
+model = Model(phrase,sentiment)
+print(model.sentiment())
 
+# get model for tags
 tags = client.get_tags(phrase)
-print(tags)
+model = Model(phrase,tags)
+print(model.tags())
 
+# get model for realtions
 relations = client.get_relations(phrase)
-print(relations)
+model = Model(phrase,relations)
+print(model.relations())
 
 ```
+
+
+
 
 ### Use as a command line program
 
