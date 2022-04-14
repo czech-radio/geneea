@@ -23,8 +23,7 @@ class Model:
         #        self.relations = self.relations()
         #        self.language = self.language()
         #        self.sentiment = self.sentiment()
-
-        pd.set_option("display.max_rows", None)
+        #        pd.set_option("display.max_rows", None)
 
     def __eq__(self, that: Optional[Text]) -> bool:
         return (self.original, self.analyzed) == (that.original, that.analyzed)
@@ -84,15 +83,18 @@ class Model:
         return self.analyzed["language"]
 
     def sentiment(self) -> Sentiment:
-        select = self.analyzed["docSentiment"]
+        sentiment = self.analyzed["docSentiment"]
         return Sentiment(
-            select["mean"], select["label"], select["positive"], select["negative"]
+            sentiment["mean"],
+            sentiment["label"],
+            sentiment["positive"],
+            sentiment["negative"],
         )
 
-
-# ??? def to_table(NamedTuple nt):
-# pd.DataFrame.from_dict(self.analyzed["tags"])
-#
+    def to_table(self, input: tuple(object)) -> pd.DataFrame:
+        tmplist = list(input)
+        df = pd.DataFrame.from_dict([entry.as_dict() for entry in tmplist])
+        return df
 
 
 class Analysis(NamedTuple):
@@ -114,11 +116,12 @@ class Entity(NamedTuple):
     """
 
     id: str
+    # gkbId: Optional[str]
     stdForm: str
     type: str
 
-
-entities: List[Entity] = []
+    def as_dict(self):
+        return {"id": self.id, "stdForm": self.stdForm, "type": self.type}
 
 
 class Sentiment(NamedTuple):
@@ -141,7 +144,17 @@ class Relation(NamedTuple):
     name: str
     textRepr: str
     type: str
+    # not finished connecting to existing ones
     args: Optional[Entity]
+
+    def as_dict(self):
+        return {
+            "id": self.id,
+            "name": self.name,
+            "textRepr": self.textRepr,
+            "type": self.type,
+            "args": self.args,
+        }
 
 
 class Tag(NamedTuple):
@@ -153,3 +166,11 @@ class Tag(NamedTuple):
     stdFrom: str
     type: str
     relevance: float
+
+    def as_dict(self):
+        return {
+            "id": self.id,
+            "stdForm": self.stdForm,
+            "type": self.type,
+            "relevance": self.relevance,
+        }

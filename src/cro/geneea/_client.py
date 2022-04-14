@@ -1,10 +1,8 @@
 # -*- coding: utf-8 -*-
 
-
 import logging
 from requests import get, post
 from cro.geneea._domain import Model
-
 
 LOG = logging.getLogger(__name__)
 
