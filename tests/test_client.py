@@ -5,7 +5,7 @@ import os
 
 import pytest
 
-from cro.geneea._client import Client, Sentiment
+from cro.geneea.sdk import Client, Sentiment
 
 
 @pytest.fixture

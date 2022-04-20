@@ -1,36 +1,26 @@
-# 𝔠𝔯𝔬-𝔤𝔢𝔫𝔢𝔢𝔞-𝔠𝔩𝔦𝔢𝔫𝔱
+# 𝔠𝔯𝔬-𝔤𝔢𝔫𝔢𝔢𝔞-
+
+[RELEASES](https://github.com/czech-radio/cro-geneea-sdk/releases/) | [WEBSITE](https://czech-radio.github.io/cro-geneea-sdk/)
+
+![language](https://img.shields.io/badge/language-Python_v3.10+-blue.svg)
+![version](https://img.shields.io/badge/version-0.2.0-blue.svg)
+[![build](https://github.com/czech-radio/cro-geneea-sdk/actions/workflows/main.yml/badge.svg)](https://github.com/czech-radio/cro-geneea-sdk/actions/workflows/main.yml)
+[![reliability](https://sonarcloud.io/api/project_badges/measure?project=czech-radio_cro-geneea-sdk&metric=reliability_rating)](https://sonarcloud.io/dashboard?id=czech-radio_cro-geneea-sdk)
 
 **Python library to work with Geneea NLP REST service.**
 
-![language-Python](https://img.shields.io/badge/language-Python-blue.svg)
-[![build: tests](https://github.com/czech-radio/cro-geneea-client/actions/workflows/main.yml/badge.svg)](https://github.com/czech-radio/cro-geneea-client/actions/workflows/main.yml)
-[![style: black](https://img.shields.io/badge/style-black-000000.svg)](https://github.com/psf/black)
-[![quality: bugs](https://sonarcloud.io/api/project_badges/measure?project=czech-radio_cro-geneea-client&metric=bugs)](https://sonarcloud.io/dashboard?id=czech-radio_cro-geneea-client)
-[![quality: code smells](https://sonarcloud.io/api/project_badges/measure?project=czech-radio_cro-geneea-client&metric=code_smells)](https://sonarcloud.io/dashboard?id=czech-radio_cro-geneea-client)
-[![quality: reliability](https://sonarcloud.io/api/project_badges/measure?project=czech-radio_cro-geneea-client&metric=reliability_rating)](https://sonarcloud.io/dashboard?id=czech-radio_cro-geneea-client)
-
-- Status: developed (maintained)
-- Version: 0.1.0-alpha (latest)
-- Release: https://github.com/czech-radio/cro-geneea-client/releases/
-- Website: https://czech-radio.github.io/cro-geneea-client/.
-- Category: library, client
-- Suppport: Python 3.10+, Windows, macOS, Ubuntu
+_The library SDK wrapper for [Geneea](https://geneea.com/) API that returns raw JSON or Pythonic domain model._
 
 :star: Star us on GitHub — it motivates us!
-
-
-## Purpose
-
-The library SDK wrapper for [Geneea](https://geneea.com/) API that returns raw JSON or Pythonic domain model.
 
 ## Features
 
 - [ ] &hellip;
 
-### Development notes
+__Development notes__
 
 - [ ] __General Domain Model__
-  - [ ] Language: The language detected. 
+  - [ ] Language: The language detected.
   - [ ] Analysis:
     - [ ] Relations
     - [ ] Tag
@@ -40,13 +30,12 @@ The library SDK wrapper for [Geneea](https://geneea.com/) API that returns raw J
             URL | Email | HashTag | Mention                              # internet
             Date | Time | Duration | Set                                 # date and time
             Number | Ordinal | Money | Percent                           # numbers
-            
+
   - [ ] Text = original + analyzed content (this should be persisted in DB)
   - [ ] Serialize/Deserialize JSON results into domain model.
 
 - We assume tahat all input texts are UTF-8 encoded.
 - Text corrections, could contain various newline character types, no diacritics etc.
-
 
 ## Installation
 
@@ -123,9 +112,6 @@ model = Model(phrase,relations)
 print(model.relations())
 
 ```
-
-
-
 
 ### Use as a command line program
 

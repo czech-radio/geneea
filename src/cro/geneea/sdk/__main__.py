@@ -8,7 +8,7 @@ The command line interface.
 import argparse
 import os
 
-from cro.geneea import Analysis, Client
+from cro.geneea.sdk import Analysis, Client
 
 
 def main():
