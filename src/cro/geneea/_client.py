@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import logging
+from unittest import result
 
 from requests import get, post
 
@@ -141,9 +142,14 @@ class Client:
                 headers=self.headers,
                 timeout=DEFAULT_CONNECTION_TIMEOUT,
             )
+
             logging.info(response.status_code)
-            # @todo Check status code.
-            data = response.json()
+
+            data: dict = response.json()
+
+            # Check the status code.
+            if response.status_code != 200:
+                raise ValueError(f"Failure: {response.status_code} code")
 
             return Sentiment(
                 mean=data["docSentiment"]["mean"],
