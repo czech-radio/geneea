@@ -9,7 +9,7 @@ import argparse
 import os
 
 from cro.geneea import Client
-from cro.geneea import Model
+from cro.geneea import Analysis
 
 
 def main():
@@ -34,7 +34,7 @@ def main():
 
         case "analysis":
             result = client.get_analysis(text)
-            model = Model(text, result)
+            model = Analysis(text, result)
             print(model.analysis())
 
         case "account":
@@ -43,27 +43,27 @@ def main():
 
         case "entities":
             result = client.get_entities(text)
-            model = Model(text, result)
+            model = Analysis(text, result)
             print(model.entities())
 
         case "tags":
             result = client.get_tags(text)
-            model = Model(text, result)
+            model = Analysis(text, result)
             print(model.tags())
 
         case "sentiment":
             result = client.get_sentiment(text)
-            model = Model(text, result)
+            model = Analysis(text, result)
             print(model.sentiment())
 
         case "relations":
             result = client.get_relations(text)
-            model = Model(text, result)
+            model = Analysis(text, result)
             print(model.relations())
 
         case "table":
             result = client.get_entities(text)
-            model = Model(text, result)
+            model = Analysis(text, result)
             df = model.to_table(model.entities())
             print(df)
 

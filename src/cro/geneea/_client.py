@@ -2,7 +2,7 @@
 
 import logging
 from requests import get, post
-from cro.geneea._domain import Model
+from cro.geneea._domain import Analysis, Entity, Tag, Sentiment, Relation
 
 LOG = logging.getLogger(__name__)
 
@@ -62,7 +62,7 @@ class Client:
             logging.error(ex)
             raise ex
 
-    def get_analysis(self, text: str) -> dict:
+    def get_analysis(self, text: str) -> Analysis:
         """
         Get analysis for the given input text.
 
@@ -83,7 +83,7 @@ class Client:
             logging.error(ex)
             raise ex
 
-    def get_entities(self, text: str) -> dict:
+    def get_entities(self, text: str) -> tuple[Entity]:
         """
         Get entites for the given input text.
 
@@ -104,7 +104,7 @@ class Client:
             logging.error(ex)
             raise ex
 
-    def get_tags(self, text: str) -> dict:
+    def get_tags(self, text: str) -> tuple[Tag]:
         """
         Get tags for the given input text.
 
@@ -125,7 +125,7 @@ class Client:
             logging.error(ex)
             raise ex
 
-    def get_sentiment(self, text: str) -> dict:
+    def get_sentiment(self, text: str) -> Sentiment:
         """
         Get sentiment for the given input text.
 
@@ -141,12 +141,19 @@ class Client:
             )
             logging.info(response.status_code)
             # @todo Check status code.
-            return response.json()
+            data = response.json()
+
+            return Sentiment(
+                mean=data["docSentiment"]["mean"],
+                label=data["docSentiment"]["label"],
+                positive=data["docSentiment"]["positive"],
+                negative=data["docSentiment"]["negative"],
+            )
         except Exception as ex:
             logging.error(ex)
             raise ex
 
-    def get_relations(self, text: str) -> dict:
+    def get_relations(self, text: str) -> tuple[Relation]:
         """
         Get relations for the given input text.
 
