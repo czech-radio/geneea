@@ -45,4 +45,4 @@ jobs:
                   python -X utf8 -m pytest -m domain
                   python -X utf8 -m pytest -m client
               env:
-                GENEEA_API_KEY: $GENEEA_API_KEY
+                GENEEA_API_KEY: ${{ secrets.GENEEA_API_KEY }}
