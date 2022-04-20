@@ -5,7 +5,7 @@ from unittest import result
 
 from requests import get, post
 
-from cro.geneea.sdk import Analysis, Entity, Relation, Sentiment, Tag
+from cro.geneea.sdk._domain import Analysis, Entity, Relation, Sentiment, Tag
 
 LOG = logging.getLogger(__name__)
 
