@@ -7,9 +7,10 @@ from requests import get, post
 
 from cro.geneea.sdk._domain import Analysis, Entity, Relation, Sentiment, Tag
 
-LOG = logging.getLogger(__name__)
 
-DEFAULT_CONNECTION_TIMEOUT = 3.05
+LOGGER = logging.getLogger(__name__)
+
+TIMEOUT = 3.05  # The HTTP connection timeout.
 
 
 class Client:
@@ -77,7 +78,7 @@ class Client:
                 f"{self.__URL__}/v3/analysis",
                 json={"text": text},
                 headers=self.headers,
-                timeout=DEFAULT_CONNECTION_TIMEOUT,
+                timeout=TIMEOUT,
             )
             logging.info(response.status_code)
             # @todo Check status code.
@@ -98,7 +99,7 @@ class Client:
                 f"{self.__URL__}/v3/entities",
                 json={"text": text},
                 headers=self.headers,
-                timeout=DEFAULT_CONNECTION_TIMEOUT,
+                timeout=TIMEOUT,
             )
             logging.info(response.status_code)
             # @todo Check status code.
@@ -119,7 +120,7 @@ class Client:
                 f"{self.__URL__}/v3/tags",
                 json={"text": text},
                 headers=self.headers,
-                timeout=DEFAULT_CONNECTION_TIMEOUT,
+                timeout=TIMEOUT,
             )
             logging.info(response.status_code)
             # @todo Check status code.
@@ -140,7 +141,7 @@ class Client:
                 f"{self.__URL__}/v3/sentiment",
                 json={"text": text},
                 headers=self.headers,
-                timeout=DEFAULT_CONNECTION_TIMEOUT,
+                timeout=TIMEOUT,
             )
 
             logging.info(response.status_code)
@@ -173,7 +174,7 @@ class Client:
                 f"{self.__URL__}/v3/relations",
                 json={"text": text},
                 headers=self.headers,
-                timeout=DEFAULT_CONNECTION_TIMEOUT,
+                timeout=TIMEOUT,
             )
             logging.info(response.status_code)
             # @todo Check status code.
