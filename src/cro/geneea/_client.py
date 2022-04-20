@@ -1,8 +1,10 @@
 # -*- coding: utf-8 -*-
 
 import logging
+
 from requests import get, post
-from cro.geneea._domain import Analysis, Entity, Tag, Sentiment, Relation
+
+from cro.geneea._domain import Analysis, Entity, Relation, Sentiment, Tag
 
 LOG = logging.getLogger(__name__)
 

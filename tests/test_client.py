@@ -2,6 +2,7 @@
 
 
 import os
+
 import pytest
 
 from cro.geneea._client import Client, Sentiment

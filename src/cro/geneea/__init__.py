@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from cro.geneea._client import Client
-from cro.geneea._domain import Analysis, Sentiment, Tag, Entity, Relation
+from cro.geneea._domain import Analysis, Entity, Relation, Sentiment, Tag
 
 __all__ = tuple(["Client", "Analysis"])
 

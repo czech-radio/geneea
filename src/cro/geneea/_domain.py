@@ -1,10 +1,11 @@
 # -*- coding: utf-8 -*-
 
 from __future__ import annotations
-from typing import Optional, List, NamedTuple
-from dataclasses import dataclass
 
 import json
+from dataclasses import dataclass
+from typing import List, NamedTuple, Optional
+
 import pandas as pd
 
 
