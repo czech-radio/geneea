@@ -23,7 +23,6 @@ def main():
 
     args = parser.parse_args()
 
-
     KEY = os.environ.get("GENEEA_API_KEY")
 
     client = Client(key=KEY)
