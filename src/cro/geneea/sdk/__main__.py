@@ -5,8 +5,8 @@ The command line interface.
 """
 
 
+import os, sys
 import argparse
-import os
 
 from cro.geneea.sdk import Analysis, Client
 
@@ -14,7 +14,9 @@ from cro.geneea.sdk import Analysis, Client
 def main():
 
     parser = argparse.ArgumentParser()
+
     parser.add_argument("-f", "--file", required=True, type=str, help="The file name")
+
     parser.add_argument(
         "-t", "--type", required=True, type=str, help="The operation type"
     )
