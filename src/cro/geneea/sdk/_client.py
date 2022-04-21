@@ -86,7 +86,9 @@ class Client:
             )
             logging.info(response.status_code)
             # @todo Check status code.
-            return response.json()
+            data = response.json()
+            model = Analysis(text,data)
+            return model.analysis()
         except Exception as ex:
             logging.error(ex)
             raise ex
@@ -107,7 +109,9 @@ class Client:
             )
             logging.info(response.status_code)
             # @todo Check status code.
-            return response.json()
+            data = response.json()
+            model = Analysis(text,data)
+            return model.entities()
         except Exception as ex:
             logging.error(ex)
             raise ex
@@ -128,7 +132,9 @@ class Client:
             )
             logging.info(response.status_code)
             # @todo Check status code.
-            return response.json()
+            data = response.json()
+            model = Analysis(text,data)
+            return model.tags()
         except Exception as ex:
             logging.error(ex)
             raise ex
@@ -150,18 +156,14 @@ class Client:
 
             logging.info(response.status_code)
 
-            data: dict = response.json()
-
             # Check the status code.
             if response.status_code != 200:
                 raise ValueError(f"Failure: {response.status_code} code")
-
-            return Sentiment(
-                mean=data["docSentiment"]["mean"],
-                label=data["docSentiment"]["label"],
-                positive=data["docSentiment"]["positive"],
-                negative=data["docSentiment"]["negative"],
-            )
+        
+            data = response.json()
+            model = Analysis(text,data)
+            return model.sentiment()
+        
         except Exception as ex:
             logging.error(ex)
             raise ex
@@ -182,7 +184,11 @@ class Client:
             )
             logging.info(response.status_code)
             # @todo Check status code.
-            return response.json()
+        
+            data = response.json()
+            model = Analysis(text,data)
+            return model.relations()
+        
         except Exception as ex:
             logging.error(ex)
             raise ex
