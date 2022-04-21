@@ -1,12 +1,15 @@
 # -*- coding: utf-8 -*-
 
 import logging
+from os import PathLike
+
 from requests import get, post
-from cro.geneea._domain import Analysis, Entity, Tag, Sentiment, Relation
 
-LOG = logging.getLogger(__name__)
+from cro.geneea.sdk._domain import Analysis, Entity, Relation, Sentiment, Tag
 
-DEFAULT_CONNECTION_TIMEOUT = 3.05
+LOGGER = logging.getLogger(__name__)
+
+TIMEOUT = 3.05  # The HTTP connection timeout.
 
 
 class Client:
@@ -22,6 +25,10 @@ class Client:
     __URL__ = "https://api.geneea.com/"
 
     def __init__(self, key: str) -> None:
+        """
+        Create a new client instance with the given secret key.
+        :param key: The secret access key.
+        """
         self._key = key
         self.headers = {
             "content-type": "application/json",
@@ -37,17 +44,18 @@ class Client:
         self._key = value
 
     @classmethod
-    def read_phrases(cls, path: str) -> list[str]:
+    def read_phrases(cls, path: PathLike) -> list[str]:
         """
-        The helper method to load phrases from file.
+        The helper method to load phrases from the file.
 
         Each phrase must be placed on separate line.
-
+        We assume that the file is encoded as UTF-8.
+        :param path: todo
+        :return: todo
+        :raises: todo
         """
         with open(path, encoding="utf-8") as file:
-            line = file.readlines()
-
-        return line
+            return file.readlines()
 
     def get_account(self) -> dict:
         """
@@ -74,7 +82,7 @@ class Client:
                 f"{self.__URL__}/v3/analysis",
                 json={"text": text},
                 headers=self.headers,
-                timeout=DEFAULT_CONNECTION_TIMEOUT,
+                timeout=TIMEOUT,
             )
             logging.info(response.status_code)
             # @todo Check status code.
@@ -95,7 +103,7 @@ class Client:
                 f"{self.__URL__}/v3/entities",
                 json={"text": text},
                 headers=self.headers,
-                timeout=DEFAULT_CONNECTION_TIMEOUT,
+                timeout=TIMEOUT,
             )
             logging.info(response.status_code)
             # @todo Check status code.
@@ -116,7 +124,7 @@ class Client:
                 f"{self.__URL__}/v3/tags",
                 json={"text": text},
                 headers=self.headers,
-                timeout=DEFAULT_CONNECTION_TIMEOUT,
+                timeout=TIMEOUT,
             )
             logging.info(response.status_code)
             # @todo Check status code.
@@ -137,11 +145,16 @@ class Client:
                 f"{self.__URL__}/v3/sentiment",
                 json={"text": text},
                 headers=self.headers,
-                timeout=DEFAULT_CONNECTION_TIMEOUT,
+                timeout=TIMEOUT,
             )
+
             logging.info(response.status_code)
-            # @todo Check status code.
-            data = response.json()
+
+            data: dict = response.json()
+
+            # Check the status code.
+            if response.status_code != 200:
+                raise ValueError(f"Failure: {response.status_code} code")
 
             return Sentiment(
                 mean=data["docSentiment"]["mean"],
@@ -165,7 +178,7 @@ class Client:
                 f"{self.__URL__}/v3/relations",
                 json={"text": text},
                 headers=self.headers,
-                timeout=DEFAULT_CONNECTION_TIMEOUT,
+                timeout=TIMEOUT,
             )
             logging.info(response.status_code)
             # @todo Check status code.

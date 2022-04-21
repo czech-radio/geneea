@@ -1,9 +1,11 @@
 # -*- coding: utf-8 -*-
 
-import pytest
-import sys, os
 
-from cro.geneea._client import Client
+import os
+
+import pytest
+
+from cro.geneea.sdk import Client, Sentiment
 
 
 @pytest.fixture
@@ -24,43 +26,31 @@ def test_client():
     assert Client(key=None) is not None
 
 
-# @pytest.mark.skip
 @pytest.mark.client
 def test_that_client_return_analysis(client, phrases):
     result = client.get_analysis(phrases)
     assert len(result) > 0
 
 
-# @pytest.mark.skip
 @pytest.mark.client
 def test_that_client_return_entities(client, phrases):
     result = client.get_entities(phrases)
     assert len(result) > 0
 
 
-# @pytest.mark.skip
 @pytest.mark.client
 def test_that_client_return_tags(client, phrases):
     result = client.get_tags(phrases)
     assert len(result) > 0
 
 
-# @pytest.mark.skip
 @pytest.mark.client
 def test_that_client_return_sentiment(client):
     result: Sentiment = client.get_sentiment("hodne me nebavi mluvit")
     assert result.label == "negative"
 
 
-# @pytest.mark.skip
 @pytest.mark.client
 def test_that_client_return_relations(client, phrases):
     result = client.get_relations(phrases)
-    assert len(result) > 0
-
-
-@pytest.mark.skip
-@pytest.mark.client
-def test_that_client_return_table(client, phrases):
-    result = client.get_table(phrases)
     assert len(result) > 0
