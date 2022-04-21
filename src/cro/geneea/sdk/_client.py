@@ -87,7 +87,7 @@ class Client:
             logging.info(response.status_code)
             # @todo Check status code.
             data = response.json()
-            model = Analysis(text,data)
+            model = Analysis(text, data)
             return model.analysis()
         except Exception as ex:
             logging.error(ex)
@@ -110,7 +110,7 @@ class Client:
             logging.info(response.status_code)
             # @todo Check status code.
             data = response.json()
-            model = Analysis(text,data)
+            model = Analysis(text, data)
             return model.entities()
         except Exception as ex:
             logging.error(ex)
@@ -133,7 +133,7 @@ class Client:
             logging.info(response.status_code)
             # @todo Check status code.
             data = response.json()
-            model = Analysis(text,data)
+            model = Analysis(text, data)
             return model.tags()
         except Exception as ex:
             logging.error(ex)
@@ -159,11 +159,11 @@ class Client:
             # Check the status code.
             if response.status_code != 200:
                 raise ValueError(f"Failure: {response.status_code} code")
-        
+
             data = response.json()
-            model = Analysis(text,data)
+            model = Analysis(text, data)
             return model.sentiment()
-        
+
         except Exception as ex:
             logging.error(ex)
             raise ex
@@ -184,11 +184,11 @@ class Client:
             )
             logging.info(response.status_code)
             # @todo Check status code.
-        
+
             data = response.json()
-            model = Analysis(text,data)
+            model = Analysis(text, data)
             return model.relations()
-        
+
         except Exception as ex:
             logging.error(ex)
             raise ex
