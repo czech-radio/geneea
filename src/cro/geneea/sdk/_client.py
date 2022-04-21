@@ -1,12 +1,11 @@
 # -*- coding: utf-8 -*-
 
 import logging
-from unittest import result
+from os import PathLike
 
 from requests import get, post
 
 from cro.geneea.sdk._domain import Analysis, Entity, Relation, Sentiment, Tag
-
 
 LOGGER = logging.getLogger(__name__)
 
@@ -26,6 +25,10 @@ class Client:
     __URL__ = "https://api.geneea.com/"
 
     def __init__(self, key: str) -> None:
+        """
+        Create a new client instance with the given secret key.
+        :param key: The secret access key.
+        """
         self._key = key
         self.headers = {
             "content-type": "application/json",
@@ -41,17 +44,18 @@ class Client:
         self._key = value
 
     @classmethod
-    def read_phrases(cls, path: str) -> list[str]:
+    def read_phrases(cls, path: PathLike) -> list[str]:
         """
-        The helper method to load phrases from file.
+        The helper method to load phrases from the file.
 
         Each phrase must be placed on separate line.
-
+        We assume that the file is encoded as UTF-8.
+        :param path: todo
+        :return: todo
+        :raises: todo
         """
         with open(path, encoding="utf-8") as file:
-            line = file.readlines()
-
-        return line
+            return file.readlines()
 
     def get_account(self) -> dict:
         """
