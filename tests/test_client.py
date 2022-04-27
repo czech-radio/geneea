@@ -45,12 +45,6 @@ def test_that_client_return_tags(client, phrases):
 
 
 @pytest.mark.client
-def test_that_client_return_sentiment(client):
-    result: Sentiment = client.get_sentiment("hodne me nebavi mluvit")
-    assert result.label == "negative"
-
-
-@pytest.mark.client
 def test_that_client_return_relations(client, phrases):
     result = client.get_relations(phrases)
     assert len(result) > 0
