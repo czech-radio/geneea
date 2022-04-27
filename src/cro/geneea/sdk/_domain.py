@@ -125,7 +125,8 @@ class Analysis:
         return self.analyzed["language"]
 
     def sentiment(self) -> str:
-        return self.analyzed["docSentiment"]
+        tmp = self.analyzed["docSentiment"]
+        return Sentiment(tmp["mean"], tmp["label"], tmp["positive"], tmp["negative"])
 
     def to_table(self, input: tuple(object)) -> pd.DataFrame:
         tmplist = list(input)
