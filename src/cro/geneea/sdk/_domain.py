@@ -93,22 +93,21 @@ class Analysis:
             self.relations(),
         )
 
-    def entities(self) -> List[Entity]:
+    def entities(self) -> tuple[Entity]:
         _entities: List[Entity] = []
-
         for entity in self.analyzed["entities"]:
             _entities.append(Entity(entity["id"], entity["stdForm"], entity["type"]))
 
-        return _entities
+        return tuple(_entities)
 
-    def tags(self) -> List[Tag]:
+    def tags(self) -> tuple[Tag]:
         _tags: List[Tag] = []
 
         for tag in self.analyzed["tags"]:
             _tags.append(Tag(tag["id"], tag["stdForm"], tag["type"], tag["relevance"]))
-        return _tags
+        return tuple(_tags)
 
-    def relations(self) -> List[Relation]:
+    def relations(self) -> tuple[Relation]:
         _relations: List[Relation] = []
         for relation in self.analyzed["relations"]:
             _relations.append(
@@ -120,19 +119,14 @@ class Analysis:
                     relation["args"],
                 )
             )
-        return _relations
+        return tuple(_relations)
 
     def language(self) -> str:
         return self.analyzed["language"]
 
-    def sentiment(self) -> Sentiment:
-        sentiment = self.analyzed["docSentiment"]
-        return Sentiment(
-            sentiment["mean"],
-            sentiment["label"],
-            sentiment["positive"],
-            sentiment["negative"],
-        )
+    def sentiment(self) -> str:
+        tmp = self.analyzed["docSentiment"]
+        return Sentiment(tmp["mean"], tmp["label"], tmp["positive"], tmp["negative"])
 
     def to_table(self, input: tuple(object)) -> pd.DataFrame:
         tmplist = list(input)

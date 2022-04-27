@@ -35,8 +35,7 @@ def main():
 
         case "analysis":
             result = client.get_analysis(text)
-            model = Analysis(text, result)
-            print(model.analysis())
+            print(result)
 
         case "account":
             result = client.get_account()
@@ -44,29 +43,19 @@ def main():
 
         case "entities":
             result = client.get_entities(text)
-            model = Analysis(text, result)
-            print(model.entities())
+            print(result)
 
         case "tags":
             result = client.get_tags(text)
-            model = Analysis(text, result)
-            print(model.tags())
+            print(result)
 
         case "sentiment":
             result = client.get_sentiment(text)
-            model = Analysis(text, result)
-            print(model.sentiment())
+            print(result)
 
         case "relations":
             result = client.get_relations(text)
-            model = Analysis(text, result)
-            print(model.relations())
-
-        case "table":
-            result = client.get_entities(text)
-            model = Analysis(text, result)
-            df = model.to_table(model.entities())
-            print(df)
+            print(result)
 
         case _:
             print(
