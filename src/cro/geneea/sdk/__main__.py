@@ -5,10 +5,10 @@ The command line interface.
 """
 
 
-import os, sys
 import argparse
+import os
 
-from cro.geneea.sdk import Analysis, Client
+from cro.geneea.sdk import Client
 
 
 def main():
