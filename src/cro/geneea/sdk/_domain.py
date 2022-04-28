@@ -7,7 +7,6 @@ from typing import List, Optional
 
 import pandas as pd
 
-
 __all__ = tuple(["Entity", "Sentiment", "Relation", "Tag", "Analysis"])
 
 
