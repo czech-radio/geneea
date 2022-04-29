@@ -7,8 +7,10 @@ from requests import get, post
 
 from cro.geneea.sdk._domain import Analysis, Entity, Relation, Sentiment, Tag, Account
 
-LOGGER = logging.getLogger(__name__)
+__all__ = tuple(["Client"])
 
+
+LOGGER = logging.getLogger(__name__)
 TIMEOUT = 3.05  # The HTTP connection timeout.
 
 

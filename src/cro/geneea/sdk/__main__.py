@@ -8,13 +8,15 @@ The command line interface.
 import argparse
 import os, sys
 
-from cro.geneea.sdk import Analysis, Client
+from cro.geneea.sdk import Client
 
 
 def main():
 
     parser = argparse.ArgumentParser()
+
     parser.add_argument("-f", "--file", required=True, type=str, help="The file name")
+
     parser.add_argument(
         "-t", "--type", required=True, type=str, help="The operation type"
     )

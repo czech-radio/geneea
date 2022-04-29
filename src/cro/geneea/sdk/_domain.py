@@ -2,11 +2,12 @@
 
 from __future__ import annotations
 
-import json
 from dataclasses import dataclass
-from typing import List, NamedTuple, Optional
+from typing import List, Optional
 
 import pandas as pd
+
+__all__ = tuple(["Entity", "Sentiment", "Relation", "Tag", "Analysis"])
 
 
 @dataclass(frozen=True)
