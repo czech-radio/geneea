@@ -49,7 +49,6 @@ class Relation:
 
 @dataclass(frozen=True)
 class Tag:
-
     """
     tags derived from text
     """
@@ -58,6 +57,16 @@ class Tag:
     stdFrom: str
     type: str
     relevance: float
+
+
+@dataclass(frozen=True)
+class Account:
+    """
+    an account entry
+    """
+
+    type: str
+    remainingQuotas: str
 
 
 FullAnalysis = tuple[str, tuple[Entity], tuple[Tag], Sentiment, tuple[Relation]]
@@ -127,6 +136,9 @@ class Analysis:
     def sentiment(self) -> str:
         tmp = self.analyzed["docSentiment"]
         return Sentiment(tmp["mean"], tmp["label"], tmp["positive"], tmp["negative"])
+
+    def account(self) -> str:
+        return Account(self.analyzed["type"], self.analyzed["remainingQuotas"])
 
     def to_table(self, input: tuple(object)) -> pd.DataFrame:
         tmplist = list(input)

@@ -5,7 +5,7 @@ from os import PathLike
 
 from requests import get, post
 
-from cro.geneea.sdk._domain import Analysis, Entity, Relation, Sentiment, Tag
+from cro.geneea.sdk._domain import Analysis, Entity, Relation, Sentiment, Tag, Account
 
 LOGGER = logging.getLogger(__name__)
 
@@ -65,7 +65,10 @@ class Client:
             response = get(f"{self.__URL__}/account", headers=self.headers)
             logging.info(response.status_code)
             # @todo Check status code.
-            return response.json()
+            data = response.json()
+            model = Analysis("\n", data)
+            return model.account()
+
         except Exception as ex:
             logging.error(ex)
             raise ex
