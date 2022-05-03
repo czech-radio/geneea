@@ -9,9 +9,8 @@ from cro.geneea.sdk._domain import Analysis, Entity, Relation, Sentiment, Tag, A
 
 __all__ = tuple(["Client"])
 
-
 LOGGER = logging.getLogger(__name__)
-TIMEOUT = 3.05  # The HTTP connection timeout.
+TIMEOUT = 300.05  # The HTTP connection timeout.
 
 
 class Client:
@@ -52,16 +51,17 @@ class Client:
 
         Each phrase must be placed on separate line.
         We assume that the file is encoded as UTF-8.
-        :param path: todo
-        :return: todo
+        :param path: str of a path to textfile
+        :return: readlines as txt
         :raises: todo
         """
         with open(path, encoding="utf-8") as file:
             return file.readlines()
 
-    def get_account(self) -> dict:
+    def get_account(self) -> Account:
         """
         Get account information.
+        :return: Account object
         """
         try:
             response = get(f"{self.__URL__}/account", headers=self.headers)
@@ -196,4 +196,4 @@ class Client:
 
         except Exception as ex:
             logging.error(ex)
-            raise ex
+           raise ex
