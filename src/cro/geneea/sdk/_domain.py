@@ -93,20 +93,18 @@ class Analysis:
     def __len__(self):
         return len(self.original)
 
-
-
     def analysis(self) -> FullAnalysis:
         """
         Initialize analysis, it returns FullAnalysis type by default.
         :return: FullAnalysis type
         """
         return (
-                self.original,
-                self.entities(),
-                self.tags(),
-                self.sentiment(),
-                self.relations(),
-                )
+            self.original,
+            self.entities(),
+            self.tags(),
+            self.sentiment(),
+            self.relations(),
+        )
 
     def entities(self) -> tuple[Entity]:
         """
@@ -138,14 +136,14 @@ class Analysis:
         _relations: List[Relation] = []
         for relation in self.analyzed["relations"]:
             _relations.append(
-                    Relation(
-                        relation["id"],
-                        relation["name"],
-                        relation["textRepr"],
-                        relation["type"],
-                        relation["args"],
-                        )
-                    )
+                Relation(
+                    relation["id"],
+                    relation["name"],
+                    relation["textRepr"],
+                    relation["type"],
+                    relation["args"],
+                )
+            )
         return tuple(_relations)
 
     def language(self) -> str:

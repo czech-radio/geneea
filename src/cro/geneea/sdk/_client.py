@@ -196,4 +196,4 @@ class Client:
 
         except Exception as ex:
             logging.error(ex)
-           raise ex
+        raise ex
