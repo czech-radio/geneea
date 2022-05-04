@@ -163,7 +163,7 @@ class Analysis:
 
     def account(self) -> Account:
         """
-        Function returns Account object from Analyzed JSON.
+        Returns Account object from Analyzed JSON.
         :return: Account object
         """
         return Account(self.analyzed["type"], self.analyzed["remainingQuotas"])

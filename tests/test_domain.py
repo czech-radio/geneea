@@ -35,5 +35,9 @@ def test_relation():
     )
 
 
+def test_account():
+    assert Acoount("type", "remainingQuotas") is not None
+
+
 def test_tag():
     assert Tag("id_data", "stdForm_data", "type_data", "relevance_data") is not None
