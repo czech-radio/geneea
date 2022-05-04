@@ -13,7 +13,7 @@ __all__ = tuple(["Entity", "Sentiment", "Relation", "Tag", "Analysis"])
 @dataclass(frozen=True)
 class Entity:
     """
-    exctracted entities, known ones gets gkbId
+    Exctracted entities, known ones gets gkbId
     """
 
     id: str
@@ -50,7 +50,6 @@ class Relation:
 
 @dataclass(frozen=True)
 class Tag:
-
     """
     tags derived from text
     """
@@ -61,14 +60,24 @@ class Tag:
     relevance: float
 
 
+@dataclass(frozen=True)
+class Account:
+    """
+    an account entry
+    """
+
+    type: str
+    remainingQuotas: str
+
+
 FullAnalysis = tuple[str, tuple[Entity], tuple[Tag], Sentiment, tuple[Relation]]
 
 
 class Analysis:
 
     """
-    Analysis domain model
-    class to handle JSON respones,
+    Analysis domain model.
+    A class to handle JSON respones.
     """
 
     def __init__(self, original: str, analyzed: dict):
@@ -85,7 +94,10 @@ class Analysis:
         return len(self.original)
 
     def analysis(self) -> FullAnalysis:
-
+        """
+        Initialize analysis, it returns FullAnalysis type by default.
+        :return: FullAnalysis type
+        """
         return (
             self.original,
             self.entities(),
@@ -95,6 +107,10 @@ class Analysis:
         )
 
     def entities(self) -> tuple[Entity]:
+        """
+        Returns a tuple of Entities from analyzed JSON.
+        :return: tuple[Entity]
+        """
         _entities: List[Entity] = []
         for entity in self.analyzed["entities"]:
             _entities.append(Entity(entity["id"], entity["stdForm"], entity["type"]))
@@ -102,6 +118,10 @@ class Analysis:
         return tuple(_entities)
 
     def tags(self) -> tuple[Tag]:
+        """
+        Function returns a tuple of Tags from analyzed JSON.
+        :return: tuple[Tag]
+        """
         _tags: List[Tag] = []
 
         for tag in self.analyzed["tags"]:
@@ -109,6 +129,10 @@ class Analysis:
         return tuple(_tags)
 
     def relations(self) -> tuple[Relation]:
+        """
+        Function returns a tuple of Realtions from analyzed JSON.
+        :return: tuple[Tag]
+        """
         _relations: List[Relation] = []
         for relation in self.analyzed["relations"]:
             _relations.append(
@@ -123,13 +147,31 @@ class Analysis:
         return tuple(_relations)
 
     def language(self) -> str:
+        """
+        Returns string object representing language.
+        :return: str of detected language
+        """
         return self.analyzed["language"]
 
-    def sentiment(self) -> str:
+    def sentiment(self) -> Sentiment:
+        """
+        Functions which returns Sentiment object from analyzed JSON.
+        :return: Sentiment object
+        """
         tmp = self.analyzed["docSentiment"]
         return Sentiment(tmp["mean"], tmp["label"], tmp["positive"], tmp["negative"])
 
+    def account(self) -> Account:
+        """
+        Returns Account object from Analyzed JSON.
+        :return: Account object
+        """
+        return Account(self.analyzed["type"], self.analyzed["remainingQuotas"])
+
     def to_table(self, input: tuple(object)) -> pd.DataFrame:
+        """
+        Function converting a tuple of objects into Pandas DataFrame.
+        """
         tmplist = list(input)
         df = pd.DataFrame.from_dict([entry.as_dict() for entry in tmplist])
         return df

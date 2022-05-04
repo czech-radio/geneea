@@ -6,7 +6,7 @@ The command line interface.
 
 
 import argparse
-import os
+import os, sys
 
 from cro.geneea.sdk import Client
 
@@ -26,6 +26,11 @@ def main():
     KEY = os.environ.get("GENEEA_API_KEY")
 
     client = Client(key=KEY)
+
+    #    incoming = sys.stdin.readlines()
+    #    if (incoming != 'null') {
+    #        print(f"test incoming: {incoming}")
+    #    }
 
     text = "\n".join(Client.read_phrases(args.file))
 
