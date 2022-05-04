@@ -36,7 +36,7 @@ def test_relation():
 
 
 def test_account():
-    assert Acoount("type", "remainingQuotas") is not None
+    assert Account("type", "remainingQuotas") is not None
 
 
 def test_tag():
