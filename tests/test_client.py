@@ -54,3 +54,9 @@ def test_that_client_return_tags(client, phrases):
 def test_that_client_return_relations(client, phrases):
     result = client.get_relations(phrases)
     assert len(result) > 0
+
+
+@pytest.mark.client
+def test_that_client_returns_account(client):
+    result = client.get_account()
+    assert result is not None
