@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 
 import logging
+import xml.etree.cElementTree as ET
+
 from os import PathLike
 
 from requests import get, post
@@ -57,6 +59,21 @@ class Client:
         """
         with open(path, encoding="utf-8") as file:
             return file.readlines()
+
+    def writeXML(self, input_tuple: tuple[object], filename: str) -> None:
+        """
+        Writes XML from given tuple of Model objects
+        """
+        root = ET.Element("root")
+        doc = ET.SubElement(root, "doc")
+
+        for obj in input_tuple:
+            ET.SubElement(
+                doc, f"{type(obj).__name__}", id=f"{obj.id}"
+            ).text = f"{obj.stdForm}"
+
+        tree = ET.ElementTree(root)
+        tree.write(filename, xml_declaration=True, encoding="utf-8")
 
     def get_account(self) -> Account:
         """

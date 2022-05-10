@@ -21,6 +21,10 @@ def main():
         "-t", "--type", required=True, type=str, help="The operation type"
     )
 
+    parser.add_argument(
+        "-o", "--output", required=False, type=str, help="XML Output file"
+    )
+
     args = parser.parse_args()
 
     KEY = os.environ.get("GENEEA_API_KEY")
@@ -40,6 +44,10 @@ def main():
 
         case "analysis":
             result = client.get_analysis(text)
+
+            if args.output != None:
+                client.writeXML(result[1], args.output)
+
             print(result)
 
         case "account":
@@ -48,10 +56,18 @@ def main():
 
         case "entities":
             result = client.get_entities(text)
+
+            if args.output != None:
+                client.writeXML(result, args.output)
+
             print(result)
 
         case "tags":
             result = client.get_tags(text)
+
+            if args.output != None:
+                client.writeXML(result, args.output)
+
             print(result)
 
         case "sentiment":
