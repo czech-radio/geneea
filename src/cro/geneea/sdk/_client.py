@@ -60,7 +60,7 @@ class Client:
         with open(path, encoding="utf-8") as file:
             return file.readlines()
 
-    def writeXML(self, input_tuple: tuple[object], filename: str) -> None:
+    def write_tuple_to_XML(self, input_tuple: tuple[object], filename: str) -> None:
         """
         Writes XML from given tuple of Model objects
         """
@@ -71,6 +71,57 @@ class Client:
             ET.SubElement(
                 doc, f"{type(obj).__name__}", id=f"{obj.id}"
             ).text = f"{obj.stdForm}"
+
+        tree = ET.ElementTree(root)
+        tree.write(filename, xml_declaration=True, encoding="utf-8")
+
+    def write_full_analysis_to_XML(self, _analysis: tuple, filename: str) -> None:
+        """
+        Writes XML from given tuple of Model objects
+        """
+        root = ET.Element("root")
+        doc = ET.SubElement(root, "doc")
+
+        analysis = ET.SubElement(doc, "Analysis")
+        ET.SubElement(
+            analysis, "Fulltext", source_text_length=f"{len(_analysis[0])}"
+        ).text = _analysis[0]
+
+        ### Add Entities to XML tree
+        entities = ET.SubElement(analysis, "Entities")
+        for obj in _analysis[1]:
+            ET.SubElement(
+                entities, "Entity", id=f"{obj.id}", type=f"{obj.type}"
+            ).text = f"{obj.stdForm}"
+
+        ### Add Tags to XML tree
+        tags = ET.SubElement(analysis, "Tags")
+        for obj in _analysis[2]:
+            ET.SubElement(
+                tags, "Tag", id=f"{obj.id}", relevance=f"{obj.relevance}"
+            ).text = f"{obj.stdForm}"
+
+        ### Add Sentiment object to XML tree
+        sentiment = ET.SubElement(analysis, "Sentiment")
+        obj = _analysis[3]
+        ET.SubElement(
+            sentiment,
+            "Sentiment",
+            mean=f"{obj.mean}",
+            positive=f"{obj.positive}",
+            negative=f"{obj.negative}",
+        ).text = f"{obj.label}"
+
+        ### Add Relations to XML tree
+        relations = ET.SubElement(analysis, "Relations")
+        for obj in _analysis[4]:
+            ET.SubElement(
+                relations,
+                "Relations",
+                id=f"{obj.id}",
+                textRepr=f"{obj.textRepr}",
+                type=f"{obj.type}",
+            ).text = f"{obj.name}"
 
         tree = ET.ElementTree(root)
         tree.write(filename, xml_declaration=True, encoding="utf-8")

@@ -22,7 +22,11 @@ def main():
     )
 
     parser.add_argument(
-        "-x", "--xml", required=False, action="store_true", help="Output an XML file"
+        "-x",
+        "--xml",
+        required=False,
+        action="store_true",
+        help="[Optional] Output a XML file",
     )
 
     args = parser.parse_args()
@@ -46,8 +50,8 @@ def main():
             result = client.get_analysis(text)
 
             if args.xml != None:
-                client.writeXML(
-                    result[1],
+                client.write_full_analysis_to_XML(
+                    result,
                     f"{args.file[0:args.file.index('.')]}_{args.type.lower()}.xml",
                 )
 
@@ -61,7 +65,7 @@ def main():
             result = client.get_entities(text)
 
             if args.xml != None:
-                client.writeXML(
+                client.write_tuple_to_XML(
                     result,
                     f"{args.file[0:args.file.index('.')]}_{args.type.lower()}.xml",
                 )
@@ -72,7 +76,7 @@ def main():
             result = client.get_tags(text)
 
             if args.xml != None:
-                client.writeXML(
+                client.write_tuple_to_XML(
                     result,
                     f"{args.file[0:args.file.index('.')]}_{args.type.lower()}.xml",
                 )
