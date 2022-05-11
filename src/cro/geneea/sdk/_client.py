@@ -62,7 +62,6 @@ class Client:
         with open(path, encoding="utf-8") as file:
             return file.readlines()
 
-    @classmethod
     def pretty_print_xml_given_root(self, root, output_xml) -> None:
         """
         Produces pretty XML file
@@ -74,7 +73,6 @@ class Client:
         with open(output_xml, "w") as file_out:
             file_out.write(xml_string)
 
-    @classmethod
     def write_tuple_to_XML(self, input_tuple: tuple[object], filename: str) -> None:
         """
         Writes XML from given tuple of Model objects
@@ -90,7 +88,6 @@ class Client:
         tree = ET.ElementTree(root)
         self.pretty_print_xml_given_root(tree, filename)
 
-    @classmethod
     def write_full_analysis_to_XML(self, _analysis: tuple, filename: str) -> None:
         """
         Writes XML from given tuple of Model objects
@@ -142,7 +139,6 @@ class Client:
         # tree = ET.ElementTree(root)
         self.pretty_print_xml_given_root(root, filename)
 
-    @classmethod
     def get_account(self) -> Account:
         """
         Get account information.
@@ -160,7 +156,6 @@ class Client:
             logging.error(ex)
             raise ex
 
-    @classmethod
     def get_analysis(self, text: str) -> Analysis:
         """
         Get analysis for the given input text.
@@ -184,7 +179,6 @@ class Client:
             logging.error(ex)
             raise ex
 
-    @classmethod
     def get_entities(self, text: str) -> tuple[Entity]:
         """
         Get entites for the given input text.
@@ -231,7 +225,6 @@ class Client:
             logging.error(ex)
             raise ex
 
-    @classmethod
     def get_sentiment(self, text: str) -> Sentiment:
         """
         Get sentiment for the given input text.
@@ -261,7 +254,6 @@ class Client:
             logging.error(ex)
             raise ex
 
-    @classmethod
     def get_relations(self, text: str) -> tuple[Relation]:
         """
         Get relations for the given input text.
