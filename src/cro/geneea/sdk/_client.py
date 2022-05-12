@@ -62,7 +62,7 @@ class Client:
         with open(path, encoding="utf-8") as file:
             return file.readlines()
 
-    def pretty_print_xml_given_root(self, root, output_xml) -> None:
+    def pretty_print_xml_given_root(self, root, output_xml: str) -> bool:
         """
         Produces pretty XML file
         """
@@ -70,10 +70,15 @@ class Client:
         xml_string = os.linesep.join(
             [s for s in xml_string.splitlines() if s.strip()]
         )  # remove the weird newline issue
-        with open(output_xml, "w") as file_out:
-            file_out.write(xml_string)
+        try:
+            with open(output_xml, "w") as file_out:
+                file_out.write(xml_string)
+            return True
+        except:
+            print("Error saving file")
+            return False
 
-    def write_tuple_to_XML(self, input_tuple: tuple[object], filename: str) -> None:
+    def write_tuple_to_XML(self, input_tuple: tuple[object], filename: str) -> bool:
         """
         Writes XML from given tuple of Model objects
         """
@@ -85,10 +90,12 @@ class Client:
                 doc, f"{type(obj).__name__}", id=f"{obj.id}"
             ).text = f"{obj.stdForm}"
 
-        tree = ET.ElementTree(root)
-        self.pretty_print_xml_given_root(tree, filename)
+        # tree = ET.ElementTree(root)
 
-    def write_full_analysis_to_XML(self, _analysis: tuple, filename: str) -> None:
+        result = self.pretty_print_xml_given_root(root, filename)
+        return result
+
+    def write_full_analysis_to_XML(self, _analysis: tuple, filename: str) -> bool:
         """
         Writes XML from given tuple of Model objects
         """
@@ -137,7 +144,9 @@ class Client:
             ).text = f"{obj.name}"
 
         # tree = ET.ElementTree(root)
-        self.pretty_print_xml_given_root(root, filename)
+
+        result = self.pretty_print_xml_given_root(root, filename)
+        return result
 
     def get_account(self) -> Account:
         """
