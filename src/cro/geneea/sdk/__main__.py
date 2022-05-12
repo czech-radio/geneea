@@ -46,11 +46,11 @@ def main():
 
     print(f"{args.type.upper()}\n{len(args.type) * '-'}")
 
-    match format:
+    match args.format:
         case None:
             format = "xml"
         case "csv" | "xml":
-            format = format.lower()
+            args.format = args.format.lower()
         case _:
             print("The allowed format is ('xml', 'csv').")
             sys.exit(1)
