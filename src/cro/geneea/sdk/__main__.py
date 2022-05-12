@@ -15,10 +15,20 @@ def main():
 
     parser = argparse.ArgumentParser()
 
-    parser.add_argument("-f", "--file", required=True, type=str, help="The file name")
+    parser.add_argument(
+        "-i", "--input_file", required=True, type=str, help="Input filename"
+    )
 
     parser.add_argument(
         "-t", "--type", required=True, type=str, help="The operation type"
+    )
+
+    parser.add_argument(
+        "-f",
+        "--format",
+        required=False,
+        action="store_true",
+        help="[Optional] type of an output file, wlowed types xml or csv",
     )
 
     args = parser.parse_args()
@@ -36,10 +46,26 @@ def main():
 
     print(f"{args.type.upper()}\n{len(args.type) * '-'}")
 
+    match args.format:
+        case None:
+            format = "xml"
+        case "csv" | "xml":
+            args.format = args.format.lower()
+        case _:
+            print("The allowed format is ('xml', 'csv').")
+            sys.exit(1)
+
     match args.type:
 
         case "analysis":
             result = client.get_analysis(text)
+
+            if args.format == "xml":
+                client.write_full_analysis_to_XML(
+                    result,
+                    f"{args.file[0:args.file.index('.')]}_{args.type.lower()}.xml",
+                )
+
             print(result)
 
         case "account":
@@ -48,10 +74,24 @@ def main():
 
         case "entities":
             result = client.get_entities(text)
+
+            if args.xml == "xml":
+                client.write_tuple_to_XML(
+                    result,
+                    f"{args.file[0:args.file.index('.')]}_{args.type.lower()}.xml",
+                )
+
             print(result)
 
         case "tags":
             result = client.get_tags(text)
+
+            if args.xml == "xml":
+                client.write_tuple_to_XML(
+                    result,
+                    f"{args.file[0:args.file.index('.')]}_{args.type.lower()}.xml",
+                )
+
             print(result)
 
         case "sentiment":

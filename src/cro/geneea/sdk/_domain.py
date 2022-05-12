@@ -55,7 +55,7 @@ class Tag:
     """
 
     id: str
-    stdFrom: str
+    stdForm: str
     type: str
     relevance: float
 
