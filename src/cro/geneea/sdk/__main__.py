@@ -15,9 +15,7 @@ def main():
 
     parser = argparse.ArgumentParser()
 
-    parser.add_argument(
-        "-i", "--input_file", required=True, type=str, help="Input filename"
-    )
+    parser.add_argument("-i", "--input", required=True, type=str, help="Input filename")
 
     parser.add_argument(
         "-t", "--type", required=True, type=str, help="The operation type"
@@ -26,9 +24,9 @@ def main():
     parser.add_argument(
         "-f",
         "--format",
-        required=False,
-        action="store_true",
-        help="[Optional] type of an output file, wlowed types xml or csv",
+        required=True,
+        type=str,
+        help="[Optional] type of an output file, awlowed types xml or csv",
     )
 
     args = parser.parse_args()
@@ -42,7 +40,7 @@ def main():
     #        print(f"test incoming: {incoming}")
     #    }
 
-    text = "\n".join(Client.read_phrases(args.file))
+    text = "\n".join(Client.read_phrases(args.input))
 
     print(f"{args.type.upper()}\n{len(args.type) * '-'}")
 
@@ -63,7 +61,7 @@ def main():
             if args.format == "xml":
                 client.write_full_analysis_to_XML(
                     result,
-                    f"{args.file[0:args.file.index('.')]}_{args.type.lower()}.xml",
+                    f"{args.input[0:args.input.index('.')]}_{args.type.lower()}.xml",
                 )
 
             print(result)
@@ -78,7 +76,7 @@ def main():
             if args.xml == "xml":
                 client.write_tuple_to_XML(
                     result,
-                    f"{args.file[0:args.file.index('.')]}_{args.type.lower()}.xml",
+                    f"{args.input[0:args.input.index('.')]}_{args.type.lower()}.xml",
                 )
 
             print(result)
@@ -89,7 +87,7 @@ def main():
             if args.xml == "xml":
                 client.write_tuple_to_XML(
                     result,
-                    f"{args.file[0:args.file.index('.')]}_{args.type.lower()}.xml",
+                    f"{args.input[0:args.input.index('.')]}_{args.type.lower()}.xml",
                 )
 
             print(result)
