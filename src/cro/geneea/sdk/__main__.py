@@ -26,7 +26,7 @@ def main():
         "--format",
         required=True,
         type=str,
-        help="[Optional] type of an output file, awlowed types xml or csv",
+        help="[Optional] type of an output file, allowed types xml or csv",
     )
 
     args = parser.parse_args()
