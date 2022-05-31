@@ -80,7 +80,7 @@ $env:GENEEA_API_KEY=xxx
 
 ```python
 import os
-from cro.geneea import Client
+from cro.geneea.sdk import Client
 
 client = client(key = os.environ.get("GENEEA_API_KEY"))
 
