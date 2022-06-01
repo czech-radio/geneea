@@ -72,7 +72,7 @@ class Client:
             [s for s in xml_string.splitlines() if s.strip()]
         )  # remove the weird newline issue
         try:
-            with open(output_xml, "w") as file_out:
+            with open(output_xml, "w", encoding="utf8") as file_out:
                 file_out.write(xml_string)
             return True
         except:
@@ -164,16 +164,13 @@ class Client:
             "Relations": [relation.to_json() for relation in relations],
         }
 
-        sucess = False
-
         try:
             with open(filename, "w", encoding="utf8") as file:
                 json.dump(data, file, ensure_ascii=False)
-            success = True
-        except Exception as ex:
-            logging.error(ex)
-
-        return sucess
+            return True
+        except:
+            print("Error writing file")
+            return False
 
     def get_account(self) -> Account:
         """

@@ -83,3 +83,10 @@ def test_that_client_writes_file(client):
     )
     ok_write = client.write_tuple_to_XML(test_tuple, "data/test_write_1.xml")
     assert ok_write is True
+
+
+@pytest.mark.client
+def test_that_client_writes_json_file(client, phrases):
+    result = client.get_analysis(phrases)
+    ok_write = client.write_full_analysis_to_JSON(result, "data/test_write_2.json")
+    assert ok_write is True
