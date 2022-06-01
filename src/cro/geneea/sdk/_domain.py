@@ -6,7 +6,9 @@ from dataclasses import dataclass
 from typing import List, Optional
 
 import pandas as pd
+
 import json
+
 
 __all__ = tuple(["Entity", "Sentiment", "Relation", "Tag", "Analysis"])
 

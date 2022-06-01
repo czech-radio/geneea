@@ -158,17 +158,17 @@ class Client:
 
         data = {
             "text": text,
-            "entities": [entity.to_json() for entity in entities],
-            "tags": [tag.to_json() for tag in tags],
+            "entities": tuple(entity.to_json() for entity in entities),
+            "tags": tuple(tag.to_json() for tag in tags),
             "sentiment": sentiment.to_json(),
-            "relations": [relation.to_json() for relation in relations],
+            "relations": tuple(relation.to_json() for relation in relations),
         }
 
         sucess = False
 
         try:
-            with open(filename, "w") as file:
-                json.dump(data, file)
+            with open(filename, "w", separators=(",", ": "), encoding="utf8") as file:
+                json.dump(data, file, ensure_ascii=False)
             success = True
         except Exception as ex:
             logging.error(ex)
