@@ -4,6 +4,7 @@ import logging
 import xml.etree.cElementTree as ET
 import xml.dom.minidom
 import os
+import json
 
 from os import PathLike
 
@@ -147,6 +148,32 @@ class Client:
 
         result = self.pretty_print_xml_given_root(root, filename)
         return result
+
+    def write_full_analysis_to_JSON(self, _analysis: tuple, filename: str) -> bool:
+        text = _analysis[0]
+        entities = _analysis[1]
+        tags = _analysis[2]
+        sentiment = _analysis[3]
+        relations = _analysis[4]
+
+        data = {
+            "text": text,
+            "entities": [entity.to_json() for entity in entities],
+            "tags": [tag.to_json() for tag in tags],
+            "sentiment": sentiment.to_json(),
+            "relations": [relation.to_json() for relation in relations],
+        }
+
+        sucess = False
+
+        try:
+            with open(filename, "w") as file:
+                json.dump(data, file)
+            success = True
+        except Exception as ex:
+            logging.error(ex)
+
+        return sucess
 
     def get_account(self) -> Account:
         """

@@ -26,7 +26,7 @@ def main():
         "--format",
         required=True,
         type=str,
-        help="[Optional] type of an output file, allowed types xml or csv",
+        help="[Optional] type of an output file, allowed types xml, json or csv",
     )
 
     args = parser.parse_args()
@@ -47,7 +47,7 @@ def main():
     match args.format:
         case None:
             format = "xml"
-        case "csv" | "xml":
+        case "csv" | "xml" | "json":
             args.format = args.format.lower()
         case _:
             print("The allowed format is ('xml', 'csv').")
@@ -62,6 +62,12 @@ def main():
                 client.write_full_analysis_to_XML(
                     result,
                     f"{args.input[0:args.input.index('.')]}_{args.type.lower()}.xml",
+                )
+
+            if args.format == "json":
+                client.write_full_analysis_to_JSON(
+                    result,
+                    f"{args.input[0:args.input.index('.')]}_{args.type.lower()}.json",
                 )
 
             print(result)

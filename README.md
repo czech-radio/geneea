@@ -114,14 +114,14 @@ print(relations)
 ### Use as a command line program
 
 ```shell
-cro.geneea -f <file_name> -t <type_name> [optional XML output] -x
+cro.geneea -f <file_name> -t <type_name> [optional XML output] -f xml
 # <type_name> must be either: analysis, tags, entities, relations, account
 ```
 
 e.g.
 
 ```
-cro.geneea --file ./data/input.txt --type analysis
+cro.geneea --input ./data/input.txt --type analysis --format xml
 
 ANALYSIS
 --------

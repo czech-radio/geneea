@@ -6,6 +6,7 @@ from dataclasses import dataclass
 from typing import List, Optional
 
 import pandas as pd
+import json
 
 __all__ = tuple(["Entity", "Sentiment", "Relation", "Tag", "Analysis"])
 
@@ -21,6 +22,9 @@ class Entity:
     stdForm: str
     type: str
 
+    def to_json(self):
+        return json.dumps(self, default=lambda o: o.__dict__, sort_keys=True, indent=4)
+
 
 @dataclass(frozen=True)
 class Sentiment:
@@ -32,6 +36,9 @@ class Sentiment:
     label: str
     positive: float
     negative: float
+
+    def to_json(self):
+        return json.dumps(self, default=lambda o: o.__dict__, sort_keys=True, indent=4)
 
 
 @dataclass(frozen=True)
@@ -47,6 +54,9 @@ class Relation:
     type: str
     args: Optional[Entity]
 
+    def to_json(self):
+        return json.dumps(self, default=lambda o: o.__dict__, sort_keys=True, indent=4)
+
 
 @dataclass(frozen=True)
 class Tag:
@@ -59,6 +69,9 @@ class Tag:
     type: str
     relevance: float
 
+    def to_json(self):
+        return json.dumps(self, default=lambda o: o.__dict__, sort_keys=True, indent=4)
+
 
 @dataclass(frozen=True)
 class Account:
@@ -68,6 +81,9 @@ class Account:
 
     type: str
     remainingQuotas: str
+
+    def to_json(self):
+        return json.dumps(self, default=lambda o: o.__dict__, sort_keys=True, indent=4)
 
 
 FullAnalysis = tuple[str, tuple[Entity], tuple[Tag], Sentiment, tuple[Relation]]

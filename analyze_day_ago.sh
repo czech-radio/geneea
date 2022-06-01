@@ -5,4 +5,5 @@ for i in `find /root/irozhlas/irozhlas-scraper/output/*.txt -newermt $(date +%Y-
 	cro.geneea -i $i -t analysis -f xml;
 	sleep 1;
 done
+deactivate
 mv /root/irozhlas/irozhlas-scraper/output/*.xml /root/irozhlas/irozhlas-scraper/output/xml
