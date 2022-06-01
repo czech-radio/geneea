@@ -80,7 +80,7 @@ $env:GENEEA_API_KEY=xxx
 
 ```python
 import os
-from cro.geneea import Client
+from cro.geneea.sdk import Client
 
 client = client(key = os.environ.get("GENEEA_API_KEY"))
 
@@ -114,7 +114,7 @@ print(relations)
 ### Use as a command line program
 
 ```shell
-cro.geneea -f <file_name> -t <type_name> [optional XML output] -f xml
+cro.geneea -i <file_name> -t <type_name> [optional output xml,csv] -f xml
 # <type_name> must be either: analysis, tags, entities, relations, account
 ```
 
