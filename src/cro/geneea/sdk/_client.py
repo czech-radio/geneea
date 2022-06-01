@@ -157,17 +157,17 @@ class Client:
         relations = _analysis[4]
 
         data = {
-            "text": text,
-            "entities": tuple(entity.to_json() for entity in entities),
-            "tags": tuple(tag.to_json() for tag in tags),
-            "sentiment": sentiment.to_json(),
-            "relations": tuple(relation.to_json() for relation in relations),
+            "Text": text,
+            "Entities": [entity.to_json() for entity in entities],
+            "Tags": [tag.to_json() for tag in tags],
+            "Sentiment": sentiment.to_json(),
+            "Relations": [relation.to_json() for relation in relations],
         }
 
         sucess = False
 
         try:
-            with open(filename, "w", separators=(",", ": "), encoding="utf8") as file:
+            with open(filename, "w", encoding="utf8") as file:
                 json.dump(data, file, ensure_ascii=False)
             success = True
         except Exception as ex:

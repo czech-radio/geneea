@@ -25,7 +25,14 @@ class Entity:
     type: str
 
     def to_json(self):
-        return json.dumps(self, default=lambda o: o.__dict__, sort_keys=True, indent=4)
+        data = {
+            "Entity": {
+                "id": f"{self.id}",
+                "stdForm": f"{self.stdForm}",
+                "type": f"{self.type}",
+            },
+        }
+        return data
 
 
 @dataclass(frozen=True)
@@ -40,7 +47,15 @@ class Sentiment:
     negative: float
 
     def to_json(self):
-        return json.dumps(self, default=lambda o: o.__dict__, sort_keys=True, indent=4)
+        data = {
+            "Sentiment": {
+                "mean": self.mean,
+                "label": self.label,
+                "positive": self.positive,
+                "negative": self.negative,
+            },
+        }
+        return data
 
 
 @dataclass(frozen=True)
@@ -57,7 +72,16 @@ class Relation:
     args: Optional[Entity]
 
     def to_json(self):
-        return json.dumps(self, default=lambda o: o.__dict__, sort_keys=True, indent=4)
+        data = {
+            "Relation": {
+                "id": f"{self.id}",
+                "name": f"{self.name}",
+                "textRepr": f"{self.textRepr}",
+                "type": f"{self.type}",
+                "args": f"{self.args}",
+            }
+        }
+        return data
 
 
 @dataclass(frozen=True)
@@ -72,7 +96,15 @@ class Tag:
     relevance: float
 
     def to_json(self):
-        return json.dumps(self, default=lambda o: o.__dict__, sort_keys=True, indent=4)
+        data = {
+            "Tag": {
+                "id": f"{self.id}",
+                "stdForm": f"{self.stdForm}",
+                "type": f"{self.type}",
+                "relevance": self.relevance,
+            }
+        }
+        return data
 
 
 @dataclass(frozen=True)
