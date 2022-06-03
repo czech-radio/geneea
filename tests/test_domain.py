@@ -3,7 +3,8 @@
 
 import pytest
 
-from cro.geneea.sdk._domain import Analysis, Entity, Relation, Sentiment, Account, Tag
+from cro.geneea.sdk._domain import (Account, Analysis, Entity, Relation,
+                                    Sentiment, Tag)
 
 
 @pytest.mark.domain

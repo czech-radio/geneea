@@ -1,11 +1,10 @@
 # -*- coding: utf-8 -*-
 
 
-import os
 import logging
-import xml.etree.cElementTree as ET
+import os
 import xml.dom.minidom
-
+import xml.etree.cElementTree as ET
 
 import pytest
 

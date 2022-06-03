@@ -2,43 +2,39 @@
 
 from __future__ import annotations
 
+import dataclasses
+import json
 from dataclasses import dataclass
 from typing import List, Optional
 
 import pandas as pd
 
-import json
-
-
 __all__ = tuple(["Entity", "Sentiment", "Relation", "Tag", "Analysis"])
+
+
+Text = str
+JSON = str
 
 
 @dataclass(frozen=True)
 class Entity:
     """
-    Exctracted entities, known ones gets gkbId
+    Entities extracted from the document content.
     """
 
     id: str
-    # gkbId: Optional[str]
+    # gkbId: Optional[str] # The recognized entities gets `gkbId`.
     stdForm: str
     type: str
 
-    def to_json(self):
-        data = {
-            "Entity": {
-                "id": f"{self.id}",
-                "stdForm": f"{self.stdForm}",
-                "type": f"{self.type}",
-            },
-        }
-        return data
+    def to_json(self) -> JSON:
+        return json.dumps(dataclasses.asdict(self))
 
 
 @dataclass(frozen=True)
 class Sentiment:
     """
-    originally docSentiment, it keeps sentiment of a whole document
+    Sentiment of the whole document content.
     """
 
     mean: float
@@ -46,23 +42,14 @@ class Sentiment:
     positive: float
     negative: float
 
-    def to_json(self):
-        data = {
-            "Sentiment": {
-                "mean": self.mean,
-                "label": self.label,
-                "positive": self.positive,
-                "negative": self.negative,
-            },
-        }
-        return data
+    def to_json(self) -> JSON:
+        return json.dumps(dataclasses.asdict(self))
 
 
 @dataclass(frozen=True)
 class Relation:
     """
-    TODO: entitiy connection?
-          not finished connecting to existing ones
+    The relations between entities.
     """
 
     id: str
@@ -71,23 +58,14 @@ class Relation:
     type: str
     args: Optional[Entity]
 
-    def to_json(self):
-        data = {
-            "Relation": {
-                "id": f"{self.id}",
-                "name": f"{self.name}",
-                "textRepr": f"{self.textRepr}",
-                "type": f"{self.type}",
-                "args": f"{self.args}",
-            }
-        }
-        return data
+    def to_json(self) -> JSON:
+        return json.dumps(dataclasses.asdict(self))
 
 
 @dataclass(frozen=True)
 class Tag:
     """
-    tags derived from text
+    Tags derived from the document content.
     """
 
     id: str
@@ -95,29 +73,21 @@ class Tag:
     type: str
     relevance: float
 
-    def to_json(self):
-        data = {
-            "Tag": {
-                "id": f"{self.id}",
-                "stdForm": f"{self.stdForm}",
-                "type": f"{self.type}",
-                "relevance": self.relevance,
-            }
-        }
-        return data
+    def to_json(self) -> JSON:
+        return json.dumps(dataclasses.asdict(self))
 
 
 @dataclass(frozen=True)
 class Account:
     """
-    an account entry
+    The Geneeas account informations.
     """
 
     type: str
     remainingQuotas: str
 
-    def to_json(self):
-        return json.dumps(self, default=lambda o: o.__dict__, sort_keys=True, indent=4)
+    def to_json(self) -> JSON:
+        return json.dumps(dataclasses.asdict(self))
 
 
 FullAnalysis = tuple[str, tuple[Entity], tuple[Tag], Sentiment, tuple[Relation]]

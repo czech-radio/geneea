@@ -1,16 +1,16 @@
 # -*- coding: utf-8 -*-
 
-import logging
-import xml.etree.cElementTree as ET
-import xml.dom.minidom
-import os
 import json
-
+import logging
+import os
+import xml.dom.minidom
+import xml.etree.cElementTree as ET
 from os import PathLike
 
 from requests import get, post
 
-from cro.geneea.sdk._domain import Analysis, Entity, Relation, Sentiment, Tag, Account
+from cro.geneea.sdk._domain import (Account, Analysis, Entity, Relation,
+                                    Sentiment, Tag)
 
 __all__ = tuple(["Client"])
 
@@ -32,11 +32,12 @@ class Client:
 
     def __init__(self, key: str) -> None:
         """
-        Create a new client instance with the given secret key.
+        Create a new client with the given secret key.
+
         :param key: The secret access key.
         """
         self._key = key
-        self.headers = {
+        self._headers = {
             "content-type": "application/json",
             "Authorization": f"user_key {self._key}",
         }
@@ -49,19 +50,25 @@ class Client:
     def key(self, value: str) -> None:
         self._key = value
 
+    @property
+    def headers(self):
+        return self._headers
+
     @classmethod
-    def read_phrases(cls, path: PathLike) -> list[str]:
+    def read_phrases(cls, file_path: PathLike, encoding: str = "utf-8") -> list[str]:
         """
         The helper method to load phrases from the file.
+        We assume that each phrase is  placed on separate line.
 
-        Each phrase must be placed on separate line.
-        We assume that the file is encoded as UTF-8.
-        :param path: str of a path to textfile
-        :return: readlines as txt
-        :raises: todo
+        :param file_path: The file path.
+        :param encoding: The file content encoding.
+        :return: The list of phrases.
+        :raises: OSError: If the file cannot be opened.
         """
-        with open(path, encoding="utf-8") as file:
+        with open(file_path, encoding=encoding) as file:
             return file.readlines()
+
+    # Serialization helpers.
 
     def pretty_print_xml_given_root(self, root, output_xml: str) -> bool:
         """
@@ -172,22 +179,7 @@ class Client:
             print("Error writing file")
             return False
 
-    def get_account(self) -> Account:
-        """
-        Get account information.
-        :return: Account object
-        """
-        try:
-            response = get(f"{self.__URL__}/account", headers=self.headers)
-            logging.info(response.status_code)
-            # @todo Check status code.
-            data = response.json()
-            model = Analysis("\n", data)
-            return model.account()
-
-        except Exception as ex:
-            logging.error(ex)
-            raise ex
+    # REST handlers.
 
     def get_analysis(self, text: str) -> Analysis:
         """
@@ -212,29 +204,6 @@ class Client:
             logging.error(ex)
             raise ex
 
-    def get_entities(self, text: str) -> tuple[Entity]:
-        """
-        Get entites for the given input text.
-
-        :param input: The input text to analyze.
-        :return The analyzed input text.
-        """
-        try:
-            response = post(
-                f"{self.__URL__}/v3/entities",
-                json={"text": text},
-                headers=self.headers,
-                timeout=TIMEOUT,
-            )
-            logging.info(response.status_code)
-            # @todo Check status code.
-            data = response.json()
-            model = Analysis(text, data)
-            return model.entities()
-        except Exception as ex:
-            logging.error(ex)
-            raise ex
-
     def get_tags(self, text: str) -> tuple[Tag]:
         """
         Get tags for the given input text.
@@ -254,6 +223,29 @@ class Client:
             data = response.json()
             model = Analysis(text, data)
             return model.tags()
+        except Exception as ex:
+            logging.error(ex)
+            raise ex
+
+    def get_entities(self, text: str) -> tuple[Entity]:
+        """
+        Get entites for the given input text.
+
+        :param input: The input text to analyze.
+        :return The analyzed input text.
+        """
+        try:
+            response = post(
+                f"{self.__URL__}/v3/entities",
+                json={"text": text},
+                headers=self.headers,
+                timeout=TIMEOUT,
+            )
+            logging.info(response.status_code)
+            # @todo Check status code.
+            data = response.json()
+            model = Analysis(text, data)
+            return model.entities()
         except Exception as ex:
             logging.error(ex)
             raise ex
@@ -311,3 +303,20 @@ class Client:
         except Exception as ex:
             logging.error(ex)
         raise ex
+
+    def get_account(self) -> Account:
+        """
+        Get account information.
+        :return: Account object
+        """
+        try:
+            response = get(f"{self.__URL__}/account", headers=self.headers)
+            logging.info(response.status_code)
+            # @todo Check status code.
+            data = response.json()
+            model = Analysis("\n", data)
+            return model.account()
+
+        except Exception as ex:
+            logging.error(ex)
+            raise ex

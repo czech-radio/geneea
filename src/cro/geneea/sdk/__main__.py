@@ -6,7 +6,8 @@ The command line interface.
 
 
 import argparse
-import os, sys
+import os
+import sys
 
 from cro.geneea.sdk import Client
 
