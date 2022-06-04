@@ -122,7 +122,7 @@ class Client:
             logging.error(ex)
             raise ex
 
-    def get_status() -> str:
+    def get_status(self) -> str:
         return NotImplemented
 
     def get_tags(self, text: str) -> tuple[Tag]:
