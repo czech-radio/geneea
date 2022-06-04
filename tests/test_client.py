@@ -15,7 +15,9 @@ def client():
 
 @pytest.fixture
 def phrases():
-    return "\n".join(Client.read_phrases("data/input.txt"))
+    with open("data/input.txt", encoding="utf8") as file:
+        phrases = "\n".join(file.readlines())
+    return phrases
 
 
 @pytest.mark.client
