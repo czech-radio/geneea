@@ -1,6 +1,7 @@
 # Development notes
 
 Geneea REST API je popsáno zde: https://api.geneea.com/#!/geneea-api-v3/.
+https://bitbucket.org/geneea/sdk/src/master
 
 Návrh doménového modelu vychází z terminologického slovníku níže.
 
