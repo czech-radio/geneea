@@ -74,23 +74,15 @@ class Client:
         return self._headers
 
     @classmethod
-    def read_phrases(cls, file_path: PathLike, encoding: str = "utf8") -> list[str]:
-        """
-        The helper method to load phrases from the file.
-        We assume that each phrase is  placed on separate line.
-
-        :param file_path: The file path.
-        :param encoding: The file content encoding.
-        :return: The list of phrases.
-        :raises: OSError: If the file cannot be opened.
-        """
-        with open(file_path, encoding=encoding) as file:
-            return file.readlines()
-
-    # Serialization helpers.
-
-    @classmethod
     def serialize(cls, model: Analysis, format: str) -> Optional[str]:
+        """
+        Serialize the model to desired output format.
+
+        :param model: The domain model to serialize.
+        :param format: The output format e.g 'xml', 'json', 'csv'.
+        :return: The serialized domain model.
+        :raises: ValueError: If the file format is not spuported.
+        """
         result = None
 
         match format:
@@ -98,7 +90,8 @@ class Client:
                 result = model.to_xml()
             case "json":
                 result = model.to_json()
-
+            case _:
+                raise ValueError(f"Supported formats are ('xml, 'json').")
         return result
 
     def _post(self, endpoint, data=None) -> None:

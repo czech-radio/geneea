@@ -3,7 +3,7 @@
 [RELEASES](https://github.com/czech-radio/cro-geneea-sdk/releases/) | [WEBSITE](https://czech-radio.github.io/cro-geneea-sdk/)
 
 ![language](https://img.shields.io/badge/language-Python_v3.10+-blue.svg)
-![version](https://img.shields.io/badge/version-0.3.0-blue.svg)
+![version](https://img.shields.io/badge/version-0.5.0-blue.svg)
 [![build](https://github.com/czech-radio/cro-geneea-sdk/actions/workflows/main.yml/badge.svg)](https://github.com/czech-radio/cro-geneea-sdk/actions/workflows/main.yml)
 [![reliability](https://sonarcloud.io/api/project_badges/measure?project=czech-radio_cro-geneea-sdk&metric=reliability_rating)](https://sonarcloud.io/dashboard?id=czech-radio_cro-geneea-sdk)
 
@@ -34,7 +34,9 @@ One can install package from the GitHub repository.
 Activate the virtual environment.
 
 ```shell
-source .venv/bin/activate
+source .venv/bin/activate   # Unix
+
+.\.venv\Scripts\activate    # Windows
 ```
 
 Install the package.
@@ -47,31 +49,25 @@ pip install git+https://github.com/czech-radio/cro-geneea-client.git
 
 Export the environent variables.
 
-__UNIX__
-
 
 ```shell
-export GENEEA_API_KEY=xxx
-```
+export GENEEA_API_KEY=xxx    # Unix
 
-__Windows__
-
-
-```shell
-$env:GENEEA_API_KEY=xxx
+$env:GENEEA_API_KEY=xxx      # Windows
 ```
 
 ### Use as a program
 
 ```shell
-cro.geneea -i <file_name> -t <type_name> [optional output xml,csv] -f xml
+cro.geneea --input <file_name> --type <type_name> --format <format_name>
 # <type_name> must be either: analysis, tags, entities, relations, account
+# <format_name> must be either: xml, json
 ```
 
 e.g.
 
 ```
-cro.geneea --input ./data/input.txt --type analysis --format xml
+cro.geneea --input ./data/input.txt --type analysis --format json
 
 ANALYSIS
 --------
@@ -86,9 +82,9 @@ from cro.geneea.sdk import Client
 
 client = client(key = os.environ.get("GENEEA_API_KEY"))
 
-phrase = "\n".join(GeneeaClient.read_phrases("input.txt"))
-
 # Try `phrase = "Příliž žluťoučký kůň"`.
+with open("input.txt", encoding='utf8') as file:
+    phrases = "\n".join(file.readlines())
 
 # Get (full) analysis.
 analysis = client.get_analysis(phrase)

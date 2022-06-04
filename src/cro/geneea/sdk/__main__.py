@@ -46,7 +46,8 @@ def main():
 
     client = Client(key=envs["GENEEA_API_KEY"])
 
-    text = "\n".join(Client.read_phrases(args.input))
+    with open(args.input, encoding="utf8") as file:
+        text = "\n".join(file.readlines())
 
     print(f"{args.type.upper()}\n{len(args.type) * '-'}")
 
