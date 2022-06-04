@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+
 from cro.geneea.sdk._client import Client as Client
 from cro.geneea.sdk._domain import Account as Account
 from cro.geneea.sdk._domain import Analysis as Analysis
@@ -12,4 +13,4 @@ __all__ = tuple(
     ["Client", "Analysis", "Account", "Sentiment", "Entity", "Relation", "Tag"]
 )
 
-__version__ = "0.3.0"
+__version__ = "0.4.0"
