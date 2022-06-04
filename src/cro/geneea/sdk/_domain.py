@@ -1,31 +1,85 @@
 # -*- coding: utf-8 -*-
 
+
+"""
+Contains a domain model for Geneea NLP service.
+"""
+
+
 from __future__ import annotations
 
+import dataclasses
+import json
+import xml.etree.cElementTree as ET
 from dataclasses import dataclass
 from typing import List, Optional
 
 import pandas as pd
 
-__all__ = tuple(["Entity", "Sentiment", "Relation", "Tag", "Analysis"])
+__all__ = tuple(["Tag", "Account", "Entity", "Sentiment", "Relation", "Analysis"])
+
+
+Text = str
+JSON = str
+XML = str
 
 
 @dataclass(frozen=True)
-class Entity:
+class Serializable:  # JSON:
+    def to_json(self) -> JSON:
+        return json.dumps(dataclasses.asdict(self))
+
+
+@dataclass(frozen=True)
+class Tag(Serializable):
     """
-    Exctracted entities, known ones gets gkbId
+    Tags derived from the document content.
     """
 
     id: str
-    # gkbId: Optional[str]
+    stdForm: str
+    type: str
+    relevance: float
+
+
+@dataclass(frozen=True)
+class Account(Serializable):
+    """
+    The Geneeas account informations.
+    """
+
+    type: str
+    remainingQuotas: str
+
+
+@dataclass(frozen=True)
+class Entity(Serializable):
+    """
+    Entities extracted from the document content.
+    """
+
+    id: str
+    # gkbId: Optional[str] # The recognized entities gets `gkbId`.
     stdForm: str
     type: str
 
 
+# class EntityType(enun):
+#     duration
+#     organization
+#     ...
+
+
+# class relationType(enum):
+#     VERB
+#     ATTR
+#     ...
+
+
 @dataclass(frozen=True)
-class Sentiment:
+class Sentiment(Serializable):
     """
-    originally docSentiment, it keeps sentiment of a whole document
+    Sentiment of the whole document content.
     """
 
     mean: float
@@ -35,10 +89,9 @@ class Sentiment:
 
 
 @dataclass(frozen=True)
-class Relation:
+class Relation(Serializable):
     """
-    TODO: entitiy connection?
-          not finished connecting to existing ones
+    The relations between entities.
     """
 
     id: str
@@ -49,63 +102,21 @@ class Relation:
 
 
 @dataclass(frozen=True)
-class Tag:
+class Analysis(Serializable):  # Aggregate
     """
-    tags derived from text
-    """
-
-    id: str
-    stdForm: str
-    type: str
-    relevance: float
-
-
-@dataclass(frozen=True)
-class Account:
-    """
-    an account entry
+    Analysis aggregate root entity.
     """
 
-    type: str
-    remainingQuotas: str
+    original: str  # content
+    analyzed: dict
 
-
-FullAnalysis = tuple[str, tuple[Entity], tuple[Tag], Sentiment, tuple[Relation]]
-
-
-class Analysis:
-
-    """
-    Analysis domain model.
-    A class to handle JSON respones.
-    """
-
-    def __init__(self, original: str, analyzed: dict):
-        self.original = original.strip()
-        self.analyzed = analyzed
-
-    def __eq__(self, that: Optional[Text]) -> bool:
-        return (self.original, self.analyzed) == (that.original, that.analyzed)
-
-    def __hash__(self) -> int:
-        return hash((self.original, self.analyzed))
-
-    def __len__(self):
+    def __len__(self) -> int:
+        """
+        Get the length of the original text.
+        """
         return len(self.original)
 
-    def analysis(self) -> FullAnalysis:
-        """
-        Initialize analysis, it returns FullAnalysis type by default.
-        :return: FullAnalysis type
-        """
-        return (
-            self.original,
-            self.entities(),
-            self.tags(),
-            self.sentiment(),
-            self.relations(),
-        )
-
+    @property
     def entities(self) -> tuple[Entity]:
         """
         Returns a tuple of Entities from analyzed JSON.
@@ -117,6 +128,7 @@ class Analysis:
 
         return tuple(_entities)
 
+    @property
     def tags(self) -> tuple[Tag]:
         """
         Function returns a tuple of Tags from analyzed JSON.
@@ -128,9 +140,10 @@ class Analysis:
             _tags.append(Tag(tag["id"], tag["stdForm"], tag["type"], tag["relevance"]))
         return tuple(_tags)
 
+    @property
     def relations(self) -> tuple[Relation]:
         """
-        Function returns a tuple of Realtions from analyzed JSON.
+        Get a tuple of realtions.
         :return: tuple[Tag]
         """
         _relations: List[Relation] = []
@@ -146,6 +159,7 @@ class Analysis:
             )
         return tuple(_relations)
 
+    @property
     def language(self) -> str:
         """
         Returns string object representing language.
@@ -153,6 +167,7 @@ class Analysis:
         """
         return self.analyzed["language"]
 
+    @property
     def sentiment(self) -> Sentiment:
         """
         Functions which returns Sentiment object from analyzed JSON.
@@ -161,12 +176,88 @@ class Analysis:
         tmp = self.analyzed["docSentiment"]
         return Sentiment(tmp["mean"], tmp["label"], tmp["positive"], tmp["negative"])
 
+    @property
     def account(self) -> Account:
         """
-        Returns Account object from Analyzed JSON.
-        :return: Account object
+        Get the account object.
+        :return: The account object.
         """
-        return Account(self.analyzed["type"], self.analyzed["remainingQuotas"])
+        return Account(None, None)
+
+    @property
+    def version(self):
+        return self.analyzed["version"]
+
+    @property
+    def language(self):
+        return self.analyzed["language"]["detected"]
+
+    # Serialization
+
+    def to_xml(self) -> XML:
+        """
+        Writes XML from given tuple of Model objects
+        """
+
+        def _normalize_xml(root) -> XML:
+            """
+            Produces pretty XML file.
+            """
+            import os
+            import xml.dom.minidom
+            import xml.etree.cElementTree as ET
+
+            xml_str = xml.dom.minidom.parseString(ET.tostring(root)).toprettyxml()
+            result = os.linesep.join([s.strip() for s in xml_str.splitlines()])
+            return result
+
+        root = ET.Element("document")
+
+        analysis = ET.SubElement(root, "Analysis")
+
+        ET.SubElement(
+            analysis, "original", source_text_length=f"{len(self.original)}"
+        ).text = self.original
+
+        ### Add Entities to XML tree
+        entities = ET.SubElement(analysis, "Entities")
+        for obj in self.entities:
+            ET.SubElement(
+                entities, "Entity", id=f"{obj.id}", type=f"{obj.type}"
+            ).text = f"{obj.stdForm}"
+
+        ### Add Tags to XML tree
+        tags = ET.SubElement(analysis, "Tags")
+        for obj in self.tags:
+            ET.SubElement(
+                tags, "Tag", id=f"{obj.id}", relevance=f"{obj.relevance}"
+            ).text = f"{obj.stdForm}"
+
+        ### Add Sentiment object to XML tree
+        sentiment = ET.SubElement(analysis, "Sentiment")
+        obj = self.sentiment
+        ET.SubElement(
+            sentiment,
+            "Sentiment",
+            mean=f"{obj.mean}",
+            positive=f"{obj.positive}",
+            negative=f"{obj.negative}",
+        ).text = f"{obj.label}"
+
+        ### Add Relations to XML tree
+        relations = ET.SubElement(analysis, "Relations")
+        for obj in self.relations:
+            ET.SubElement(
+                relations,
+                "Relations",
+                id=f"{obj.id}",
+                textRepr=f"{obj.textRepr}",
+                type=f"{obj.type}",
+            ).text = f"{obj.name}"
+
+        result = _normalize_xml(root)
+
+        return result
 
     def to_table(self, input: tuple(object)) -> pd.DataFrame:
         """

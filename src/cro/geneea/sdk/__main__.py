@@ -6,12 +6,13 @@ The command line interface.
 
 
 import argparse
-import os, sys
+import os
+import sys
 
 from cro.geneea.sdk import Client
 
 
-def main():
+def read_args():
 
     parser = argparse.ArgumentParser()
 
@@ -26,19 +27,24 @@ def main():
         "--format",
         required=True,
         type=str,
-        help="[Optional] type of an output file, allowed types xml or csv",
+        help="[Optional] type of an output file, allowed types xml, json or csv",
     )
 
-    args = parser.parse_args()
+    result = parser.parse_args()
 
-    KEY = os.environ.get("GENEEA_API_KEY")
+    return result
 
-    client = Client(key=KEY)
 
-    #    incoming = sys.stdin.readlines()
-    #    if (incoming != 'null') {
-    #        print(f"test incoming: {incoming}")
-    #    }
+def read_envs():
+    return {"GENEEA_API_KEY": os.environ.get("GENEEA_API_KEY")}
+
+
+def main():
+
+    args = read_args()
+    envs = read_envs()
+
+    client = Client(key=envs["GENEEA_API_KEY"])
 
     text = "\n".join(Client.read_phrases(args.input))
 
@@ -47,24 +53,18 @@ def main():
     match args.format:
         case None:
             format = "xml"
-        case "csv" | "xml":
-            args.format = args.format.lower()
+        case "csv" | "xml" | "json":
+            format = args.format.lower()
         case _:
             print("The allowed format is ('xml', 'csv').")
             sys.exit(1)
 
     match args.type:
-
         case "analysis":
             result = client.get_analysis(text)
-
-            if args.format == "xml":
-                client.write_full_analysis_to_XML(
-                    result,
-                    f"{args.input[0:args.input.index('.')]}_{args.type.lower()}.xml",
-                )
-
+            result = client.serialize(result, format)
             print(result)
+            # vs write to file with name = f"{args.input[0:args.input.index('.')]}_{args.type.lower()}.xml",
 
         case "account":
             result = client.get_account()
@@ -72,24 +72,10 @@ def main():
 
         case "entities":
             result = client.get_entities(text)
-
-            if args.xml == "xml":
-                client.write_tuple_to_XML(
-                    result,
-                    f"{args.input[0:args.input.index('.')]}_{args.type.lower()}.xml",
-                )
-
             print(result)
 
         case "tags":
             result = client.get_tags(text)
-
-            if args.xml == "xml":
-                client.write_tuple_to_XML(
-                    result,
-                    f"{args.input[0:args.input.index('.')]}_{args.type.lower()}.xml",
-                )
-
             print(result)
 
         case "sentiment":
@@ -102,5 +88,5 @@ def main():
 
         case _:
             print(
-                "Choose one of the following type: 'analysis', 'account', 'entities', 'tags', 'sentiment', 'relations', 'table'"
+                "Choose one of the following type: 'analysis', 'account', 'entities', 'tags', 'sentiment', 'relations'."
             )
