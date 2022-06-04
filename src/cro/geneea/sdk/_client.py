@@ -13,8 +13,7 @@ from typing import Optional
 
 from requests import post
 
-from cro.geneea.sdk._domain import (Account, Analysis, Entity, Relation,
-                                    Sentiment, Tag)
+from cro.geneea.sdk._domain import Account, Analysis, Entity, Relation, Sentiment, Tag
 
 __all__ = tuple(["Client"])
 
