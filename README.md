@@ -5,22 +5,22 @@
 ![language](https://img.shields.io/badge/language-Python_v3.10+-blue.svg)
 ![version](https://img.shields.io/badge/version-0.5.0-blue.svg)
 [![build](https://github.com/czech-radio/cro-geneea-sdk/actions/workflows/main.yml/badge.svg)](https://github.com/czech-radio/cro-geneea-sdk/actions/workflows/main.yml)
-[![reliability](https://sonarcloud.io/api/project_badges/measure?project=czech-radio_cro-geneea-sdk&metric=reliability_rating)](https://sonarcloud.io/dashboard?id=czech-radio_cro-geneea-sdk)
+
 
 **Python library to work with Geneea NLP REST service.**
 
-_The library SDK wrapper for [Geneea](https://geneea.com/) API that returns raw JSON or Pythonic domain model._
+_The library SDK wrapper for [Geneea](https://geneea.com/) and helpers for NLP analysis._
 
 :star: Star us on GitHub — it motivates us!
 
 ## Features
 
-- [ ] Get tags.
-- [ ] Get entities.
-- [ ] Gey relations.
-- [ ] Get analysis.
-- [ ] Get account.
-- [ ] get analysis.
+- [x] Get document tags.
+- [x] Get document entities.
+- [x] Get document relations.
+- [x] Get document sentiment.
+- [ ] Get complete analysis (tags, entities, relations).
+- [ ] Get account information.
 
 ## Installation
 
