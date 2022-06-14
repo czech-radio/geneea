@@ -51,8 +51,9 @@ class Client:
         self._url = "https://api.geneea.com/"
         self._timeout = (3, 30)  # The connection and read timeout in seconds.
         self._headers = {
-            "content-type": "application/json",
+            "Accept": "application/json; charset=UTF-8",
             "Authorization": f"user_key {self._key}",
+            "Content-Type": "application/json; charset=UTF-8",
         }
 
     def __eq__(self, that) -> bool:
@@ -124,6 +125,8 @@ class Client:
         except Exception as ex:
             logging.error(ex)
             raise ex
+
+    # ############################# FEATURES ################################ #
 
     def get_status(self) -> str:
         return NotImplemented
