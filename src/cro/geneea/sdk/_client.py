@@ -23,7 +23,9 @@ LOGGER = logging.getLogger(__name__)
 
 class Client:
     """
-    Geneea REST API client for https://api.geneea.com/
+    Geneea REST API client for https://api.geneea.com/.
+
+    Only synchronous (blocking) calls are implemented.
 
     base url: https://api.geneea.com/api-docs
 
@@ -31,7 +33,6 @@ class Client:
 
     Possible errors e.g.:
     {'exception': 'Exception', 'message': 'The requested resource is not available.'}
-
 
     201 	Created
     401 	Unauthorized
@@ -48,7 +49,7 @@ class Client:
         """
         self._key = key
         self._url = "https://api.geneea.com/"
-        self._timeout = 300.05  # The HTTP connection timeout in ms.
+        self._timeout = (3, 30)  # The connection and read timeout in seconds.
         self._headers = {
             "content-type": "application/json",
             "Authorization": f"user_key {self._key}",
@@ -109,7 +110,10 @@ class Client:
                 headers=self.headers,
                 timeout=self.timeout,
             )
+
             logging.info(response.status_code)
+
+            response.encoding = "utf-8"
 
             # @todo Check status code.
 
