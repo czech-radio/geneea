@@ -11,7 +11,6 @@ import os
 
 import requests
 
-
 URL = "https://api.geneea.com/"
 KEY = os.environ.get("GENEEA_API_KEY")
 HEADERS = {
