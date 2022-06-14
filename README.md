@@ -5,7 +5,7 @@
 ![language](https://img.shields.io/badge/language-Python_v3.10+-blue.svg)
 ![version](https://img.shields.io/badge/version-0.5.0-blue.svg)
 [![build](https://github.com/czech-radio/cro-geneea-sdk/actions/workflows/main.yml/badge.svg)](https://github.com/czech-radio/cro-geneea-sdk/actions/workflows/main.yml)
-[![quality](https://app.codacy.com/project/badge/Grade/da3fb452af474ddc940eb0194da8b6f9)](https://www.codacy.com/gh/czech-radio/cro-geneea-sdk/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=czech-radio/cro-geneea-sdk&amp;utm_campaign=Badge_Grade)
+[![quality](https://app.codacy.com/project/badge/Grade/da3fb452af474ddc940eb0194da8b6f9)](https://www.codacy.com/gh/czech-radio/cro-geneea-sdk/dashboard?utm_source=github.com&utm_medium=referral&utm_content=czech-radio/cro-geneea-sdk&utm_campaign=Badge_Grade)
 
 **Python library to work with Geneea NLP REST service.**
 
@@ -20,18 +20,18 @@ _The library SDK wrapper for [Geneea](https://geneea.com/) and helpers for NLP a
 - [x] Get document relations.
 - [x] Get document sentiment.
 - [ ] Get complete analysis (tags, entities, relations).
-- [ ] Get account information.
+- [x] Get account information.
 
 ## Installation
 
 **Prerequisites**
 
-* We assume that you use at least Python 3.9.
-* We assume that you use the virtual environment.
+- We assume that you use at least Python 3.9.
+- We assume that you use the virtual environment.
 
 One can install package from the GitHub repository.
 
-Activate the virtual environment.
+Activate the virtual environment:
 
 ```shell
 source .venv/bin/activate   # Unix
@@ -39,16 +39,22 @@ source .venv/bin/activate   # Unix
 .\.venv\Scripts\activate    # Windows
 ```
 
-Install the package.
+Install the package from GitHub:
 
 ```
 pip install git+https://github.com/czech-radio/cro-geneea-client.git
 ```
 
+Local develepment:
+
+```
+git clone https://github.com/czech-radio/cro-geneea-client.git
+pip install -e .[dev]
+```
+
 ## Usage
 
-Export the environent variables.
-
+Export the environment variables:
 
 ```shell
 export GENEEA_API_KEY=xxx    # Unix
