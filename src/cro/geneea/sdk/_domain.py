@@ -27,7 +27,8 @@ XML = str
 @dataclass(frozen=True)
 class Serializable:  # JSON:
     def to_json(self) -> JSON:
-        return json.dumps(dataclasses.asdict(self))
+        result = json.dumps(dataclasses.asdict(self), ensure_ascii=False)
+        return result
 
 
 @dataclass(frozen=True)
@@ -99,6 +100,26 @@ class Relation(Serializable):
     textRepr: str
     type: str
     args: Optional[Entity]
+
+
+@dataclass(frozen=True)
+class Paragraph(Serializable):
+    """
+    The text paragraph.
+    """
+
+    id: str
+    tokens: list[str]
+
+
+@dataclass(frozen=True)
+class Sentence(Serializable):
+    ...
+
+
+@dataclass(frozen=True)
+class Token(Serializable):
+    ...
 
 
 @dataclass(frozen=True)
@@ -217,47 +238,65 @@ class Analysis(Serializable):  # Aggregate
 
         root = ET.Element("document")
 
-        analysis = ET.SubElement(root, "Analysis")
-
         ET.SubElement(
-            analysis, "original", source_text_length=f"{len(self.original)}"
+            root, "original", length=f"{len(self.original)}"
         ).text = self.original
 
+        analysis = ET.SubElement(root, "analysis")
+
         ### Add Entities to XML tree
-        entities = ET.SubElement(analysis, "Entities")
+        entities = ET.SubElement(analysis, "entities")
         for obj in self.entities:
             ET.SubElement(
-                entities, "Entity", id=f"{obj.id}", type=f"{obj.type}"
+                entities, "entity", id=f"{obj.id}", type=f"{obj.type}"
             ).text = f"{obj.stdForm}"
 
         ### Add Tags to XML tree
-        tags = ET.SubElement(analysis, "Tags")
+        tags = ET.SubElement(analysis, "tags")
         for obj in self.tags:
             ET.SubElement(
-                tags, "Tag", id=f"{obj.id}", relevance=f"{obj.relevance}"
+                tags, "tag", id=f"{obj.id}", relevance=f"{obj.relevance}"
             ).text = f"{obj.stdForm}"
 
         ### Add Sentiment object to XML tree
-        sentiment = ET.SubElement(analysis, "Sentiment")
-        obj = self.sentiment
-        ET.SubElement(
-            sentiment,
-            "Sentiment",
-            mean=f"{obj.mean}",
-            positive=f"{obj.positive}",
-            negative=f"{obj.negative}",
-        ).text = f"{obj.label}"
+        sentiment = ET.SubElement(
+            analysis,
+            "sentiment",
+            mean=f"{self.sentiment.mean}",
+            positive=f"{self.sentiment.positive}",
+            negative=f"{self.sentiment.negative}",
+        ).text = f"{self.sentiment.label}"
 
         ### Add Relations to XML tree
-        relations = ET.SubElement(analysis, "Relations")
+        relations = ET.SubElement(analysis, "relations")
         for obj in self.relations:
             ET.SubElement(
                 relations,
-                "Relations",
+                "relation",
                 id=f"{obj.id}",
                 textRepr=f"{obj.textRepr}",
                 type=f"{obj.type}",
             ).text = f"{obj.name}"
+
+        ### Add Paragrahs to XML Tree
+        paragraphs = ET.SubElement(analysis, "paragraphs")
+        for obj in self.paragraphs:
+            paragraph_node = ET.SubElement(
+                paragraphs,
+                "paragraph",
+                id=f"{obj['id']}",
+                type=f"{obj['type']}",
+                text=obj["text"],
+            )
+            sentences = ET.SubElement(paragraph_node, "sentences")
+
+            for sentence in obj["sentences"]:
+                ET.SubElement(
+                    paragraph_node,
+                    "sentence",
+                    id=sentence["id"],
+                    tokens=sentence["tokens"],
+                )
 
         result = _normalize_xml(root)
 

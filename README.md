@@ -78,7 +78,55 @@ cro.geneea --input ./data/input.txt --type analysis --format json
 
 ANALYSIS
 --------
-{'version': '3.2.1', 'language': {'detected': 'cs'}, 'entities': [{'id': 'e0', 'stdForm': 'PRESENT_REF', 'type': 'date'}, {'id': 'e1', 'stdForm': 'uprchlíci', 'type': 'general'}, {'id': 'e2', 'stdForm': 'jídlo', 'type': 'general'}, {'id': 'e3', 'stdForm': 'krize', 'type': 'general'}], 'tags': [{'id': 't0', 'stdForm': 'narativ', 'type': 'base', 'relevance': 4.0}, {'id': 't1', 'stdForm': 'jídlo', 'type': 'base', 'relevance': 4.0}, {'id': 't2', 'stdForm': 'uprchlíci', 'type': 'base', 'relevance': 4.0}, {'id': 't3', 'stdForm': 'krize', 'type': 'base', 'relevance': 4.0}, {'id': 't4', 'stdForm': 'ubytovávání', 'type': 'base', 'relevance': 2.555}], 'relations': [{'id': 'r0', 'name': 'ukrajinský', 'textRepr': 'ukrajinský(uprchlíci)', 'type': 'ATTR', 'args': [{'type': 'SUBJECT', 'name': 'uprchlíci', 'entityId': 'e1'}], 'feats': {'negated': 'false', 'modality': ''}}, {'id': 'r1', 'name': 'vážit si', 'textRepr': 'vážit si-not(který,jídlo)', 'type': 'VERB', 'args': [{'type': 'SUBJECT', 'name': 'který'}, {'type': 'OBJECT', 'name': 'jídlo', 'entityId': 'e2'}], 'feats': {'negated': 'true', 'modality': ''}}, {'id': 'r2', 'name': 'sdílet', 'textRepr': 'sdílet(člověk,narativ)', 'type': 'VERB', 'args': [{'type': 'SUBJECT', 'name': 'člověk'}, {'type': 'OBJECT', 'name': 'narativ'}], 'feats': {'negated': 'false', 'modality': ''}}, {'id': 'r3', 'name': 'uprchlický', 'textRepr': 'uprchlický(krize)', 'type': 'ATTR', 'args': [{'type': 'SUBJECT', 'name': 'krize', 'entityId': 'e3'}], 'feats': {'negated': 'false', 'modality': ''}}, {'id': 'r4', 'name': 'převažovat', 'textRepr': 'převažovat(narativ)', 'type': 'VERB', 'args': [{'type': 'OBJECT', 'name': 'narativ'}], 'feats': {'negated': 'false', 'modality': ''}}, {'id': 'r5', 'name': 'další', 'textRepr': 'další(narativ)', 'type': 'ATTR', 'args': [{'type': 'SUBJECT', 'name': 'narativ'}], 'feats': {'negated': 'false', 'modality': ''}}], 'docSentiment': {'mean': -0.1, 'label': 'negative', 'positive': 0.0, 'negative': -0.1}, 'usedChars': 197}
+```
+
+```json
+{"original": "Populární známka se prodávala na jediném místě v centru Kyjeva, kde na ni každý den čekaly stovky lidí. Mezitím se arch šesti známek prodává na inzertních serverech za více než 10 tisíc korun.\n", "analyzed": {"version": "3.2.1", "language": {"detected": "cs"}, "paragraphs": [{"id": "p0", "type": "BODY", "text": "Populární známka se prodávala na jediném místě v centru Kyjeva, kde na ni každý den čekaly stovky lidí. Mezitím se arch šesti známek prodává na inzertních serverech za více než 10 tisíc korun.", "sentences": [{"id": "s0", "tokens": [{"id": "w0", "off": 0, "text": "Populární"}, {"id": "w1", "off": 10, "text": "známka"}, {"id": "w2", "off": 17, "text": "se"}, {"id": "w3", "off": 20, "text": "prodávala"}, {"id": "w4", "off": 30, "text": "na"}, {"id": "w5", "off": 33, "text": "jediném"}, {"id": "w6", "off": 41, "text": "místě"}, {"id": "w7", "off": 47, "text": "v"}, {"id": "w8", "off": 49, "text": "centru"}, {"id": "w9", "off": 56, "text": "Kyjeva"}, {"id": "w10", "off": 62, "text": ","}, {"id": "w11", "off": 64, "text": "kde"}, {"id": "w12", "off": 68, "text": "na"}, {"id": "w13", "off": 71, "text": "ni"}, {"id": "w14", "off": 74, "text": "každý"}, {"id": "w15", "off": 80, "text": "den"}, {"id": "w16", "off": 84, "text": "čekaly"}, {"id": "w17", "off": 91, "text": "stovky"}, {"id": "w18", "off": 98, "text": "lidí"}, {"id": "w19", "off": 102, "text": "."}]}, {"id": "s1", "tokens": [{"id": "w20", "off": 104, "text": "Mezitím"}, {"id": "w21", "off": 112, "text": "se"}, {"id": "w22", "off": 115, "text": "arch"}, {"id": "w23", "off": 120, "text": "šesti"}, {"id": "w24", "off": 126, "text": "známek"}, {"id": "w25", "off": 133, "text": "prodává"}, {"id": "w26", "off": 141, "text": "na"}, {"id": "w27", "off": 144, "text": "inzertních"}, {"id": "w28", "off": 155, "text": "serverech"}, {"id": "w29", "off": 165, "text": "za"}, {"id": "w30", "off": 168, "text": "více"}, {"id": "w31", "off": 173, "text": "než"}, {"id": "w32", "off": 177, "text": "10"}, {"id": "w33", "off": 180, "text": "tisíc"}, {"id": "w34", "off": 186, "text": "korun"}, {"id": "w35", "off": 191, "text": "."}]}]}], "entities": [{"id": "e0", "stdForm": "P1D", "type": "set", "mentions": [{"id": "m0", "mwl": "každý den", "text": "každý den", "tokenIds": ["w14", "w15"]}]}, {"id": "e1", "stdForm": "10", "type": "number", "mentions": [{"id": "m1", "mwl": "10", "text": "10", "tokenIds": ["w32"]}]}, {"id": "e2", "stdForm": "Kyjev", "type": "location", "mentions": [{"id": "m2", "mwl": "Kyjev", "text": "Kyjeva", "tokenIds": ["w9"]}]}], "tags": [{"id": "t0", "stdForm": "známka", "type": "base", "relevance": 3.917, "mentions": [{"id": "m3", "text": "známka", "tokenIds": ["w1"]}, {"id": "m4", "text": "známek", "tokenIds": ["w24"]}]}, {"id": "t1", "stdForm": "inzertní server", "type": "base", "relevance": 3.0, "mentions": [{"id": "m5", "text": "inzertních serverech", "tokenIds": ["w27", "w28"]}]}, {"id": "t2", "stdForm": "centrum Kyjeva", "type": "base", "relevance": 2.816, "mentions": [{"id": "m6", "text": "centru Kyjeva", "tokenIds": ["w8", "w9"]}]}, {"id": "t3", "stdForm": "arch", "type": "base", "relevance": 2.714, "mentions": [{"id": "m7", "text": "arch", "tokenIds": ["w22"]}]}, {"id": "t4", "stdForm": "jediné místo", "type": "base", "relevance": 2.703, "mentions": [{"id": "m8", "text": "jediném místě", "tokenIds": ["w5", "w6"]}]}], "relations": [{"id": "r0", "name": "prodávat", "textRepr": "prodávat(známka)", "type": "VERB", "args": [{"type": "OBJECT", "name": "známka"}], "feats": {"negated": "false", "modality": ""}, "support": [{"tokenIds": ["w3", "w2"]}]}, {"id": "r1", "name": "čekat", "textRepr": "čekat(stovka)", "type": "VERB", "args": [{"type": "SUBJECT", "name": "stovka"}], "feats": {"negated": "false", "modality": ""}, "support": [{"tokenIds": ["w16"]}]}, {"id": "r2", "name": "každý", "textRepr": "každý(den)", "type": "ATTR", "args": [{"type": "SUBJECT", "name": "den"}], "feats": {"negated": "false", "modality": ""}, "support": [{"tokenIds": ["w14"]}]}, {"id": "r3", "name": "populární", "textRepr": "populární(známka)", "type": "ATTR", "args": [{"type": "SUBJECT", "name": "známka"}], "feats": {"negated": "false", "modality": ""}, "support": [{"tokenIds": ["w0"]}]}, {"id": "r4", "name": "jediný", "textRepr": "jediný(místo)", "type": "ATTR", "args": [{"type": "SUBJECT", "name": "místo"}], "feats": {"negated": "false", "modality": ""}, "support": [{"tokenIds": ["w5"]}]}, {"id": "r5", "name": "prodávat", "textRepr": "prodávat(arch)", "type": "VERB", "args": [{"type": "OBJECT", "name": "arch"}], "feats": {"negated": "false", "modality": ""}, "support": [{"tokenIds": ["w25", "w21"]}]}, {"id": "r6", "name": "inzertní", "textRepr": "inzertní(server)", "type": "ATTR", "args": [{"type": "SUBJECT", "name": "server"}], "feats": {"negated": "false", "modality": ""}, "support": [{"tokenIds": ["w27"]}]}], "docSentiment": {"mean": 0.0, "label": "neutral", "positive": 0.0, "negative": 0.0}, "usedChars": 193}}
+```
+
+```
+cro.geneea --input ./data/input.txt --type analysis --format xml
+
+ANALYSIS
+--------
+```
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<document>
+  <original length="193">Populární známka se prodávala na jediném místě v centru Kyjeva, kde na ni každý den čekaly stovky lidí. Mezitím se arch šesti známek prodává na inzertních serverech za více než 10 tisíc korun.</original>
+  <analysis>
+    <entities>
+      <entity id="e0" type="set">P1D</entity>
+      <entity id="e1" type="number">10</entity>
+      <entity id="e2" type="location">Kyjev</entity>
+    </entities>
+    <tags>
+      <tag id="t0" relevance="3.917">známka</tag>
+      <tag id="t1" relevance="3.0">inzertní server</tag>
+      <tag id="t2" relevance="2.816">centrum Kyjeva</tag>
+      <tag id="t3" relevance="2.714">arch</tag>
+      <tag id="t4" relevance="2.703">jediné místo</tag>
+    </tags>
+    <sentiment mean="0.0" positive="0.0" negative="0.0">neutral</sentiment>
+    <relations>
+      <relation id="r0" textRepr="prodávat(známka)" type="VERB">prodávat</relation>
+      <relation id="r1" textRepr="čekat(stovka)" type="VERB">čekat</relation>
+      <relation id="r2" textRepr="každý(den)" type="ATTR">každý</relation>
+      <relation id="r3" textRepr="populární(známka)" type="ATTR">populární</relation>
+      <relation id="r4" textRepr="jediný(místo)" type="ATTR">jediný</relation>
+      <relation id="r5" textRepr="prodávat(arch)" type="VERB">prodávat</relation>
+      <relation id="r6" textRepr="inzertní(server)" type="ATTR">inzertní</relation>
+    </relations>
+    <paragraphs>
+      <paragraph id="p0" type="BODY" text="Populární známka se prodávala na jediném místě v centru Kyjeva, kde na ni každý den čekaly stovky lidí. Mezitím se arch šesti známek prodává na inzertních serverech za více než 10 tisíc korun.">
+        <sentences />
+        <sentence id="s0" tokens="[{'id': 'w0', 'off': 0, 'text': 'Populární'}, {'id': 'w1', 'off': 10, 'text': 'známka'}, {'id': 'w2', 'off': 17, 'text': 'se'}, {'id': 'w3', 'off': 20, 'text': 'prodávala'}, {'id': 'w4', 'off': 30, 'text': 'na'}, {'id': 'w5', 'off': 33, 'text': 'jediném'}, {'id': 'w6', 'off': 41, 'text': 'místě'}, {'id': 'w7', 'off': 47, 'text': 'v'}, {'id': 'w8', 'off': 49, 'text': 'centru'}, {'id': 'w9', 'off': 56, 'text': 'Kyjeva'}, {'id': 'w10', 'off': 62, 'text': ','}, {'id': 'w11', 'off': 64, 'text': 'kde'}, {'id': 'w12', 'off': 68, 'text': 'na'}, {'id': 'w13', 'off': 71, 'text': 'ni'}, {'id': 'w14', 'off': 74, 'text': 'každý'}, {'id': 'w15', 'off': 80, 'text': 'den'}, {'id': 'w16', 'off': 84, 'text': 'čekaly'}, {'id': 'w17', 'off': 91, 'text': 'stovky'}, {'id': 'w18', 'off': 98, 'text': 'lidí'}, {'id': 'w19', 'off': 102, 'text': '.'}]" />
+        <sentence id="s1" tokens="[{'id': 'w20', 'off': 104, 'text': 'Mezitím'}, {'id': 'w21', 'off': 112, 'text': 'se'}, {'id': 'w22', 'off': 115, 'text': 'arch'}, {'id': 'w23', 'off': 120, 'text': 'šesti'}, {'id': 'w24', 'off': 126, 'text': 'známek'}, {'id': 'w25', 'off': 133, 'text': 'prodává'}, {'id': 'w26', 'off': 141, 'text': 'na'}, {'id': 'w27', 'off': 144, 'text': 'inzertních'}, {'id': 'w28', 'off': 155, 'text': 'serverech'}, {'id': 'w29', 'off': 165, 'text': 'za'}, {'id': 'w30', 'off': 168, 'text': 'více'}, {'id': 'w31', 'off': 173, 'text': 'než'}, {'id': 'w32', 'off': 177, 'text': '10'}, {'id': 'w33', 'off': 180, 'text': 'tisíc'}, {'id': 'w34', 'off': 186, 'text': 'korun'}, {'id': 'w35', 'off': 191, 'text': '.'}]" />
+      </paragraph>
+    </paragraphs>
+  </analysis>
+</document>
 ```
 
 ### Use as a library
