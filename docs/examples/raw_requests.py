@@ -37,12 +37,24 @@ if __name__ == "__main__":
     # print(prepared.method)
     # print(prepared.__dict__)
 
-    result = requests.post(
+    print("--GET--")
+
+    result = requests.get(
         f"{URL}/v3/analysis",
-        json={"text": PHRASE},
         headers=HEADERS,
         timeout=TIMEOUT,
-        # params={"paragraphs": True}
+        params={"text": PHRASE, "returnMentions": "true"},
+    )
+
+    print(result.json())
+
+    print("--POST--")
+
+    result = requests.post(
+        f"{URL}/v3/analysis",
+        headers=HEADERS,
+        timeout=TIMEOUT,
+        json={"text": PHRASE, "returnMentions": "true"},
     )
 
     print(result.json())

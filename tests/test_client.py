@@ -5,7 +5,7 @@ import os
 
 import pytest
 
-from cro.geneea.sdk import Client, Entity, Sentiment
+from cro.geneea.sdk import Client, Entity, Sentiment, Analysis
 
 
 @pytest.fixture
@@ -22,8 +22,8 @@ def phrases():
 
 @pytest.mark.client
 def test_that_client_fetches_analysis(client, phrases):
-    result = client.get_analysis(phrases)
-    print(result)
+    result: Analysis = client.get_analysis(phrases)
+    assert result.paragraphs is not None
     assert len(result) > 0
 
 

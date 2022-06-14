@@ -48,7 +48,7 @@ class Client:
         :param key: The secret access key.
         """
         self._key = key
-        self._url = "https://api.geneea.com/"
+        self._url = "https://api.geneea.com/"  # or "https://api.geneea.com/v3/analysis/T:CRo-transcripts"
         self._timeout = (3, 30)  # The connection and read timeout in seconds.
         self._headers = {
             "Accept": "application/json; charset=UTF-8",
@@ -107,7 +107,7 @@ class Client:
         try:
             response = post(
                 f"{self.url}/v3/{endpoint}",
-                json={"text": data},
+                json={"text": data, "returnMentions": "true"},
                 headers=self.headers,
                 timeout=self.timeout,
             )
