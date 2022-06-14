@@ -21,6 +21,7 @@ _The library SDK wrapper for [Geneea](https://geneea.com/) and helpers for NLP a
 - [x] Get document sentiment.
 - [ ] Get complete analysis (tags, entities, relations).
 - [x] Get account information.
+- [ ] Get status.
 
 ## Installation
 
