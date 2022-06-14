@@ -185,6 +185,10 @@ class Analysis(Serializable):  # Aggregate
         return Account(None, None)
 
     @property
+    def paragraphs(self) -> Any:
+        return self.analyzed["paragraphs"]
+
+    @property
     def version(self):
         return self.analyzed["version"]
 

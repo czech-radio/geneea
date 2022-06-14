@@ -107,16 +107,13 @@ class Client:
         try:
             response = post(
                 f"{self.url}/v3/{endpoint}",
-                json={"text": data, "params": ["paragraphs"]},
+                json={"text": data},
                 headers=self.headers,
                 timeout=self.timeout,
             )
-
-            logging.info(response.status_code)
-
             response.encoding = "utf-8"
-
             # @todo Check status code.
+            logging.info(response.status_code)
 
             result = Analysis(original=data, analyzed=response.json())
 

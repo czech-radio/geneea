@@ -24,11 +24,25 @@ TIMEOUT = 300
 
 if __name__ == "__main__":
 
+    # request = requests.Request("POST",
+    #     f"{URL}/v3/analysis",
+    #     json={"text": PHRASE},
+    #     headers=HEADERS,
+    #     # timeout=TIMEOUT,
+    #     # params={"paragraphs": True}
+    # )
+
+    # prepared = request.prepare()
+
+    # print(prepared.method)
+    # print(prepared.__dict__)
+
     result = requests.post(
         f"{URL}/v3/analysis",
         json={"text": PHRASE},
         headers=HEADERS,
         timeout=TIMEOUT,
+        # params={"paragraphs": True}
     )
 
     print(result.json())
