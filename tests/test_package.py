@@ -11,4 +11,4 @@ from cro.geneea.sdk import __version__
 
 @pytest.mark.package
 def test_version():
-    assert __version__ == "0.5.0"
+    assert __version__ == "0.6.0"

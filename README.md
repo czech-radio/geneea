@@ -3,7 +3,7 @@
 [RELEASES](https://github.com/czech-radio/cro-geneea-sdk/releases/) | [WEBSITE](https://czech-radio.github.io/cro-geneea-sdk/)
 
 ![language](https://img.shields.io/badge/language-Python_v3.10+-blue.svg)
-![version](https://img.shields.io/badge/version-0.5.0-blue.svg)
+![version](https://img.shields.io/badge/version-0.6.0-blue.svg)
 [![build](https://github.com/czech-radio/cro-geneea-sdk/actions/workflows/main.yml/badge.svg)](https://github.com/czech-radio/cro-geneea-sdk/actions/workflows/main.yml)
 [![quality](https://app.codacy.com/project/badge/Grade/da3fb452af474ddc940eb0194da8b6f9)](https://www.codacy.com/gh/czech-radio/cro-geneea-sdk/dashboard?utm_source=github.com&utm_medium=referral&utm_content=czech-radio/cro-geneea-sdk&utm_campaign=Badge_Grade)
 

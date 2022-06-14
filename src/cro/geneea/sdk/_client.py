@@ -19,7 +19,6 @@ __all__ = tuple(["Client"])
 
 
 LOGGER = logging.getLogger(__name__)
-TIMEOUT = 300.05  # The HTTP connection timeout.
 
 
 class Client:
@@ -41,8 +40,6 @@ class Client:
 
     """
 
-    __URL__: str = "https://api.geneea.com/"
-
     def __init__(self, key: str) -> None:
         """
         Create a new client with the given secret key.
@@ -50,6 +47,8 @@ class Client:
         :param key: The secret access key.
         """
         self._key = key
+        self._url = "https://api.geneea.com/"
+        self._timeout = 300.05  # The HTTP connection timeout in ms.
         self._headers = {
             "content-type": "application/json",
             "Authorization": f"user_key {self._key}",
@@ -70,7 +69,15 @@ class Client:
         self._key = value
 
     @property
-    def headers(self):
+    def url(self) -> str:
+        return self._url
+
+    @property
+    def timeout(self) -> int:
+        return self._timeout
+
+    @property
+    def headers(self) -> dict:
         return self._headers
 
     @classmethod
@@ -97,10 +104,10 @@ class Client:
     def _post(self, endpoint, data=None) -> None:
         try:
             response = post(
-                f"{self.__URL__}/v3/{endpoint}",
+                f"{self.url}/v3/{endpoint}",
                 json={"text": data, "params": ["paragraphs"]},
                 headers=self.headers,
-                timeout=TIMEOUT,
+                timeout=self.timeout,
             )
             logging.info(response.status_code)
 

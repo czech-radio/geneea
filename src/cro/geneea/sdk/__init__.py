@@ -13,4 +13,4 @@ __all__ = tuple(
     ["Client", "Analysis", "Account", "Sentiment", "Entity", "Relation", "Tag"]
 )
 
-__version__ = "0.5.0"
+__version__ = "0.6.0"
