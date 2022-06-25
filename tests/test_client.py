@@ -5,7 +5,7 @@ import os
 
 import pytest
 
-from cro.geneea.sdk import Client, Entity, Sentiment, Analysis
+from cro.geneea.sdk import Analysis, Client, Entity, Sentiment
 
 
 @pytest.fixture
@@ -15,7 +15,7 @@ def client():
 
 @pytest.fixture
 def phrases():
-    with open("data/input.txt", encoding="utf8") as file:
+    with open("docs/data/input.txt", encoding="utf8") as file:
         phrases = "\n".join(file.readlines())
     return phrases
 
@@ -35,7 +35,7 @@ def test_that_client_fetches_entities(client, phrases):
 
 @pytest.mark.client
 def test_that_client_fetches_sentiment(client):
-    result: Sentiment = client.get_sentiment("hodne me nebavi mluvit")
+    result: Sentiment = client.get_sentiment("Hodně mě nebavi mluvit.")
     assert result.label == "negative"
 
 
