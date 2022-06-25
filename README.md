@@ -74,7 +74,7 @@ cro.geneea --input <file_name> --type <type_name> --format <format_name>
 e.g.
 
 ```
-cro.geneea --input ./data/input.txt --type analysis --format json
+cro.geneea --input ./docs/data/input.txt --type analysis --format json
 
 ANALYSIS
 --------
@@ -568,41 +568,44 @@ ANALYSIS
 ```
 
 ```xml
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" ?>
 <document>
-  <original length="193">Populární známka se prodávala na jediném místě v centru Kyjeva, kde na ni každý den čekaly stovky lidí. Mezitím se arch šesti známek prodává na inzertních serverech za více než 10 tisíc korun.</original>
-  <analysis>
-    <entities>
-      <entity id="e0" type="set">P1D</entity>
-      <entity id="e1" type="number">10</entity>
-      <entity id="e2" type="location">Kyjev</entity>
-    </entities>
-    <tags>
-      <tag id="t0" relevance="3.917">známka</tag>
-      <tag id="t1" relevance="3.0">inzertní server</tag>
-      <tag id="t2" relevance="2.816">centrum Kyjeva</tag>
-      <tag id="t3" relevance="2.714">arch</tag>
-      <tag id="t4" relevance="2.703">jediné místo</tag>
-    </tags>
-    <sentiment mean="0.0" positive="0.0" negative="0.0">neutral</sentiment>
-    <relations>
-      <relation id="r0" textRepr="prodávat(známka)" type="VERB">prodávat</relation>
-      <relation id="r1" textRepr="čekat(stovka)" type="VERB">čekat</relation>
-      <relation id="r2" textRepr="každý(den)" type="ATTR">každý</relation>
-      <relation id="r3" textRepr="populární(známka)" type="ATTR">populární</relation>
-      <relation id="r4" textRepr="jediný(místo)" type="ATTR">jediný</relation>
-      <relation id="r5" textRepr="prodávat(arch)" type="VERB">prodávat</relation>
-      <relation id="r6" textRepr="inzertní(server)" type="ATTR">inzertní</relation>
-    </relations>
-    <paragraphs>
-      <paragraph id="p0" type="BODY" text="Populární známka se prodávala na jediném místě v centru Kyjeva, kde na ni každý den čekaly stovky lidí. Mezitím se arch šesti známek prodává na inzertních serverech za více než 10 tisíc korun.">
-        <sentences />
-        <sentence id="s0" tokens="[{'id': 'w0', 'off': 0, 'text': 'Populární'}, {'id': 'w1', 'off': 10, 'text': 'známka'}, {'id': 'w2', 'off': 17, 'text': 'se'}, {'id': 'w3', 'off': 20, 'text': 'prodávala'}, {'id': 'w4', 'off': 30, 'text': 'na'}, {'id': 'w5', 'off': 33, 'text': 'jediném'}, {'id': 'w6', 'off': 41, 'text': 'místě'}, {'id': 'w7', 'off': 47, 'text': 'v'}, {'id': 'w8', 'off': 49, 'text': 'centru'}, {'id': 'w9', 'off': 56, 'text': 'Kyjeva'}, {'id': 'w10', 'off': 62, 'text': ','}, {'id': 'w11', 'off': 64, 'text': 'kde'}, {'id': 'w12', 'off': 68, 'text': 'na'}, {'id': 'w13', 'off': 71, 'text': 'ni'}, {'id': 'w14', 'off': 74, 'text': 'každý'}, {'id': 'w15', 'off': 80, 'text': 'den'}, {'id': 'w16', 'off': 84, 'text': 'čekaly'}, {'id': 'w17', 'off': 91, 'text': 'stovky'}, {'id': 'w18', 'off': 98, 'text': 'lidí'}, {'id': 'w19', 'off': 102, 'text': '.'}]" />
-        <sentence id="s1" tokens="[{'id': 'w20', 'off': 104, 'text': 'Mezitím'}, {'id': 'w21', 'off': 112, 'text': 'se'}, {'id': 'w22', 'off': 115, 'text': 'arch'}, {'id': 'w23', 'off': 120, 'text': 'šesti'}, {'id': 'w24', 'off': 126, 'text': 'známek'}, {'id': 'w25', 'off': 133, 'text': 'prodává'}, {'id': 'w26', 'off': 141, 'text': 'na'}, {'id': 'w27', 'off': 144, 'text': 'inzertních'}, {'id': 'w28', 'off': 155, 'text': 'serverech'}, {'id': 'w29', 'off': 165, 'text': 'za'}, {'id': 'w30', 'off': 168, 'text': 'více'}, {'id': 'w31', 'off': 173, 'text': 'než'}, {'id': 'w32', 'off': 177, 'text': '10'}, {'id': 'w33', 'off': 180, 'text': 'tisíc'}, {'id': 'w34', 'off': 186, 'text': 'korun'}, {'id': 'w35', 'off': 191, 'text': '.'}]" />
-      </paragraph>
-    </paragraphs>
-  </analysis>
+    <content length="193">Populární známka se prodávala na jediném místě v centru Kyjeva, kde na ni každý den čekaly stovky lidí. Mezitím se arch šesti známek prodává na inzertních serverech za více než 10 tisíc korun.
+    </original>
+    <analysis>
+        <entities>
+            <entity id="e0" type="set">P1D</entity>
+            <entity id="e1" type="number">10</entity>
+            <entity id="e2" type="location">Kyjev</entity>
+        </entities>
+        <tags>
+            <tag id="t0" relevance="3.917">známka</tag>
+            <tag id="t1" relevance="3.0">inzertní server</tag>
+            <tag id="t2" relevance="2.816">centrum Kyjeva</tag>
+            <tag id="t3" relevance="2.714">arch</tag>
+            <tag id="t4" relevance="2.703">jediné místo</tag>
+        </tags>
+        <sentiment mean="0.0" positive="0.0" negative="0.0">neutral</sentiment>
+        <relations>
+            <relation id="r0" textRepr="prodávat(známka)" type="VERB">prodávat</relation>
+            <relation id="r1" textRepr="čekat(stovka)" type="VERB">čekat</relation>
+            <relation id="r2" textRepr="každý(den)" type="ATTR">každý</relation>
+            <relation id="r3" textRepr="populární(známka)" type="ATTR">populární</relation>
+            <relation id="r4" textRepr="jediný(místo)" type="ATTR">jediný</relation>
+            <relation id="r5" textRepr="prodávat(arch)" type="VERB">prodávat</relation>
+            <relation id="r6" textRepr="inzertní(server)" type="ATTR">inzertní</relation>
+        </relations>
+        <paragraphs>
+            <paragraph id="p0" type="BODY" text="Populární známka se prodávala na jediném místě v centru Kyjeva, kde na ni každý den čekaly stovky lidí. Mezitím se arch šesti známek prodává na inzertních serverech za více než 10 tisíc korun.">
+                <sentences>
+                    <sentence id="s0" tokens="[{'id': 'w0', 'off': 0, 'text': 'Populární'}, {'id': 'w1', 'off': 10, 'text': 'známka'}, {'id': 'w2', 'off': 17, 'text': 'se'}, {'id': 'w3', 'off': 20, 'text': 'prodávala'}, {'id': 'w4', 'off': 30, 'text': 'na'}, {'id': 'w5', 'off': 33, 'text': 'jediném'}, {'id': 'w6', 'off': 41, 'text': 'místě'}, {'id': 'w7', 'off': 47, 'text': 'v'}, {'id': 'w8', 'off': 49, 'text': 'centru'}, {'id': 'w9', 'off': 56, 'text': 'Kyjeva'}, {'id': 'w10', 'off': 62, 'text': ','}, {'id': 'w11', 'off': 64, 'text': 'kde'}, {'id': 'w12', 'off': 68, 'text': 'na'}, {'id': 'w13', 'off': 71, 'text': 'ni'}, {'id': 'w14', 'off': 74, 'text': 'každý'}, {'id': 'w15', 'off': 80, 'text': 'den'}, {'id': 'w16', 'off': 84, 'text': 'čekaly'}, {'id': 'w17', 'off': 91, 'text': 'stovky'}, {'id': 'w18', 'off': 98, 'text': 'lidí'}, {'id': 'w19', 'off': 102, 'text': '.'}]"/>
+                    <sentence id="s1" tokens="[{'id': 'w20', 'off': 104, 'text': 'Mezitím'}, {'id': 'w21', 'off': 112, 'text': 'se'}, {'id': 'w22', 'off': 115, 'text': 'arch'}, {'id': 'w23', 'off': 120, 'text': 'šesti'}, {'id': 'w24', 'off': 126, 'text': 'známek'}, {'id': 'w25', 'off': 133, 'text': 'prodává'}, {'id': 'w26', 'off': 141, 'text': 'na'}, {'id': 'w27', 'off': 144, 'text': 'inzertních'}, {'id': 'w28', 'off': 155, 'text': 'serverech'}, {'id': 'w29', 'off': 165, 'text': 'za'}, {'id': 'w30', 'off': 168, 'text': 'více'}, {'id': 'w31', 'off': 173, 'text': 'než'}, {'id': 'w32', 'off': 177, 'text': '10'}, {'id': 'w33', 'off': 180, 'text': 'tisíc'}, {'id': 'w34', 'off': 186, 'text': 'korun'}, {'id': 'w35', 'off': 191, 'text': '.'}]"/>
+                </sentences>
+            </paragraph>
+        </paragraphs>
+    </analysis>
 </document>
+
 ```
 
 ### Use as a library

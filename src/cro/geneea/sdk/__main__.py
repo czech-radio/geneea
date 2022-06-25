@@ -57,7 +57,7 @@ def main():
         case "csv" | "xml" | "json":
             format = args.format.lower()
         case _:
-            print("The allowed format is ('xml', 'csv').")
+            print("The allowed format is ('xml', 'json', 'csv').")
             sys.exit(1)
 
     match args.type:

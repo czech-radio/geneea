@@ -25,11 +25,11 @@ class Client:
     """
     Geneea REST API client for https://api.geneea.com/.
 
-    Only synchronous (blocking) calls are implemented.
+    Only synchronous (blocking) calls are implemented at this moment.
 
     base url: https://api.geneea.com/api-docs
 
-    See example JSON output in project `data` folder.
+    See example JSON output in project `docs/data` folder.
 
     Possible errors e.g.:
     {'exception': 'Exception', 'message': 'The requested resource is not available.'}
@@ -96,11 +96,12 @@ class Client:
 
         match format:
             case "xml":
-                result = model.to_xml()
+                result: str = model.to_xml()
             case "json":
-                result = model.to_json()
+                result: str = model.to_json()
             case _:
                 raise ValueError(f"Supported formats are ('xml, 'json').")
+
         return result
 
     def _post(self, endpoint, data=None) -> None:
@@ -123,7 +124,7 @@ class Client:
             logging.error(ex)
             raise ex
 
-    # ############################# FEATURES ################################ #
+    # ################################### FEATURES ################################### #
 
     def get_status(self) -> str:
         return NotImplemented

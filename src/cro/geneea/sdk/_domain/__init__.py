@@ -8,42 +8,61 @@ Contains a domain model for Geneea NLP service.
 
 from __future__ import annotations
 
-import dataclasses
+import enum
 import json
-import xml.etree.cElementTree as ET
 from dataclasses import dataclass
 from typing import List, Optional
+import xml.dom.minidom
+import xml.etree.cElementTree as ET
 
 import pandas as pd
 
-__all__ = tuple(["Tag", "Account", "Entity", "Sentiment", "Relation", "Analysis"])
+__all__ = tuple([
+    "Account", 
+    "Entity", 
+    "Tag", 
+    "Sentence",
+    "Sentiment", 
+    "Paragraphs",
+    "Relation", 
+    "Analysis",
+    "Document",
+])
 
+# #################################################################################### #
 
 Text = str
 JSON = str
 XML = str
 
+# #################################################################################### #
 
-@dataclass(frozen=True)
-class Serializable:  # JSON:
+
+@dataclass(frozen=True, slots=True)
+class Serializable:
+    # [ ] XML Serializable
+    # [x] JSON Serializable
     def to_json(self) -> JSON:
         result = json.dumps(dataclasses.asdict(self), ensure_ascii=False)
         return result
 
 
-@dataclass(frozen=True)
-class Tag(Serializable):
+@dataclass(frozen=True, slots=True)
+class Identifiable:
+    id: str
+
+# #################################################################################### #
+
+@dataclass(frozen=True, slots=True)
+class Tag(Identifiable, Serializable):
     """
     Tags derived from the document content.
     """
-
-    id: str
-    stdForm: str
-    type: str
-    relevance: float
+    relevance: str # FIXME we want float
+    # type: str # ???
 
 
-@dataclass(frozen=True)
+@dataclass(frozen=True, slots=True)
 class Account(Serializable):
     """
     The Geneeas account informations.
@@ -53,79 +72,137 @@ class Account(Serializable):
     remainingQuotas: str
 
 
-@dataclass(frozen=True)
-class Entity(Serializable):
+class EntityType(enum.Enum):
+    SET = "set"
+    NUMBER = "number"
+    DURATION = "diration"
+    ORGANIZATION = "organization"
+    LOCATION = "location"
+
+
+@dataclass(frozen=True, slots=True)
+class Entity(Identifiable, Serializable):
     """
     Entities extracted from the document content.
     """
-
-    id: str
     # gkbId: Optional[str] # The recognized entities gets `gkbId`.
     stdForm: str
     type: str
 
 
-# class EntityType(enun):
-#     duration
-#     organization
-#     ...
+class RelationType(enum.Enum):
+    VERB = "verb"
+    ATTR = "attr"
 
 
-# class relationType(enum):
-#     VERB
-#     ATTR
-#     ...
-
-
-@dataclass(frozen=True)
+@dataclass(frozen=True, slots=True)
 class Sentiment(Serializable):
     """
     Sentiment of the whole document content.
     """
-
-    mean: float
-    label: str
+    # numerical values
+    mean: float # FIXME In XML str: we wants float 
     positive: float
     negative: float
+    # textual value <== numerical values
+    label: str # ??? neutral ...
 
 
-@dataclass(frozen=True)
-class Relation(Serializable):
+@dataclass(frozen=True, slots=True)
+class Relation(Identifiable, Serializable):
     """
     The relations between entities.
     """
-
-    id: str
-    name: str
-    textRepr: str
-    type: str
+    type: str # FIXME Enum
+    textRepr: str # FIXME camelcase to snake_case or shorten
+    
+    name: str # ???
     args: Optional[Entity]
 
+    def __post_init__(self):
+        # Check that `id` == r{number}
+        pass
 
-@dataclass(frozen=True)
-class Paragraph(Serializable):
-    """
-    The text paragraph.
-    """
+# #################################################################################### #
 
-    id: str
-    tokens: list[str]
-
-
-@dataclass(frozen=True)
-class Sentence(Serializable):
-    ...
-
-
-@dataclass(frozen=True)
+@dataclass(frozen=True, slots=True)
 class Token(Serializable):
-    ...
+    """
+    The token (word or interpunction).
+
+    The position within raw text is offset + len(text). 
+    """
+    id: str
+    text: str
+    offset: int
+    relevance: float # FIXME It is the string in XML: we want float.
+
+    def __post_init__(self) -> None:
+        # Check that `id == w{integer >= 0}.
+        # Check that `offset >= 0`
+    
+        pass
+
+    def __len__(self) -> int:
+        return len(self.text)
 
 
-@dataclass(frozen=True)
-class Analysis(Serializable):  # Aggregate
+@dataclass(frozen=True, slots=True)
+class Sentence(Identifiable, Serializable):
+    """
+    The sentence consist of tokens.
+    """
+    tokens: tuple[str]
+
+    def __post_init__(self) -> None:
+        # Check the id matches regular expression `s{integer}`.
+        pass
+
+    def __len__(self) -> int:
+        """
+        Return the number of tokens (or length of raw text?).
+        """
+        return len(tokens)
+
+
+@dataclass(frozen=True, slots=True)
+class Paragraph(Identifiable, Serializable):
+    """
+    The paragraph consist of sentences.
+    """
+    sentences: tuple[Sentence]
+    type: str # ENUM? např. BODY
+
+    def __post_init__(self) -> None:
+        # Check the id matches regular expression `p{integer}`.
+        pass
+
+
+# #################################################################################### #
+
+@dataclass(frozen=True, slots=True)
+class Analysis(Serializable):  # Aggregate @ Document.
     """
     Analysis aggregate root entity.
+
+    OriginalContent  = raw str
+    AnalysedContent  = obj tree
+
+    class Document:
+        id: ...
+        original: OriginalContent
+        analysed: AnalyzedContent
+        hash
+
+    def __init__(self, original):
+        self.original = original
+
+    def __eq__(self, that: obj) -> bool:
+        return NotImplemented
+
+    def __hash__(self) -> int:
+        return NotImplemented 
+
     """
 
     original: str  # content
@@ -206,59 +283,68 @@ class Analysis(Serializable):  # Aggregate
         return Account(None, None)
 
     @property
-    def paragraphs(self) -> Any:
+    def paragraphs(self) -> Any: # FIXME Return domain object.
+        """
+        Get the document paragraphs.
+
+        :return: The document paragraphs.
+        """
         return self.analyzed["paragraphs"]
 
     @property
-    def version(self):
+    def version(self) -> str: # FIXME Return domain object.  
         return self.analyzed["version"]
 
     @property
-    def language(self):
+    def language(self) -> str: # FIXME Return domain object.
+        """
+        Get the document detected language.
+
+        Possible values are: FIXME
+
+        :return: The detected language.
+        """
         return self.analyzed["language"]["detected"]
 
-    # Serialization
+    # ###############################################################################  #
+    #                                 SERIALIZATION                                    #
+    # ###############################################################################  #
 
     def to_xml(self) -> XML:
         """
-        Writes XML from given tuple of Model objects
+        Serialize entity to XML format.
+
+        e.g.
+
+        <?xml version='1.0' encoding='utf8'?>
+        <xml>
+            <test>123</test>
+        </xml>
         """
-
-        def _normalize_xml(root) -> XML:
-            """
-            Produces pretty XML file.
-            """
-            import os
-            import xml.dom.minidom
-            import xml.etree.cElementTree as ET
-
-            xml_str = xml.dom.minidom.parseString(ET.tostring(root)).toprettyxml()
-            result = os.linesep.join([s.strip() for s in xml_str.splitlines()])
-            return result
-
         root = ET.Element("document")
-
+        
+        # Add content element (node) to XML tree.
         ET.SubElement(
-            root, "original", length=f"{len(self.original)}"
+            root, "content", length=f"{len(self.content)}"
         ).text = self.original
 
         analysis = ET.SubElement(root, "analysis")
 
-        ### Add Entities to XML tree
+        # Add entity elements (nodes) to XML tree.
         entities = ET.SubElement(analysis, "entities")
         for obj in self.entities:
             ET.SubElement(
                 entities, "entity", id=f"{obj.id}", type=f"{obj.type}"
             ).text = f"{obj.stdForm}"
 
-        ### Add Tags to XML tree
+        # Add tags elements (nodes) to XML tree.
         tags = ET.SubElement(analysis, "tags")
         for obj in self.tags:
             ET.SubElement(
                 tags, "tag", id=f"{obj.id}", relevance=f"{obj.relevance}"
             ).text = f"{obj.stdForm}"
 
-        ### Add Sentiment object to XML tree
+        # Add sentiment element (node) to XML tree.
         sentiment = ET.SubElement(
             analysis,
             "sentiment",
@@ -267,7 +353,7 @@ class Analysis(Serializable):  # Aggregate
             negative=f"{self.sentiment.negative}",
         ).text = f"{self.sentiment.label}"
 
-        ### Add Relations to XML tree
+        # Add relations elements (nodes) to XML tree.
         relations = ET.SubElement(analysis, "relations")
         for obj in self.relations:
             ET.SubElement(
@@ -278,7 +364,7 @@ class Analysis(Serializable):  # Aggregate
                 type=f"{obj.type}",
             ).text = f"{obj.name}"
 
-        ### Add Paragrahs to XML Tree
+        # Add paragrah elemente (nodes) to XML tree.
         paragraphs = ET.SubElement(analysis, "paragraphs")
         for obj in self.paragraphs:
             paragraph_node = ET.SubElement(
@@ -288,17 +374,21 @@ class Analysis(Serializable):  # Aggregate
                 type=f"{obj['type']}",
                 text=obj["text"],
             )
+            # Add sentence elements (nodes) to paragraph element (node).
             sentences = ET.SubElement(paragraph_node, "sentences")
-
             for sentence in obj["sentences"]:
                 ET.SubElement(
-                    paragraph_node,
+                    sentences,
                     "sentence",
                     id=sentence["id"],
                     tokens=sentence["tokens"],
                 )
 
-        result = _normalize_xml(root)
+                tokens = 
+
+        result: str = xml.dom.minidom.parseString(
+            ET.tostring(root, encoding="utf-8", method="xml")
+        ).toprettyxml()
 
         return result
 
