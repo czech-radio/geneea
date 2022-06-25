@@ -3,7 +3,7 @@
 
 import pytest
 
-from cro.geneea.sdk._domain import Account, Analysis, Entity, Relation, Sentiment, Tag
+from cro.geneea.sdk import Account, Analysis, Entity, Relation, Sentiment, Tag
 
 
 @pytest.mark.domain
@@ -27,7 +27,7 @@ def test_sentiment_model():
 
 
 @pytest.mark.domain
-def test_relation_mmodel():
+def test_relation_model():
     assert (
         Relation(
             "id_data",
@@ -143,5 +143,5 @@ def analysis_fake():
 
 
 @pytest.mark.domain
-def test_analysis_model_version():
+def test_analysis_version():
     ...

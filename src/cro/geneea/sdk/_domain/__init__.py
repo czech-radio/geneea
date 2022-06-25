@@ -10,24 +10,26 @@ from __future__ import annotations
 
 import enum
 import json
-from dataclasses import dataclass
-from typing import List, Optional
 import xml.dom.minidom
 import xml.etree.cElementTree as ET
+from dataclasses import dataclass
+from typing import Any, List, Optional, TypeVar
 
 import pandas as pd
 
-__all__ = tuple([
-    "Account", 
-    "Entity", 
-    "Tag", 
-    "Sentence",
-    "Sentiment", 
-    "Paragraphs",
-    "Relation", 
-    "Analysis",
-    "Document",
-])
+__all__ = tuple(
+    [
+        "Account",
+        "Entity",
+        "Tag",
+        "Sentence",
+        "Sentiment",
+        "Paragraphs",
+        "Relation",
+        "Analysis",
+        "Document",
+    ]
+)
 
 # #################################################################################### #
 
@@ -51,14 +53,17 @@ class Serializable:
 class Identifiable:
     id: str
 
+
 # #################################################################################### #
+
 
 @dataclass(frozen=True, slots=True)
 class Tag(Identifiable, Serializable):
     """
     Tags derived from the document content.
     """
-    relevance: str # FIXME we want float
+
+    relevance: str  # FIXME we want float
     # type: str # ???
 
 
@@ -85,6 +90,7 @@ class Entity(Identifiable, Serializable):
     """
     Entities extracted from the document content.
     """
+
     # gkbId: Optional[str] # The recognized entities gets `gkbId`.
     stdForm: str
     type: str
@@ -100,12 +106,13 @@ class Sentiment(Serializable):
     """
     Sentiment of the whole document content.
     """
+
     # numerical values
-    mean: float # FIXME In XML str: we wants float 
+    mean: float  # FIXME In XML str: we wants float
     positive: float
     negative: float
     # textual value <== numerical values
-    label: str # ??? neutral ...
+    label: str  # ??? neutral ...
 
 
 @dataclass(frozen=True, slots=True)
@@ -113,34 +120,38 @@ class Relation(Identifiable, Serializable):
     """
     The relations between entities.
     """
-    type: str # FIXME Enum
-    textRepr: str # FIXME camelcase to snake_case or shorten
-    
-    name: str # ???
+
+    type: str  # FIXME Enum
+    textRepr: str  # FIXME camelcase to snake_case or shorten
+
+    name: str  # ???
     args: Optional[Entity]
 
     def __post_init__(self):
         # Check that `id` == r{number}
         pass
 
+
 # #################################################################################### #
+
 
 @dataclass(frozen=True, slots=True)
 class Token(Serializable):
     """
     The token (word or interpunction).
 
-    The position within raw text is offset + len(text). 
+    The position within raw text is offset + len(text).
     """
+
     id: str
     text: str
     offset: int
-    relevance: float # FIXME It is the string in XML: we want float.
+    relevance: float  # FIXME It is the string in XML: we want float.
 
     def __post_init__(self) -> None:
         # Check that `id == w{integer >= 0}.
         # Check that `offset >= 0`
-    
+
         pass
 
     def __len__(self) -> int:
@@ -152,6 +163,7 @@ class Sentence(Identifiable, Serializable):
     """
     The sentence consist of tokens.
     """
+
     tokens: tuple[str]
 
     def __post_init__(self) -> None:
@@ -170,8 +182,9 @@ class Paragraph(Identifiable, Serializable):
     """
     The paragraph consist of sentences.
     """
+
     sentences: tuple[Sentence]
-    type: str # ENUM? např. BODY
+    type: str  # ENUM? např. BODY
 
     def __post_init__(self) -> None:
         # Check the id matches regular expression `p{integer}`.
@@ -179,6 +192,8 @@ class Paragraph(Identifiable, Serializable):
 
 
 # #################################################################################### #
+# #################################################################################### #
+
 
 @dataclass(frozen=True, slots=True)
 class Analysis(Serializable):  # Aggregate @ Document.
@@ -201,7 +216,7 @@ class Analysis(Serializable):  # Aggregate @ Document.
         return NotImplemented
 
     def __hash__(self) -> int:
-        return NotImplemented 
+        return NotImplemented
 
     """
 
@@ -283,7 +298,7 @@ class Analysis(Serializable):  # Aggregate @ Document.
         return Account(None, None)
 
     @property
-    def paragraphs(self) -> Any: # FIXME Return domain object.
+    def paragraphs(self) -> Any:  # FIXME Return domain object.
         """
         Get the document paragraphs.
 
@@ -292,11 +307,11 @@ class Analysis(Serializable):  # Aggregate @ Document.
         return self.analyzed["paragraphs"]
 
     @property
-    def version(self) -> str: # FIXME Return domain object.  
+    def version(self) -> str:  # FIXME Return domain object.
         return self.analyzed["version"]
 
     @property
-    def language(self) -> str: # FIXME Return domain object.
+    def language(self) -> str:  # FIXME Return domain object.
         """
         Get the document detected language.
 
@@ -322,7 +337,7 @@ class Analysis(Serializable):  # Aggregate @ Document.
         </xml>
         """
         root = ET.Element("document")
-        
+
         # Add content element (node) to XML tree.
         ET.SubElement(
             root, "content", length=f"{len(self.content)}"
@@ -384,7 +399,7 @@ class Analysis(Serializable):  # Aggregate @ Document.
                     tokens=sentence["tokens"],
                 )
 
-                tokens = 
+                tokens = None  # FIXME
 
         result: str = xml.dom.minidom.parseString(
             ET.tostring(root, encoding="utf-8", method="xml")
@@ -399,3 +414,23 @@ class Analysis(Serializable):  # Aggregate @ Document.
         tmplist = list(input)
         df = pd.DataFrame.from_dict([entry.as_dict() for entry in tmplist])
         return df
+
+
+# #################################################################################### #
+# #################################################################################### #
+
+T = TypeVar("T", Any)
+U = TypeVar("U", Any)
+
+
+class Serializer(Generic[T, U]):
+    """
+    Serializer (maper/converter) transforms the type `T` into `U`.
+    """
+
+    def serialize(entity: T) -> U:
+        pass
+
+
+# XML Serializer
+# JSON Serializer
