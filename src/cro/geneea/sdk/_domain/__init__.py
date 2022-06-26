@@ -289,7 +289,12 @@ class Analysis(Serializable):  # Aggregate @ Document.
         :return: Sentiment object
         """
         tmp = self.analysed["docSentiment"]
-        return Sentiment(tmp["mean"], tmp["label"], tmp["positive"], tmp["negative"])
+        return Sentiment(
+            mean=tmp["mean"],
+            positive=tmp["positive"],
+            negative=tmp["negative"],
+            label=tmp["label"],
+        )
 
     @property
     def account(self) -> Account:

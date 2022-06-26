@@ -186,8 +186,9 @@ class Client:
             # {'exception': 'BadCredentialsException', 'message': 'the user key is invalid'}
             if response.status_code != expected_status_code:
                 logging.info(f"{response.status_code}: {response.json()}")
+                resource_info = f"; {endpoint}" if response.status_code == 404 else ""
                 raise ClientException(
-                    f'{response.json()["exception"]} [{response.status_code}]: {response.json()["message"]}'
+                    f'{response.json()["exception"]} [{response.status_code}]: {response.json()["message"]}{resource_info}'
                 )
 
             result = Analysis(original=data, analysed=response.json())

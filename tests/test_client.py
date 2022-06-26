@@ -53,6 +53,7 @@ def test_that_client_fetches_relations(client, phrases):
     assert len(result) > 0
 
 
+@pytest.mark.skip
 @pytest.mark.client
 def test_that_client_fetches_account(client):
     result: Account = client.get_account()
