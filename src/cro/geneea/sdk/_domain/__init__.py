@@ -8,13 +8,13 @@ Contains a domain model for Geneea NLP service.
 
 from __future__ import annotations
 
+import dataclasses
 import enum
 import json
 import xml.dom.minidom
 import xml.etree.cElementTree as ET
 from dataclasses import dataclass
-import dataclasses
-from typing import Any, List, Optional, TypeVar, Generic
+from typing import Any, Generic, List, Optional, TypeVar
 
 import pandas as pd
 

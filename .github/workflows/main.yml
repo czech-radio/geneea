@@ -31,7 +31,7 @@ jobs:
           cro.geneea --help
       - name: Format the code
         run: |
-          black --check . --exclude docs/ data/
+          black --check . --exclude docs/
       - name: Sort the imports
         run: |
           isort .

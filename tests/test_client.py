@@ -3,10 +3,10 @@
 
 import os
 
-import pytest
 import dotenv
+import pytest
 
-from cro.geneea.sdk import Analysis, Client, Entity, Sentiment, Account, Tag, Relation
+from cro.geneea.sdk import Account, Analysis, Client, Entity, Relation, Sentiment, Tag
 
 
 @pytest.fixture

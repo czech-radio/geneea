@@ -12,7 +12,6 @@ from os import PathLike
 from typing import Optional
 
 import dotenv
-
 from requests import post
 
 from cro.geneea.sdk._domain import Account, Analysis, Entity, Relation, Sentiment, Tag
