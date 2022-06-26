@@ -30,7 +30,7 @@ Unix
 source .venv/bin/activate
 ```
 
-Window
+Windows
 
 ```powershell
 .\.venv\Scripts\activate
