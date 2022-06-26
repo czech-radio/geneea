@@ -74,36 +74,34 @@ def main():
             format = args.format.lower()
         case _:
             print("The allowed format is ('xml', 'json', 'csv').")
+            result = client.get_analysis(text)
+            print(result.original)
+            print(result.analysed)
+            # print("----------"); print(result)
+            # print("----------"); print(result.tags);
+            # print("----------"); print(result.sentiment);
+            # print("----------"); print(result.entities);
+            # print("----------"); print(result.paragraphs)
+            # vs write to file with name = f"{args.input[0:args.input.index('.')]}_{args.type.lower()}.xml",
             sys.exit(1)
 
     match args.type:
         case "analysis":
             result = client.get_analysis(text)
-            result = client.serialize(result, format)
-            print(result)
-            # vs write to file with name = f"{args.input[0:args.input.index('.')]}_{args.type.lower()}.xml",
-
         case "account":
             result = client.get_account()
-            print(result)
-
         case "entities":
             result = client.get_entities(text)
-            print(result)
-
         case "tags":
             result = client.get_tags(text)
-            print(result)
-
         case "sentiment":
             result = client.get_sentiment(text)
-            print(result)
-
         case "relations":
             result = client.get_relations(text)
-            print(result)
-
         case _:
             print(
                 "Choose one of the following type: 'analysis', 'account', 'entities', 'tags', 'sentiment', 'relations'."
             )
+            sys.exit(1)
+
+    print(client.serialize(result, format=format))

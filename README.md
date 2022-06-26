@@ -156,5 +156,5 @@ The complete documentation soon&hellip;
 
 - https://geneea.com/
 - https://demo.geneea.com/
-  - https://api.geneea.com/
+- https://api.geneea.com/
 - https://api.geneea.com/api-docs

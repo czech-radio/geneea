@@ -14,7 +14,7 @@ from typing import Optional
 import dotenv
 from requests import post
 
-from cro.geneea.sdk._domain import Account, Analysis, Entity, Relation, Sentiment, Tag
+from cro.geneea.sdk._domain import Account, Document, Entity, Relation, Sentiment, Tag
 
 __all__ = tuple(["Client"])
 
@@ -76,7 +76,7 @@ class Client:
 
     def __hash__(self) -> int:
         """
-        Get the objects hash value.
+        Get the object hash value.
 
         :return The objects hash value.
         """
@@ -128,7 +128,7 @@ class Client:
         return self._headers
 
     @classmethod
-    def serialize(cls, model: Analysis, format: str) -> Optional[str]:
+    def serialize(cls, model: Document, format: str) -> Optional[str]:
         """
         Serialize the model to desired output format.
 
@@ -151,7 +151,9 @@ class Client:
 
     # ################################### HELPERS #################################### #
 
-    def _post(self, endpoint, data=None, expected_status_code: int = 200) -> None:
+    def _send_post_request(
+        self, endpoint, data=None, expected_status_code: int = 200
+    ) -> None:
         """
         Send the POST request to the endpoint.
 
@@ -191,7 +193,7 @@ class Client:
                     f'{response.json()["exception"]} [{response.status_code}]: {response.json()["message"]}{resource_info}'
                 )
 
-            result = Analysis(original=data, analysed=response.json())
+            result = Document(original=data, analysed=response.json())
 
             return result
 
@@ -214,14 +216,16 @@ class Client:
         :param input: The input text to analyze.
         :return The analysed input text.
         """
-        return self._post("tags", data=text).tags
+        result = self._send_post_request("tags", data=text).tags
+        return result
 
     def get_account(self) -> Account:
         """
         Get account information.
         :return: Account object
         """
-        return self._post("account", data="\n").account
+        result = self._send_post_request("account", data="\n").account
+        return result
 
     def get_entities(self, text: str) -> tuple[Entity]:
         """
@@ -230,7 +234,8 @@ class Client:
         :param input: The input text to analyze.
         :return The analysed input text.
         """
-        return self._post("entities", data=text).entities
+        result = self._send_post_request("entities", data=text).entities
+        return result
 
     def get_sentiment(self, text: str) -> Sentiment:
         """
@@ -239,7 +244,8 @@ class Client:
         :param input: The input text to analyze.
         :return The analysed input text.
         """
-        return self._post("sentiment", data=text).sentiment
+        result = self._send_post_request("sentiment", data=text).sentiment
+        return result
 
     def get_relations(self, text: str) -> tuple[Relation]:
         """
@@ -248,13 +254,15 @@ class Client:
         :param input: The input text to analyze.
         :return The analyzed input text.
         """
-        return self._post("relations", data=text).relations
+        result = self._send_post_request("relations", data=text).relations
+        return result
 
-    def get_analysis(self, text: str) -> Analysis:
+    def get_analysis(self, text: str) -> Document:
         """
         Get analysis for the given input text.
 
         :param input: The input text to analyze.
         :return The analysed input text.
         """
-        return self._post("analysis", data=text)
+        result = self._send_post_request("analysis", data=text)
+        return result

@@ -2,7 +2,7 @@
 
 
 """
-Contains a domain model for Geneea NLP service.
+Contains a domain model for Geneea NLP REST (JSON) service.
 """
 
 
@@ -27,16 +27,16 @@ __all__ = tuple(
         "Sentiment",
         "Paragraphs",
         "Relation",
-        "Analysis",
+        "Mention",
         "Document",
     ]
 )
 
 # #################################################################################### #
 
-Text = str
-JSON = str
-XML = str
+Text = str  #: The text content alias.
+XML = str  #: The XML content alias.
+JSON = str  #: The JSON content alias.
 
 # #################################################################################### #
 
@@ -126,9 +126,8 @@ class Relation(Identifiable, Serializable):
 
     type: str  # FIXME Enum
     textRepr: str  # FIXME camelcase to snake_case or shorten
-
     name: str  # ???
-    args: Optional[Entity]
+    args: Optional[str]  # entity_id
 
     def __post_init__(self):
         # Check that `id` == r{number}
@@ -149,7 +148,7 @@ class Token(Serializable):
     id: str
     text: str
     offset: int
-    relevance: float  # FIXME It is the string in XML: we want float.
+    relevance: Optional[float] = None  # NOTE: [optional/required]
 
     def __post_init__(self) -> None:
         # Check that `id == w{integer >= 0}.
@@ -186,30 +185,38 @@ class Paragraph(Identifiable, Serializable):
     The paragraph consist of sentences.
     """
 
-    sentences: tuple[Sentence]
     type: str  # ENUM? např. BODY
+    sentences: tuple[Sentence]
+
+    @property
+    def text(self) -> str:
+        """
+        Get the text from sentences tokens.
+        """
+        return NotImplemented
 
     def __post_init__(self) -> None:
         # Check the id matches regular expression `p{integer}`.
         pass
 
 
+@dataclass(frozen=True, slots=True)
+class Mention:
+    """
+    FIXME The mantion model.
+    """
+
+
 # #################################################################################### #
 
 
 @dataclass(frozen=True, slots=True)
-class Analysis(Serializable):  # Aggregate @ Document.
+class Document(Serializable):  # AGGREGATE
     """
-    Analysis aggregate root entity.
+    Document main aggregate entity.
 
     OriginalContent  = raw str
     AnalysedContent  = obj tree
-
-    class Document:
-        id: ...
-        original: OriginalContent
-        analysed: AnalysedContent
-        hash
 
     def __init__(self, original):
         self.original = original
@@ -219,11 +226,10 @@ class Analysis(Serializable):  # Aggregate @ Document.
 
     def __hash__(self) -> int:
         return NotImplemented
-
     """
 
-    original: str  # content
-    analysed: dict
+    original: Text  # content
+    analysed: dict  # content
 
     def __len__(self) -> int:
         """
@@ -231,102 +237,147 @@ class Analysis(Serializable):  # Aggregate @ Document.
         """
         return len(self.original)
 
-    @property
-    def entities(self) -> tuple[Entity]:
-        """
-        Returns a tuple of Entities from analyzed JSON.
-        :return: tuple[Entity]
-        """
-        _entities: List[Entity] = []
-        for entity in self.analysed["entities"]:
-            _entities.append(Entity(entity["id"], entity["stdForm"], entity["type"]))
-
-        return tuple(_entities)
+    # ###############################################################################  #
+    #                                   PROPERTIES                                     #
+    # ###############################################################################  #
 
     @property
-    def tags(self) -> tuple[Tag]:
+    def language(self) -> str:  # FIXME Return domain object
         """
-        Function returns a tuple of Tags from analyzed JSON.
-        :return: tuple[Tag]
-        """
-        _tags: List[Tag] = []
+        Get the detected language abbreviation  e.g `cs`.
 
-        for tag in self.analysed["tags"]:
-            _tags.append(Tag(tag["id"], tag["stdForm"], tag["type"], tag["relevance"]))
-        return tuple(_tags)
+        :return: The detected language abbreviation.
+        """
+        return self.analysed.get("language").get("detected")
 
     @property
-    def relations(self) -> tuple[Relation]:
+    def version(self) -> str:  # FIXME Return domain object.
         """
-        Get a tuple of realtions.
-        :return: tuple[Tag]
-        """
-        _relations: List[Relation] = []
-        for relation in self.analysed["relations"]:
-            _relations.append(
-                Relation(
-                    relation["id"],
-                    relation["name"],
-                    relation["textRepr"],
-                    relation["type"],
-                    relation["args"],
-                )
-            )
-        return tuple(_relations)
+        Get the service version used to analyze the content (i.e. REST API version).
 
-    @property
-    def language(self) -> str:
+        :return: The service version.
         """
-        Returns string object representing language.
-        :return: str of detected language
-        """
-        return self.analysed["language"]
-
-    @property
-    def sentiment(self) -> Sentiment:
-        """
-        Functions which returns Sentiment object from analyzed JSON.
-        :return: Sentiment object
-        """
-        tmp = self.analysed["docSentiment"]
-        return Sentiment(
-            mean=tmp["mean"],
-            positive=tmp["positive"],
-            negative=tmp["negative"],
-            label=tmp["label"],
-        )
+        return self.analysed.get("version")
 
     @property
     def account(self) -> Account:
         """
-        Get the account object.
-        :return: The account object.
+        Get the account information.
+
+        :return: The account information.
         """
-        return Account(None, None)
+        return Account(None, None)  # FIXME [Sentinel values]
 
     @property
-    def paragraphs(self) -> Any:  # FIXME Return domain object.
+    def entities(self) -> tuple[Entity]:
+        """
+        Get the analysed entities.
+
+        :return: The analysed entities.
+        """
+        result = tuple(
+            (
+                Entity(id=entity["id"], stdForm=entity["stdForm"], type=entity["type"])
+                for entity in self.analysed.get("entities")
+            )
+        )
+
+        return result
+
+    @property
+    def tags(self) -> tuple[Tag]:
+        """
+        Get the analysed tags.
+
+        :return: The analysed tags.
+        """
+        result = tuple(
+            (
+                Tag(
+                    id=tag.get("id"),
+                    stdForm=tag.get("stdForm"),
+                    type=tag.get("type"),
+                    relevance=tag.get("relevance"),
+                )
+                for tag in self.analysed.get("tags")
+            )
+        )
+
+        return result
+
+    @property
+    def relations(self) -> tuple[Relation]:
+        """
+        Get the analysed relations.
+
+        :return: The analysed relations.
+        """
+        result = tuple(
+            (
+                Relation(
+                    id=relation["id"],
+                    name=relation["name"],
+                    type=relation["type"],
+                    args=relation["args"],
+                    textRepr=relation["textRepr"],
+                )
+                for relation in self.analysed["relations"]
+            )
+        )
+
+        return result
+
+    @property
+    def sentiment(self) -> Sentiment:
+        """
+        Get the analysed sentiment.
+
+        :return: The analysed sentiment.
+        """
+        return Sentiment(
+            mean=self.analysed.get("docSentiment").get("mean"),
+            positive=self.analysed.get("docSentiment").get("positive"),
+            negative=self.analysed.get("docSentiment").get("negative"),
+            label=self.analysed.get("docSentiment").get("label"),
+        )
+
+    @property
+    def paragraphs(self) -> tuple[Paragraph]:
         """
         Get the document paragraphs.
 
         :return: The document paragraphs.
         """
-        return self.analysed["paragraphs"]
+        result = tuple(
+            (
+                Paragraph(
+                    id=paragraph.get("id"),
+                    type=paragraph.get("type"),
+                    sentences=tuple(
+                        (
+                            Sentence(
+                                id=sentence.get("id"),
+                                tokens=tuple(
+                                    (
+                                        Token(
+                                            id=token.get("id"),
+                                            text=token.get("text"),
+                                            offset=token.get("off"),
+                                            relevance=token.get("relevance"),
+                                        )
+                                        for token in sentence["tokens"]
+                                    )
+                                ),
+                            )
+                            for sentence in paragraph.get("sentences")
+                        )
+                    ),
+                )
+                for paragraph in self.analysed.get("paragraphs")
+            )
+        )
 
-    @property
-    def version(self) -> str:  # FIXME Return domain object.
-        return self.analysed["version"]
-
-    @property
-    def language(self) -> str:  # FIXME Return domain object.
-        """
-        Get the document detected language.
-
-        Possible values are: FIXME
-
-        :return: The detected language.
-        """
-        return self.analysed["language"]["detected"]
+        return result
 
     # ###############################################################################  #
     #                                 SERIALIZATION                                    #
@@ -336,12 +387,17 @@ class Analysis(Serializable):  # Aggregate @ Document.
         """
         Serialize entity to XML format.
 
-        e.g.
+        e.g. XML
 
         <?xml version='1.0' encoding='utf8'?>
-        <xml>
-            <test>123</test>
-        </xml>
+        <document>
+            <content length="123">
+                [text]
+            </content>
+            <analysis version="3.2.1">
+                ...
+            </analysis>
+        </document>
         """
         root = ET.Element("document")
 
@@ -378,6 +434,7 @@ class Analysis(Serializable):  # Aggregate @ Document.
         # Add relations elements (nodes) to XML tree.
         relations = ET.SubElement(analysis, "relations")
         for obj in self.relations:
+            assert isinstance(obj, Relation)  # NOTE: [For debugging purpose.]
             ET.SubElement(
                 relations,
                 "relation",
@@ -386,34 +443,30 @@ class Analysis(Serializable):  # Aggregate @ Document.
                 type=f"{obj.type}",
             ).text = f"{obj.name}"
 
-        # Add paragrah elemente (nodes) to XML tree.
+        # Add paragrahs element (nodes) to XML tree.
         paragraphs = ET.SubElement(analysis, "paragraphs")
         for obj in self.paragraphs:
+            assert isinstance(obj, Paragraph)  # NOTE: [For debugging purpose.]
             paragraph_node = ET.SubElement(
                 paragraphs,
                 "paragraph",
-                id=f"{obj['id']}",
-                type=f"{obj['type']}",
-                text=obj["text"],
+                id=f"{obj.id}",
+                type=f"{obj.type}",
+                text=f"{obj.text}",
             )
-            # Add sentence elements (nodes) to paragraph element (node).
+            # Add sentence elements (nodes) to each paragraph element (node).
             sentences = ET.SubElement(paragraph_node, "sentences")
-            for sentence in obj["sentences"]:
-                sentence_node = ET.SubElement(
-                    sentences,
-                    "sentence",
-                    id=sentence["id"]
-                    # tokens=sentence["tokens"],
-                )
-                # Add token elements (nodes) to sentende element (node).
+            for sentence in obj.sentences:
+                sentence_node = ET.SubElement(sentences, "sentence", id=sentence.id)
+                # Add token elements (nodes) to each sentence element (node).
                 tokens = ET.SubElement(sentence_node, "tokens")
-                for token in sentence["tokens"]:
+                for token in sentence.tokens:
                     ET.SubElement(
                         tokens,
                         "token",
-                        id=f'{token["id"]}',
-                        offset=f'{token["off"]}',
-                        text=f'{token["text"]}',
+                        id=f"{token.id}",
+                        offset=f"{token.offset}",
+                        text=f"{token.text}",
                     )
 
         result: str = xml.dom.minidom.parseString(
@@ -430,6 +483,14 @@ class Analysis(Serializable):  # Aggregate @ Document.
         df = pd.DataFrame.from_dict([entry.as_dict() for entry in tmplist])
         return df
 
+    # ###############################################################################  #
+    #                                   FACTORIES                                      #
+    # ###############################################################################  #
+
+    @classmethod
+    def from_json(cls, json: str) -> Analysis:
+        analysed = json  # alias
+
 
 # #################################################################################### #
 
@@ -439,15 +500,10 @@ U = TypeVar("U")  #: The type after serialization.
 
 class Serializer(Generic[T, U]):
     """
-    Serializer (maper/converter) transforms the type `T` into `U`.
+    Serializer (mapper/converter) transforms the type `T` into `U` (e.g. XML or JSON serializer).
     """
 
     def serialize(entity: T) -> U:
         """
         Serialize the entity of type `T` to format of type `U`.
         """
-
-
-# TODO
-# XML Serializer
-# JSON Serializer
