@@ -51,13 +51,13 @@ pip install -e .[dev]
 
 ## Features & Usage
 
-- [x] Get the document tag.
+- [x] Get the document tags.
 - [x] Get the document entities.
 - [x] Get the document relations.
 - [x] Get the document sentiment.
-- [ ] Get the document analysis i.e. tags, entities, relations, sentiment.
 - [x] Get the account information.
-- [ ] Get the status.
+- [ ] Get the service health check status.
+- [ ] Get the document complete analysis (tags, entities, relations, sentiment).
 
 **TODO**
 
