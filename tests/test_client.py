@@ -4,18 +4,20 @@
 import os
 
 import pytest
+import dotenv
 
-from cro.geneea.sdk import Analysis, Client, Entity, Sentiment
+from cro.geneea.sdk import Analysis, Client, Entity, Sentiment, Account, Tag, Relation
 
 
 @pytest.fixture
 def client():
-    return Client(key=os.environ.get("GENEEA_API_KEY"))
+    key = os.environ.get("GENEEA_API_KEY")
+    return Client(key=key)
 
 
 @pytest.fixture
 def phrases():
-    with open("docs/data/input.txt", encoding="utf8") as file:
+    with open("docs/examples/input.txt", encoding="utf8") as file:
         phrases = "\n".join(file.readlines())
     return phrases
 
@@ -29,7 +31,7 @@ def test_that_client_fetches_analysis(client, phrases):
 
 @pytest.mark.client
 def test_that_client_fetches_entities(client, phrases):
-    result = client.get_entities(phrases)
+    result: tuple[Entity] = client.get_entities(phrases)
     assert len(result) > 0
 
 
@@ -41,17 +43,17 @@ def test_that_client_fetches_sentiment(client):
 
 @pytest.mark.client
 def test_that_client_fetches_tags(client, phrases):
-    result = client.get_tags(phrases)
+    result: tuple[Tag] = client.get_tags(phrases)
     assert len(result) > 0
 
 
 @pytest.mark.client
 def test_that_client_fetches_relations(client, phrases):
-    result = client.get_relations(phrases)
+    result: tuple[Ralation] = client.get_relations(phrases)
     assert len(result) > 0
 
 
 @pytest.mark.client
 def test_that_client_fetches_account(client):
-    result = client.get_account()
+    result: Account = client.get_account()
     assert result is not None

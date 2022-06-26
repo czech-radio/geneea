@@ -4,16 +4,19 @@
 The command line interface.
 """
 
-
 import argparse
 import os
 import sys
+
+import dotenv
 
 from cro.geneea.sdk import Client
 
 
 def read_args():
-
+    """
+    Parse the command line arguments.
+    """
     parser = argparse.ArgumentParser()
 
     parser.add_argument("-i", "--input", required=True, type=str, help="Input filename")
@@ -35,7 +38,20 @@ def read_args():
     return result
 
 
-def read_envs():
+def read_envs() -> dict:
+    """
+    Reads the needed environment variables.
+    """
+    dotenv.load_dotenv()
+
+    geneea_api_key = os.getenv("GENEEA_API_KEY")
+
+    if geneea_api_key is None:
+        raise ValueError(
+            """Please set GEENEA_API_KEY environment variable.
+            Alternatively write it to the .env  file and place it to the root folder."""
+        )
+
     return {"GENEEA_API_KEY": os.environ.get("GENEEA_API_KEY")}
 
 
@@ -49,7 +65,7 @@ def main():
     with open(args.input, encoding="utf8") as file:
         text = "\n".join(file.readlines())
 
-    print(f"{args.type.upper()}\n{len(args.type) * '-'}")
+    # print(f"{args.type.upper()}\n{len(args.type) * '-'}")
 
     match args.format:
         case None:

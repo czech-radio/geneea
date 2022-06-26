@@ -1,0 +1,79 @@
+<?xml version="1.0" ?>
+<document>
+    <original length="193">Populární známka se prodávala na jediném místě v centru Kyjeva, kde na ni každý den čekaly stovky lidí. Mezitím se arch šesti známek prodává na inzertních serverech za více než 10 tisíc korun.
+    </original>
+    <analysis>
+        <entities>
+            <entity id="e0" type="set">P1D</entity>
+            <entity id="e1" type="number">10</entity>
+            <entity id="e2" type="location">Kyjev</entity>
+        </entities>
+        <tags>
+            <tag id="t0" relevance="3.917">base</tag>
+            <tag id="t1" relevance="3.0">base</tag>
+            <tag id="t2" relevance="2.816">base</tag>
+            <tag id="t3" relevance="2.714">base</tag>
+            <tag id="t4" relevance="2.703">base</tag>
+        </tags>
+        <sentiment mean="0.0" positive="neutral" negative="0.0">0.0</sentiment>
+        <relations>
+            <relation id="r0" textRepr="prodávat(známka)" type="prodávat">VERB</relation>
+            <relation id="r1" textRepr="čekat(stovka)" type="čekat">VERB</relation>
+            <relation id="r2" textRepr="každý(den)" type="každý">ATTR</relation>
+            <relation id="r3" textRepr="populární(známka)" type="populární">ATTR</relation>
+            <relation id="r4" textRepr="jediný(místo)" type="jediný">ATTR</relation>
+            <relation id="r5" textRepr="prodávat(arch)" type="prodávat">VERB</relation>
+            <relation id="r6" textRepr="inzertní(server)" type="inzertní">ATTR</relation>
+        </relations>
+        <paragraphs>
+            <paragraph id="p0" type="BODY" text="Populární známka se prodávala na jediném místě v centru Kyjeva, kde na ni každý den čekaly stovky lidí. Mezitím se arch šesti známek prodává na inzertních serverech za více než 10 tisíc korun.">
+                <sentences>
+                    <sentence id="s0">
+                        <tokens>
+                            <token id="w0" offset="0" text="Populární"/>
+                            <token id="w1" offset="10" text="známka"/>
+                            <token id="w2" offset="17" text="se"/>
+                            <token id="w3" offset="20" text="prodávala"/>
+                            <token id="w4" offset="30" text="na"/>
+                            <token id="w5" offset="33" text="jediném"/>
+                            <token id="w6" offset="41" text="místě"/>
+                            <token id="w7" offset="47" text="v"/>
+                            <token id="w8" offset="49" text="centru"/>
+                            <token id="w9" offset="56" text="Kyjeva"/>
+                            <token id="w10" offset="62" text=","/>
+                            <token id="w11" offset="64" text="kde"/>
+                            <token id="w12" offset="68" text="na"/>
+                            <token id="w13" offset="71" text="ni"/>
+                            <token id="w14" offset="74" text="každý"/>
+                            <token id="w15" offset="80" text="den"/>
+                            <token id="w16" offset="84" text="čekaly"/>
+                            <token id="w17" offset="91" text="stovky"/>
+                            <token id="w18" offset="98" text="lidí"/>
+                            <token id="w19" offset="102" text="."/>
+                        </tokens>
+                    </sentence>
+                    <sentence id="s1">
+                        <tokens>
+                            <token id="w20" offset="104" text="Mezitím"/>
+                            <token id="w21" offset="112" text="se"/>
+                            <token id="w22" offset="115" text="arch"/>
+                            <token id="w23" offset="120" text="šesti"/>
+                            <token id="w24" offset="126" text="známek"/>
+                            <token id="w25" offset="133" text="prodává"/>
+                            <token id="w26" offset="141" text="na"/>
+                            <token id="w27" offset="144" text="inzertních"/>
+                            <token id="w28" offset="155" text="serverech"/>
+                            <token id="w29" offset="165" text="za"/>
+                            <token id="w30" offset="168" text="více"/>
+                            <token id="w31" offset="173" text="než"/>
+                            <token id="w32" offset="177" text="10"/>
+                            <token id="w33" offset="180" text="tisíc"/>
+                            <token id="w34" offset="186" text="korun"/>
+                            <token id="w35" offset="191" text="."/>
+                        </tokens>
+                    </sentence>
+                </sentences>
+            </paragraph>
+        </paragraphs>
+    </analysis>
+</document>

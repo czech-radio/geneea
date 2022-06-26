@@ -1,0 +1,515 @@
+{
+    "original": "Populární známka se prodávala na jediném místě v centru Kyjeva, kde na ni každý den čekaly stovky lidí. Mezitím se arch šesti známek prodává na inzertních serverech za více než 10 tisíc korun.\n",
+    "analysed": {
+        "version": "3.2.1",
+        "language": {
+            "detected": "cs"
+        },
+        "paragraphs": [
+            {
+                "id": "p0",
+                "type": "BODY",
+                "text": "Populární známka se prodávala na jediném místě v centru Kyjeva, kde na ni každý den čekaly stovky lidí. Mezitím se arch šesti známek prodává na inzertních serverech za více než 10 tisíc korun.",
+                "sentences": [
+                    {
+                        "id": "s0",
+                        "tokens": [
+                            {
+                                "id": "w0",
+                                "off": 0,
+                                "text": "Populární"
+                            },
+                            {
+                                "id": "w1",
+                                "off": 10,
+                                "text": "známka"
+                            },
+                            {
+                                "id": "w2",
+                                "off": 17,
+                                "text": "se"
+                            },
+                            {
+                                "id": "w3",
+                                "off": 20,
+                                "text": "prodávala"
+                            },
+                            {
+                                "id": "w4",
+                                "off": 30,
+                                "text": "na"
+                            },
+                            {
+                                "id": "w5",
+                                "off": 33,
+                                "text": "jediném"
+                            },
+                            {
+                                "id": "w6",
+                                "off": 41,
+                                "text": "místě"
+                            },
+                            {
+                                "id": "w7",
+                                "off": 47,
+                                "text": "v"
+                            },
+                            {
+                                "id": "w8",
+                                "off": 49,
+                                "text": "centru"
+                            },
+                            {
+                                "id": "w9",
+                                "off": 56,
+                                "text": "Kyjeva"
+                            },
+                            {
+                                "id": "w10",
+                                "off": 62,
+                                "text": ","
+                            },
+                            {
+                                "id": "w11",
+                                "off": 64,
+                                "text": "kde"
+                            },
+                            {
+                                "id": "w12",
+                                "off": 68,
+                                "text": "na"
+                            },
+                            {
+                                "id": "w13",
+                                "off": 71,
+                                "text": "ni"
+                            },
+                            {
+                                "id": "w14",
+                                "off": 74,
+                                "text": "každý"
+                            },
+                            {
+                                "id": "w15",
+                                "off": 80,
+                                "text": "den"
+                            },
+                            {
+                                "id": "w16",
+                                "off": 84,
+                                "text": "čekaly"
+                            },
+                            {
+                                "id": "w17",
+                                "off": 91,
+                                "text": "stovky"
+                            },
+                            {
+                                "id": "w18",
+                                "off": 98,
+                                "text": "lidí"
+                            },
+                            {
+                                "id": "w19",
+                                "off": 102,
+                                "text": "."
+                            }
+                        ]
+                    },
+                    {
+                        "id": "s1",
+                        "tokens": [
+                            {
+                                "id": "w20",
+                                "off": 104,
+                                "text": "Mezitím"
+                            },
+                            {
+                                "id": "w21",
+                                "off": 112,
+                                "text": "se"
+                            },
+                            {
+                                "id": "w22",
+                                "off": 115,
+                                "text": "arch"
+                            },
+                            {
+                                "id": "w23",
+                                "off": 120,
+                                "text": "šesti"
+                            },
+                            {
+                                "id": "w24",
+                                "off": 126,
+                                "text": "známek"
+                            },
+                            {
+                                "id": "w25",
+                                "off": 133,
+                                "text": "prodává"
+                            },
+                            {
+                                "id": "w26",
+                                "off": 141,
+                                "text": "na"
+                            },
+                            {
+                                "id": "w27",
+                                "off": 144,
+                                "text": "inzertních"
+                            },
+                            {
+                                "id": "w28",
+                                "off": 155,
+                                "text": "serverech"
+                            },
+                            {
+                                "id": "w29",
+                                "off": 165,
+                                "text": "za"
+                            },
+                            {
+                                "id": "w30",
+                                "off": 168,
+                                "text": "více"
+                            },
+                            {
+                                "id": "w31",
+                                "off": 173,
+                                "text": "než"
+                            },
+                            {
+                                "id": "w32",
+                                "off": 177,
+                                "text": "10"
+                            },
+                            {
+                                "id": "w33",
+                                "off": 180,
+                                "text": "tisíc"
+                            },
+                            {
+                                "id": "w34",
+                                "off": 186,
+                                "text": "korun"
+                            },
+                            {
+                                "id": "w35",
+                                "off": 191,
+                                "text": "."
+                            }
+                        ]
+                    }
+                ]
+            }
+        ],
+        "entities": [
+            {
+                "id": "e0",
+                "stdForm": "P1D",
+                "type": "set",
+                "mentions": [
+                    {
+                        "id": "m0",
+                        "mwl": "každý den",
+                        "text": "každý den",
+                        "tokenIds": [
+                            "w14",
+                            "w15"
+                        ]
+                    }
+                ]
+            },
+            {
+                "id": "e1",
+                "stdForm": "10",
+                "type": "number",
+                "mentions": [
+                    {
+                        "id": "m1",
+                        "mwl": "10",
+                        "text": "10",
+                        "tokenIds": [
+                            "w32"
+                        ]
+                    }
+                ]
+            },
+            {
+                "id": "e2",
+                "stdForm": "Kyjev",
+                "type": "location",
+                "mentions": [
+                    {
+                        "id": "m2",
+                        "mwl": "Kyjev",
+                        "text": "Kyjeva",
+                        "tokenIds": [
+                            "w9"
+                        ]
+                    }
+                ]
+            }
+        ],
+        "tags": [
+            {
+                "id": "t0",
+                "stdForm": "známka",
+                "type": "base",
+                "relevance": 3.917,
+                "mentions": [
+                    {
+                        "id": "m3",
+                        "text": "známka",
+                        "tokenIds": [
+                            "w1"
+                        ]
+                    },
+                    {
+                        "id": "m4",
+                        "text": "známek",
+                        "tokenIds": [
+                            "w24"
+                        ]
+                    }
+                ]
+            },
+            {
+                "id": "t1",
+                "stdForm": "inzertní server",
+                "type": "base",
+                "relevance": 3.0,
+                "mentions": [
+                    {
+                        "id": "m5",
+                        "text": "inzertních serverech",
+                        "tokenIds": [
+                            "w27",
+                            "w28"
+                        ]
+                    }
+                ]
+            },
+            {
+                "id": "t2",
+                "stdForm": "centrum Kyjeva",
+                "type": "base",
+                "relevance": 2.816,
+                "mentions": [
+                    {
+                        "id": "m6",
+                        "text": "centru Kyjeva",
+                        "tokenIds": [
+                            "w8",
+                            "w9"
+                        ]
+                    }
+                ]
+            },
+            {
+                "id": "t3",
+                "stdForm": "arch",
+                "type": "base",
+                "relevance": 2.714,
+                "mentions": [
+                    {
+                        "id": "m7",
+                        "text": "arch",
+                        "tokenIds": [
+                            "w22"
+                        ]
+                    }
+                ]
+            },
+            {
+                "id": "t4",
+                "stdForm": "jediné místo",
+                "type": "base",
+                "relevance": 2.703,
+                "mentions": [
+                    {
+                        "id": "m8",
+                        "text": "jediném místě",
+                        "tokenIds": [
+                            "w5",
+                            "w6"
+                        ]
+                    }
+                ]
+            }
+        ],
+        "relations": [
+            {
+                "id": "r0",
+                "name": "prodávat",
+                "textRepr": "prodávat(známka)",
+                "type": "VERB",
+                "args": [
+                    {
+                        "type": "OBJECT",
+                        "name": "známka"
+                    }
+                ],
+                "feats": {
+                    "negated": "false",
+                    "modality": ""
+                },
+                "support": [
+                    {
+                        "tokenIds": [
+                            "w3",
+                            "w2"
+                        ]
+                    }
+                ]
+            },
+            {
+                "id": "r1",
+                "name": "čekat",
+                "textRepr": "čekat(stovka)",
+                "type": "VERB",
+                "args": [
+                    {
+                        "type": "SUBJECT",
+                        "name": "stovka"
+                    }
+                ],
+                "feats": {
+                    "negated": "false",
+                    "modality": ""
+                },
+                "support": [
+                    {
+                        "tokenIds": [
+                            "w16"
+                        ]
+                    }
+                ]
+            },
+            {
+                "id": "r2",
+                "name": "každý",
+                "textRepr": "každý(den)",
+                "type": "ATTR",
+                "args": [
+                    {
+                        "type": "SUBJECT",
+                        "name": "den"
+                    }
+                ],
+                "feats": {
+                    "negated": "false",
+                    "modality": ""
+                },
+                "support": [
+                    {
+                        "tokenIds": [
+                            "w14"
+                        ]
+                    }
+                ]
+            },
+            {
+                "id": "r3",
+                "name": "populární",
+                "textRepr": "populární(známka)",
+                "type": "ATTR",
+                "args": [
+                    {
+                        "type": "SUBJECT",
+                        "name": "známka"
+                    }
+                ],
+                "feats": {
+                    "negated": "false",
+                    "modality": ""
+                },
+                "support": [
+                    {
+                        "tokenIds": [
+                            "w0"
+                        ]
+                    }
+                ]
+            },
+            {
+                "id": "r4",
+                "name": "jediný",
+                "textRepr": "jediný(místo)",
+                "type": "ATTR",
+                "args": [
+                    {
+                        "type": "SUBJECT",
+                        "name": "místo"
+                    }
+                ],
+                "feats": {
+                    "negated": "false",
+                    "modality": ""
+                },
+                "support": [
+                    {
+                        "tokenIds": [
+                            "w5"
+                        ]
+                    }
+                ]
+            },
+            {
+                "id": "r5",
+                "name": "prodávat",
+                "textRepr": "prodávat(arch)",
+                "type": "VERB",
+                "args": [
+                    {
+                        "type": "OBJECT",
+                        "name": "arch"
+                    }
+                ],
+                "feats": {
+                    "negated": "false",
+                    "modality": ""
+                },
+                "support": [
+                    {
+                        "tokenIds": [
+                            "w25",
+                            "w21"
+                        ]
+                    }
+                ]
+            },
+            {
+                "id": "r6",
+                "name": "inzertní",
+                "textRepr": "inzertní(server)",
+                "type": "ATTR",
+                "args": [
+                    {
+                        "type": "SUBJECT",
+                        "name": "server"
+                    }
+                ],
+                "feats": {
+                    "negated": "false",
+                    "modality": ""
+                },
+                "support": [
+                    {
+                        "tokenIds": [
+                            "w27"
+                        ]
+                    }
+                ]
+            }
+        ],
+        "docSentiment": {
+            "mean": 0.0,
+            "label": "neutral",
+            "positive": 0.0,
+            "negative": 0.0
+        },
+        "usedChars": 193
+    }
+}

@@ -13,7 +13,8 @@ import json
 import xml.dom.minidom
 import xml.etree.cElementTree as ET
 from dataclasses import dataclass
-from typing import Any, List, Optional, TypeVar
+import dataclasses
+from typing import Any, List, Optional, TypeVar, Generic
 
 import pandas as pd
 
@@ -63,18 +64,19 @@ class Tag(Identifiable, Serializable):
     Tags derived from the document content.
     """
 
-    relevance: str  # FIXME we want float
-    # type: str # ???
+    type: str  #: ???
+    stdForm: str  #: ???
+    relevance: str  #: FIXME Should be `float`.
 
 
 @dataclass(frozen=True, slots=True)
 class Account(Serializable):
     """
-    The Geneeas account informations.
+    The account informations.
     """
 
-    type: str
-    remainingQuotas: str
+    type: str  #: The account type.
+    remainingQuotas: str  #: ???
 
 
 class EntityType(enum.Enum):
@@ -91,9 +93,10 @@ class Entity(Identifiable, Serializable):
     Entities extracted from the document content.
     """
 
-    # gkbId: Optional[str] # The recognized entities gets `gkbId`.
-    stdForm: str
     type: str
+    stdForm: str
+    # gkbId: Optional[str] # The recognized entities gets `gkbId`.
+    # mentions:  {"id": "m0", "mwl": "každý den", "text": "každý den", "tokenIds" }
 
 
 class RelationType(enum.Enum):
@@ -205,7 +208,7 @@ class Analysis(Serializable):  # Aggregate @ Document.
     class Document:
         id: ...
         original: OriginalContent
-        analysed: AnalyzedContent
+        analysed: AnalysedContent
         hash
 
     def __init__(self, original):
@@ -220,7 +223,7 @@ class Analysis(Serializable):  # Aggregate @ Document.
     """
 
     original: str  # content
-    analyzed: dict
+    analysed: dict
 
     def __len__(self) -> int:
         """
@@ -235,7 +238,7 @@ class Analysis(Serializable):  # Aggregate @ Document.
         :return: tuple[Entity]
         """
         _entities: List[Entity] = []
-        for entity in self.analyzed["entities"]:
+        for entity in self.analysed["entities"]:
             _entities.append(Entity(entity["id"], entity["stdForm"], entity["type"]))
 
         return tuple(_entities)
@@ -248,7 +251,7 @@ class Analysis(Serializable):  # Aggregate @ Document.
         """
         _tags: List[Tag] = []
 
-        for tag in self.analyzed["tags"]:
+        for tag in self.analysed["tags"]:
             _tags.append(Tag(tag["id"], tag["stdForm"], tag["type"], tag["relevance"]))
         return tuple(_tags)
 
@@ -259,7 +262,7 @@ class Analysis(Serializable):  # Aggregate @ Document.
         :return: tuple[Tag]
         """
         _relations: List[Relation] = []
-        for relation in self.analyzed["relations"]:
+        for relation in self.analysed["relations"]:
             _relations.append(
                 Relation(
                     relation["id"],
@@ -277,7 +280,7 @@ class Analysis(Serializable):  # Aggregate @ Document.
         Returns string object representing language.
         :return: str of detected language
         """
-        return self.analyzed["language"]
+        return self.analysed["language"]
 
     @property
     def sentiment(self) -> Sentiment:
@@ -285,7 +288,7 @@ class Analysis(Serializable):  # Aggregate @ Document.
         Functions which returns Sentiment object from analyzed JSON.
         :return: Sentiment object
         """
-        tmp = self.analyzed["docSentiment"]
+        tmp = self.analysed["docSentiment"]
         return Sentiment(tmp["mean"], tmp["label"], tmp["positive"], tmp["negative"])
 
     @property
@@ -303,11 +306,11 @@ class Analysis(Serializable):  # Aggregate @ Document.
 
         :return: The document paragraphs.
         """
-        return self.analyzed["paragraphs"]
+        return self.analysed["paragraphs"]
 
     @property
     def version(self) -> str:  # FIXME Return domain object.
-        return self.analyzed["version"]
+        return self.analysed["version"]
 
     @property
     def language(self) -> str:  # FIXME Return domain object.
@@ -318,7 +321,7 @@ class Analysis(Serializable):  # Aggregate @ Document.
 
         :return: The detected language.
         """
-        return self.analyzed["language"]["detected"]
+        return self.analysed["language"]["detected"]
 
     # ###############################################################################  #
     #                                 SERIALIZATION                                    #
@@ -339,7 +342,7 @@ class Analysis(Serializable):  # Aggregate @ Document.
 
         # Add content element (node) to XML tree.
         ET.SubElement(
-            root, "content", length=f"{len(self.content)}"
+            root, "original", length=f"{len(self.original)}"
         ).text = self.original
 
         analysis = ET.SubElement(root, "analysis")
@@ -391,14 +394,22 @@ class Analysis(Serializable):  # Aggregate @ Document.
             # Add sentence elements (nodes) to paragraph element (node).
             sentences = ET.SubElement(paragraph_node, "sentences")
             for sentence in obj["sentences"]:
-                ET.SubElement(
+                sentence_node = ET.SubElement(
                     sentences,
                     "sentence",
-                    id=sentence["id"],
-                    tokens=sentence["tokens"],
+                    id=sentence["id"]
+                    # tokens=sentence["tokens"],
                 )
-
-                tokens = None  # FIXME
+                # Add token elements (nodes) to sentende element (node).
+                tokens = ET.SubElement(sentence_node, "tokens")
+                for token in sentence["tokens"]:
+                    ET.SubElement(
+                        tokens,
+                        "token",
+                        id=f'{token["id"]}',
+                        offset=f'{token["off"]}',
+                        text=f'{token["text"]}',
+                    )
 
         result: str = xml.dom.minidom.parseString(
             ET.tostring(root, encoding="utf-8", method="xml")
@@ -417,8 +428,8 @@ class Analysis(Serializable):  # Aggregate @ Document.
 
 # #################################################################################### #
 
-T = TypeVar("T", Any)
-U = TypeVar("U", Any)
+T = TypeVar("T")  #: The type to serialize.
+U = TypeVar("U")  #: The type after serialization.
 
 
 class Serializer(Generic[T, U]):
@@ -427,8 +438,11 @@ class Serializer(Generic[T, U]):
     """
 
     def serialize(entity: T) -> U:
-        pass
+        """
+        Serialize the entity of type `T` to format of type `U`.
+        """
 
 
+# TODO
 # XML Serializer
 # JSON Serializer
