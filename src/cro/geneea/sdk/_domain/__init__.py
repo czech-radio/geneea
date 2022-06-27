@@ -41,9 +41,18 @@ JSON = str  #: The JSON content alias.
 
 @dataclass(frozen=True, slots=True)
 class Serializable:
-    # [ ] XML Serializable
-    # [x] JSON Serializable
+    """
+    The serializable dataclasses.
+    # - [ ] XML Serializable
+    # - [x] JSON Serializable
+    """
+
     def to_json(self) -> JSON:
+        """
+        Serialize dataclass to JSON.
+
+        :retrun: The JSON serialized dataclass.
+        """
         result = json.dumps(dataclasses.asdict(self), ensure_ascii=False)
         return result
 
@@ -473,13 +482,16 @@ class Document(Serializable):  # AGGREGATE
 
         return result
 
-    def to_table(self, input: tuple(object)) -> pd.DataFrame:
+    @classmethod
+    def to_tablec(cls, objects: tuple(object)) -> pd.DataFrame:
         """
-        Function converting a tuple of objects into Pandas DataFrame.
+        Convert objects into pandas data-frame.
+
+        :param objecs: The collection of domain objects.
+        :return: The pandad data-frame with collected data.
         """
-        tmplist = list(input)
-        df = pd.DataFrame.from_dict([entry.as_dict() for entry in tmplist])
-        return df
+        result = pd.DataFrame.from_dict([entry.as_dict() for entry in objects])
+        return result
 
     # ###############################################################################  #
     #                                   FACTORIES                                      #
