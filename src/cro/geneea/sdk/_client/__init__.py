@@ -128,7 +128,7 @@ class Client:
         return self._headers
 
     @classmethod
-    def serialize(cls, model: Document, format: str) -> Optional[str]:
+    def serialize(cls, model: Document, output_format: str) -> Optional[str]:
         """
         Serialize the model to desired output format.
 
@@ -139,7 +139,7 @@ class Client:
         """
         result = None
 
-        match format:
+        match output_format:
             case "xml":
                 result: str = model.to_xml()
             case "json":

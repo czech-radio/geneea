@@ -5,10 +5,7 @@
 The integration tests for :class:`Client`.
 """
 
-
 import os
-
-import dotenv
 import pytest
 
 from cro.geneea.sdk import Account, Client, Document, Entity, Relation, Sentiment, Tag
@@ -56,7 +53,7 @@ def test_that_client_fetches_tags(client, phrases):
 
 @pytest.mark.client
 def test_that_client_fetches_relations(client, phrases):
-    result: tuple[Ralation] = client.get_relations(phrases)
+    result: tuple[Relation] = client.get_relations(phrases)
     assert len(result) > 0
 
 

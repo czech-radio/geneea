@@ -1,9 +1,7 @@
 # -*- coding: utf-8 -*-
 
 
-"""
-Contains a domain model for Geneea NLP REST (JSON) service.
-"""
+"""Contains a domain model for Geneea NLP REST (JSON) service."""
 
 
 from __future__ import annotations
@@ -488,7 +486,7 @@ class Document(Serializable):  # AGGREGATE
     # ###############################################################################  #
 
     @classmethod
-    def from_json(cls, json: str) -> Analysis:
+    def from_json(cls, json: str) -> Document:
         analysed = json  # alias
 
         # language

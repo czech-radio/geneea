@@ -69,9 +69,9 @@ def main():
 
     match args.format:
         case None:
-            format = "xml"
+            output_format = "xml"
         case "csv" | "xml" | "json":
-            format = args.format.lower()
+            output_format = args.format.lower()
         case _:
             print("The allowed format is ('xml', 'json', 'csv').")
             result = client.get_analysis(text)
@@ -104,4 +104,4 @@ def main():
             )
             sys.exit(1)
 
-    print(client.serialize(result, format=format))
+    print(client.serialize(result, output_format=output_format))
