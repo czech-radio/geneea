@@ -135,7 +135,7 @@ relations = client.get_relations(phrase)
 
 ## Contribution
 
-&hellip;
+See the [CONTRIBUTING.md](./.github/CONTRIBUTING.md) document.
 
 ## Documentation
 
