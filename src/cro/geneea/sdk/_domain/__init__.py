@@ -480,7 +480,7 @@ class Document(Serializable):  # AGGREGATE
         return result
 
     @classmethod
-    def to_tablec(cls, objects: tuple(object)) -> pd.DataFrame:
+    def to_table(cls, objects: tuple(object)) -> pd.DataFrame:
         """
         Convert objects into pandas data-frame.
 
