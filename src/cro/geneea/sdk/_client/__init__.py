@@ -151,9 +151,7 @@ class Client:
 
     # ################################### HELPERS #################################### #
 
-    def _send_post_request(
-        self, endpoint, data=None, expected_status_code: int = 200
-    ) -> None:
+    def _send(self, endpoint, data=None, expected_status_code: int = 200) -> None:
         """
         Send the POST request to the endpoint.
 
@@ -193,7 +191,7 @@ class Client:
                     f'{response.json()["exception"]} [{response.status_code}]: {response.json()["message"]}{resource_info}'
                 )
 
-            result = Document(original=data, analysed=response.json())
+            result = Document.create(original=data, analysed=response.json())
 
             return result
 
@@ -216,7 +214,7 @@ class Client:
         Get account information.
         :return: Account object
         """
-        result = self._send_post_request("account", data="\n").account
+        result = self._send("account", data="\n").account
         return result
 
     # ANALYSIS
@@ -228,7 +226,7 @@ class Client:
         :param input: The input text to analyze.
         :return The analysed input text.
         """
-        result = self._send_post_request("tags", data=text).tags
+        result = self._send("tags", data=text).tags
         return result
 
     def get_entities(self, text: str) -> tuple[Entity]:
@@ -238,7 +236,7 @@ class Client:
         :param input: The input text to analyze.
         :return The analysed input text.
         """
-        result = self._send_post_request("entities", data=text).entities
+        result = self._send("entities", data=text).entities
         return result
 
     def get_sentiment(self, text: str) -> Sentiment:
@@ -248,7 +246,7 @@ class Client:
         :param input: The input text to analyze.
         :return The analysed input text.
         """
-        result = self._send_post_request("sentiment", data=text).sentiment
+        result = self._send("sentiment", data=text).sentiment
         return result
 
     def get_relations(self, text: str) -> tuple[Relation]:
@@ -258,7 +256,7 @@ class Client:
         :param input: The input text to analyze.
         :return The analyzed input text.
         """
-        result = self._send_post_request("relations", data=text).relations
+        result = self._send("relations", data=text).relations
         return result
 
     def get_analysis(self, text: str) -> Document:
@@ -268,5 +266,5 @@ class Client:
         :param input: The input text to analyze.
         :return The analysed input text.
         """
-        result = self._send_post_request("analysis", data=text)
+        result = self._send("analysis", data=text)
         return result

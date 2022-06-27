@@ -227,6 +227,7 @@ def analysis_fake():
     )
 
 
+@pytest.mark.skip
 @pytest.mark.domain
 def test_analysis_version():
-    ...
+    assert False

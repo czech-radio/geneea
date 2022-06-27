@@ -12,7 +12,7 @@ import json
 import xml.dom.minidom
 import xml.etree.cElementTree as ET
 from dataclasses import dataclass
-from typing import Any, Generic, List, Optional, TypeVar
+from typing import Generic, List, Optional, TypeVar
 
 import pandas as pd
 
@@ -30,13 +30,10 @@ __all__ = tuple(
     ]
 )
 
-# #################################################################################### #
 
 Text = str  #: The text content alias.
 XML = str  #: The XML content alias.
 JSON = str  #: The JSON content alias.
-
-# #################################################################################### #
 
 
 @dataclass(frozen=True, slots=True)
@@ -498,9 +495,7 @@ class Document(Serializable):  # AGGREGATE
     # ###############################################################################  #
 
     @classmethod
-    def from_json(cls, json: str) -> Document:
-        analysed = json  # alias
-
+    def create(cls, original, analysed: JSON) -> Document:
         # language
         language = analysed.get("language").get("detected")
 
@@ -508,10 +503,20 @@ class Document(Serializable):  # AGGREGATE
         version = analysed.get("version")
 
         # entities
+        entities = analysed.get("entities")
 
         # tags
+        tags = analysed.get("tags")
 
-        # relatons
+        # relations
+        relations = analysed.get("relations")
+
+        # mentions
+        # mentions = analysed.get("mentions")
+
+        result: Doument = cls(original=original, analysed=analysed)
+
+        return result
 
 
 # #################################################################################### #
