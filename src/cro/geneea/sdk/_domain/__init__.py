@@ -64,9 +64,9 @@ class Tag(Identifiable, Serializable):
     Tags derived from the document content.
     """
 
-    type: str  #: ???
-    stdForm: str  #: ???
-    relevance: str  #: FIXME Should be `float`.
+    type: str  #: FIXME
+    stdForm: str  #: FIXME
+    relevance: float  #: FIXME
 
 
 @dataclass(frozen=True, slots=True)

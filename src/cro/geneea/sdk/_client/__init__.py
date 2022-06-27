@@ -30,18 +30,20 @@ class ClientException(Exception):
 
 class Client:
     """
-    The simple but effective *Geneea REST service* client.
+    The simple but effective *Geneea NLP service* client.
 
-    Only the synchronous (blocking) calls are implemented at this moment.
-    See example outputs `docs/examples/*.json|xml`.
+    At this moment only the synchronous (blocking) calls are implemented.
+
+    See the example `json`/`xml` output files in `/docs/examples/` directory.
 
     NOTE: [
         POST request status codes
-        201 	Created
-        401 	Unauthorized
-        403 	Forbidden
-        404 	Not Found
+        201    Created
+        401    Unauthorized
+        403    Forbidden
+        404    Not Found
     ]
+
     NOTE: [
       Consider change URL to "https://api.geneea.com/v3/analysis/T:CRo-transcripts".
       This URL uses the special model trained for our purpose e.g better political parties
@@ -203,11 +205,23 @@ class Client:
 
     # ################################### FEATURES ################################### #
 
+    # GENERAL
+
     def get_status(self) -> str:
         """
         Get the service status check.
         """
         return NotImplemented
+
+    def get_account(self) -> Account:
+        """
+        Get account information.
+        :return: Account object
+        """
+        result = self._send_post_request("account", data="\n").account
+        return result
+
+    # ANALYSIS
 
     def get_tags(self, text: str) -> tuple[Tag]:
         """
@@ -217,14 +231,6 @@ class Client:
         :return The analysed input text.
         """
         result = self._send_post_request("tags", data=text).tags
-        return result
-
-    def get_account(self) -> Account:
-        """
-        Get account information.
-        :return: Account object
-        """
-        result = self._send_post_request("account", data="\n").account
         return result
 
     def get_entities(self, text: str) -> tuple[Entity]:
