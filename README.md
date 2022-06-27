@@ -20,44 +20,31 @@ _The library SDK wrapper for [Geneea](https://geneea.com/) and helpers for NLP a
 - We assume that you use at least Python 3.9.
 - We assume that you use the virtual environment.
 
-One can install package from the GitHub repository.
-
-Activate the virtual environment:
-
-Unix
-
-```shell
-source .venv/bin/activate
-```
-
-Windows
-
-```powershell
-.\.venv\Scripts\activate
-```
-
 Install the latest package version from repository main branch.
 
 ```
-pip install git+https://github.com/czech-radio/cro-geneea-client.git
+$ pip install git+https://github.com/czech-radio/cro-geneea-client.git
 ```
 
 For development clone the repository and install with editable mode.
 
 ```
-git clone https://github.com/czech-radio/cro-geneea-client.git
-pip install -e .[dev]
+$ git clone https://github.com/czech-radio/cro-geneea-client.git
+$ pip install -e .[dev]
 ```
 
 ## Features & Usage
 
-- [x] Get the document tags.
-- [x] Get the document entities.
-- [x] Get the document relations.
-- [x] Get the document sentiment.
-- [x] Get the account information.
-- [ ] Get the service health check status.
-- [ ] Get the document complete analysis (tags, entities, relations, sentiment).
+- Get the document tags.
+- Get the document entities.
+- Get the document relations.
+- Get the document sentiment.
+- Get the account information (work-in.progress).
+- Get the service health check status (work-in.progress).
+- Get the document complete analysis (tags, entities, relations, sentiment).
+
+At this moment only the synchronous (blocking) calls are implemented. This may
+change in the future.
 
 **TODO**
 

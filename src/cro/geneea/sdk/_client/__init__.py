@@ -30,9 +30,7 @@ class ClientException(Exception):
 
 class Client:
     """
-    The simple but effective *Geneea NLP service* client.
-
-    At this moment only the synchronous (blocking) calls are implemented.
+    The simple but effective *Geneea NLP v3 service* client.
 
     See the example `json`/`xml` output files in `/docs/examples/` directory.
 
@@ -46,8 +44,8 @@ class Client:
 
     NOTE: [
       Consider change URL to "https://api.geneea.com/v3/analysis/T:CRo-transcripts".
-      This URL uses the special model trained for our purpose e.g better political parties
-      recognition.
+      This URL uses the special model trained for our (Czech Radi) purpose e.g better political
+      parties recognition.
     ]
     """
 
