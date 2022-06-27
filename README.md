@@ -15,22 +15,22 @@ _The library SDK wrapper for [Geneea](https://geneea.com/) and helpers for NLP a
 
 ## Installation
 
-**Prerequisites**
+Prerequisites:
 
 - We assume that you use at least Python 3.9.
 - We assume that you use the virtual environment.
 
 Install the latest package version from repository main branch.
 
-```
-$ pip install git+https://github.com/czech-radio/cro-geneea-client.git
+```powershell
+pip install git+https://github.com/czech-radio/cro-geneea-client.git
 ```
 
 For development clone the repository and install with editable mode.
 
-```
-$ git clone https://github.com/czech-radio/cro-geneea-client.git
-$ pip install -e .[dev]
+```powershell
+git clone https://github.com/czech-radio/cro-geneea-client.git
+pip install -e .[dev]
 ```
 
 ## Features & Usage
@@ -45,11 +45,6 @@ $ pip install -e .[dev]
 
 At this moment only the synchronous (blocking) calls are implemented. This may
 change in the future.
-
-**TODO**
-
-- The domain model needs review and some changes.
-- The XML and JSON serialization outputs should be equal.
 
 ### Prerequisities
 
@@ -69,20 +64,27 @@ $env:GENEEA_API_KEY=YOUR_KEY
 
 ### Use as a program
 
-```shell
+```powershell
 cro.geneea --input <file_name> --type <type_name> --format <format_name>
-
-# The <format_name> option must be one of: `xml`, `json`.
-# The <type_name> option must be one of: `analysis`, `tags`, `entities`, `relations`, `account`.
 ```
+
+- The <format_name> option must be one of:
+  - xml
+  - json
+- The <type_name> option must be one of:
+  - tags
+  - entities
+  - relations
+  - account
+  - analysis
 
 e.g.
 
-```
+```powershell
 cro.geneea --input ./docs/examples/input.txt --type analysis --format xml
 ```
 
-```
+```powershell
 cro.geneea --input ./docs/examples/input.txt --type analysis --format json
 ```
 
@@ -141,7 +143,6 @@ The complete documentation soon&hellip;
 
 ## References
 
-- https://geneea.com/
-- https://demo.geneea.com/
-- https://api.geneea.com/
-- https://api.geneea.com/api-docs
+- [Geneea](https://geneea.com/)
+- [Geneea demo](https://demo.geneea.com/)
+- [Genee REST API documentation](https://api.geneea.com/)

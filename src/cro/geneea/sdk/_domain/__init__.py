@@ -491,6 +491,18 @@ class Document(Serializable):  # AGGREGATE
     def from_json(cls, json: str) -> Analysis:
         analysed = json  # alias
 
+        # language
+        language = analysed.get("language").get("detected")
+
+        # version
+        version = analysed.get("version")
+
+        # entities
+
+        # tags
+
+        # relatons
+
 
 # #################################################################################### #
 
