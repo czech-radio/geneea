@@ -1,5 +1,5 @@
 #!/bin/bash
- 
+
 # PURPOSE:
 #   Analyze the scraped irozhlas.cz content (`*.txt`).
 #
@@ -11,9 +11,9 @@
 # Activate the existing virtual environment.
 source /root/irozhlas/cro-geneea-sdk/.venv/bin/activate
 
-# Executes the NLP analysis gor all TXT files. 
-for i in `find /root/irozhlas/irozhlas-scraper/output/*.txt -newermt $(date +%Y-%m-%d -d '1 day ago') -type f -print`; do
-	cro.geneea --input $i --type analysis --format xml;
+# Executes the NLP analysis gor all TXT files.
+for i in $(find /root/irozhlas/irozhlas-scraper/output/*.txt -newermt $(date +%Y-%m-%d -d '1 day ago') -type f -print); do
+	cro.geneea --input "$i" --type analysis --format xml;
 	sleep 1;
 done
 

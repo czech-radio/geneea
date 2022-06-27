@@ -12,13 +12,13 @@ assert sentiment.mean == 0.0
 assert sentiment.positive = 1.0
 assert sentiment.negative = -1.0
 
-or 
+or
 
 assert sentiment.mean == 0.0 and sentiment.positive = 1.0 and sentiment.negative = -1.0
 
 you can write:
 
-assert (sentiment.mean, sentiment.positive, sentiment.negative) == (0.0, 1.0, -1.0) 
+assert (sentiment.mean, sentiment.positive, sentiment.negative) == (0.0, 1.0, -1.0)
 
 ALWAYS initilize like this:
 
@@ -49,12 +49,12 @@ from cro.geneea.sdk import Account, Document, Entity, Relation, Sentiment, Tag
 @pytest.mark.domain
 def test_tag_model_is_correctly_initialized():
     # Arrange
-    unique_id, stdForm, type, relevance = "t0", "form", "type", 1.0
+    unique_id, stdForm, model_type, relevance = "t0", "form", "type", 1.0
 
     # Act
-    model = Tag(id=unique_id, type=type, stdForm=stdForm, relevance=1.0)
-    expects = unique_id, stdForm, type, relevance
-    current = model.unique_id, model.stdForm, model.type, model.relevance
+    model = Tag(id=unique_id, type=model_type, stdForm=stdForm, relevance=1.0)
+    expects = unique_id, stdForm, model_type, relevance
+    current = model.id, model.stdForm, model.type, model.relevance
 
     # Assert
     assert expects == current
@@ -63,11 +63,11 @@ def test_tag_model_is_correctly_initialized():
 @pytest.mark.domain
 def test_account_model_is_correctly_initialized():
     # Arrange
-    type, quotas = "type", "quotas"
+    model_type, quotas = "type", "quotas"
 
     # Act
-    model = Account(type=type, remainingQuotas=quotas)
-    expects = type, quotas
+    model = Account(type=model_type, remainingQuotas=quotas)
+    expects = model_type, quotas
     current = model.type, model.remainingQuotas
 
     # Assert
@@ -77,12 +77,12 @@ def test_account_model_is_correctly_initialized():
 @pytest.mark.domain
 def test_entity_model_is_correctly_initialized():
     # Arrange
-    unique_id, stdForm, type = "e0", "stdForm", "type"
+    unique_id, stdForm, model_type = "e0", "stdForm", "type"
 
     # Act
-    model = Entity(id=unique_id, stdForm=stdForm, type=type)
-    current = model.unique_id, model.stdForm, model.type
-    expects = unique_id, stdForm, type
+    model = Entity(id=unique_id, stdForm=stdForm, type=model_type)
+    current = model.id, model.stdForm, model.type
+    expects = unique_id, stdForm, model_type
 
     # Assert
     assert expects == current
@@ -105,7 +105,7 @@ def test_sentiment_model_is_correctly_initialized():
 @pytest.mark.domain
 def test_relation_model_is_correctly_initialized():
     # Arrange
-    unique_id, name, textRepr, type, args = (
+    unique_id, name, textRepr, model_type, args = (
         "id_data",
         "name_data",
         "textRepr_data",
@@ -114,10 +114,12 @@ def test_relation_model_is_correctly_initialized():
     )
 
     # Act
-    model = Relation(id=unique_id, type=type, textRepr=textRepr, name=name, args=args)
+    model = Relation(
+        id=unique_id, type=model_type, textRepr=textRepr, name=name, args=args
+    )
 
-    expects = unique_id, type, textRepr, name, args
-    current = model.unique_id, model.type, model.textRepr, model.name, model.args
+    expects = unique_id, model_type, textRepr, name, args
+    current = model.id, model.type, model.textRepr, model.name, model.args
 
     # Assert
     assert expects == current
