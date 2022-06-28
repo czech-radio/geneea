@@ -63,7 +63,8 @@ def main():
     client = Client(key=envs["GENEEA_API_KEY"])
 
     with open(args.input, encoding="utf8") as file:
-        text = "\n".join(file.readlines())
+        lines = [line.strip() for line in file.readlines()]
+        text = "\n".join(lines)
 
     # print(f"{args.type.upper()}\n{len(args.type) * '-'}")
 
@@ -75,13 +76,17 @@ def main():
         case _:
             print("The allowed format is ('xml', 'json', 'csv').")
             result = client.get_analysis(text)
-            print(result.original)
-            print(result.analysed)
-            # print("----------"); print(result)
-            # print("----------"); print(result.tags);
-            # print("----------"); print(result.sentiment);
-            # print("----------"); print(result.entities);
-            # print("----------"); print(result.paragraphs)
+            print(f"{result}")
+            print(f"---------------------")
+            print(f"Original: {result.original}")
+            print(f"---------------------")
+            print(f"Tags: {result.tags}")
+            print(f"---------------------")
+            print(f"Sentiment: {result.sentiment}")
+            print(f"---------------------")
+            print(f"Entities: {result.entities}")
+            print(f"---------------------")
+            print(f"Paragraphs: {result.paragraphs}")
             # vs write to file with name = f"{args.input[0:args.input.index('.')]}_{args.type.lower()}.xml",
             sys.exit(1)
 

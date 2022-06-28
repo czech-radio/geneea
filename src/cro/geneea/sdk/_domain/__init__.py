@@ -59,7 +59,51 @@ class Identifiable:
     id: str
 
 
-# #################################################################################### #
+T = TypeVar("T")  #: The type to serialize.
+U = TypeVar("U")  #: The type after serialization.
+
+
+class Serializer(Generic[T, U]):
+    """
+    Serializer (mapper/converter) transforms the type `T` into `U` (e.g. XML or JSON serializer).
+    """
+
+    def serialize(entity: T) -> U:
+        """
+        Serialize the entity of type `T` to format of type `U`.
+        """
+
+
+@dataclass(frozen=True, slots=True)
+class Language:
+    expected: str  #: The expected document language.
+    detected: str  #: The detected document language.
+
+    def __post__init__(self) -> None:
+        """
+        Check the language abbreviation format.
+
+        "cs" accept
+        "en" accept
+        "XX" reject
+        """
+
+
+@dataclass(frozen=True, slots=True)
+class Version:
+    major: int  #: The major version number.
+    minor: int  #: The minor version number.
+    patch: int  #: The patch version number.
+
+    def __post__init__(self) -> None:
+        """
+        Check the version major, minor and patch number.
+
+        0.0.1 accept
+        0.1.0 accept
+        1.0.0 accept
+        0.0.0 reject
+        """
 
 
 @dataclass(frozen=True, slots=True)
@@ -99,13 +143,17 @@ class Entity(Identifiable, Serializable):
 
     type: str
     stdForm: str
-    # gkbId: Optional[str] # The recognized entities gets `gkbId`.
-    # mentions:  {"id": "m0", "mwl": "každý den", "text": "každý den", "tokenIds" }
+    mentions: Optional[
+        dict
+    ] = None  #: e.g {"id": "m0", "mwl": "každý den", "text": "každý den", "tokenIds" }
+    gkbId: Optional[str] = None  #: The recognized entities gets `gkbId`.
+    sentiment: Optional[str] = None
+    derive_from: Optional[str] = None  #: + is_derived
 
 
 class RelationType(enum.Enum):
-    VERB = "verb"
-    ATTR = "attr"
+    VERB = "verb"  # The verb part od speech.
+    ATTR = "attr"  # the attribute.
 
 
 @dataclass(frozen=True, slots=True)
@@ -136,9 +184,6 @@ class Relation(Identifiable, Serializable):
     def __post_init__(self):
         # Check that `id` == r{number}
         pass
-
-
-# #################################################################################### #
 
 
 @dataclass(frozen=True, slots=True)
@@ -211,29 +256,39 @@ class Mention:
     """
 
 
-# #################################################################################### #
-
-
-@dataclass(frozen=True, slots=True)
-class Document(Serializable):  # AGGREGATE
+class Document(object):  # ROOT_ENTITY
     """
-    Document main aggregate entity.
-
-    OriginalContent  = raw str
-    AnalysedContent  = obj tree
-
-    def __init__(self, original):
-        self.original = original
-
-    def __eq__(self, that: obj) -> bool:
-        return NotImplemented
-
-    def __hash__(self) -> int:
-        return NotImplemented
+    Represents a document completely analysed by Geneea NLP service.
     """
 
-    original: Text  # content
-    analysed: dict  # content
+    def __init__(
+        self,
+        original: Text,
+        language: Text,
+        version: Text,
+        sentiment: Optional[Sentiment] = None,
+        paragraphs: tuple[Paragraph] | None = None,
+        entities: tuple[Entity] | None = None,
+        relations: tuple[Relation] | None = None,
+        tags: tuple[Tag] | None = None,
+    ) -> None:
+        """
+        Don't use directly:  use the :meth:`create()` factory method!
+
+        :param original: The original document content.
+        :param language: The detected language.
+        :param version: The service version.
+        """
+        assert len(original) > 0
+        self._original = original
+        self._language = language
+        self._version = version
+        # The complete Geneea NLP analysis.
+        self._sentiment = sentiment
+        self._paragraphs = paragraphs
+        self._entities = entities
+        self._relations = relations
+        self._tags = tags
 
     def __len__(self) -> int:
         """
@@ -241,9 +296,143 @@ class Document(Serializable):  # AGGREGATE
         """
         return len(self.original)
 
-    # ###############################################################################  #
-    #                                   PROPERTIES                                     #
-    # ###############################################################################  #
+    # < > <= >= Sort by the content length.
+
+    def __eq__(self, that: obj) -> bool:
+        """
+        Check if the objects are equal.
+        """
+        return (type(self), self.original) == (type(that), that.original)
+
+    def __hash__(self) -> int:
+        """
+        Get the objects hash.
+        """
+        return hash((type(self), self.original))
+
+    # Factories
+
+    @classmethod
+    def create(cls, original, analysed: JSON) -> Optional[Document]:
+        """
+        Create a new instance of document from the JSON input.
+
+        :param original: The original content.
+        :param: analysed: The analysed content.
+        :return: The new instance of document or None on error.
+        """
+        # Get the language from JSON attribute.
+        language = analysed.get("language").get("detected")
+
+        # Get the version from JSON attribute.
+        version = analysed.get("version")
+
+        # # Get the sentiment from JSON attribute.
+        sentiment = None
+        if analysed.get("docSentiment") is not None:
+            sentiment = Sentiment(
+                mean=analysed.get("docSentiment").get("mean"),
+                positive=analysed.get("docSentiment").get("positive"),
+                negative=analysed.get("docSentiment").get("negative"),
+                label=analysed.get("docSentiment").get("label"),
+            )
+
+        # Get the entities from JSON attribute.
+        entities = None
+        if analysed.get("entities") is not None:
+            entities = tuple(
+                (
+                    Entity(
+                        id=entity["id"],
+                        stdForm=entity["stdForm"],
+                        type=entity["type"],
+                        mentions=entity["mentions"],
+                    )
+                    for entity in analysed.get("entities")
+                )
+            )
+
+        # Get the tag from JSON attribute.
+        tags = None
+        if analysed.get("tags") is not None:
+            tags = tuple(
+                (
+                    Tag(
+                        id=tag.get("id"),
+                        stdForm=tag.get("stdForm"),
+                        type=tag.get("type"),
+                        relevance=tag.get("relevance"),
+                    )
+                    for tag in analysed.get("tags")
+                )
+            )
+
+        # Get the relations from JSON attribute.
+        relations = None
+        if analysed.get("relations") is not None:
+            relations = tuple(
+                (
+                    Relation(
+                        id=relation["id"],
+                        name=relation["name"],
+                        type=relation["type"],
+                        args=relation["args"],
+                        textRepr=relation["textRepr"],
+                    )
+                    for relation in analysed["relations"]
+                )
+            )
+
+        # Get the paragraphs from JSON attribute.
+        paragraphs = None
+        if analysed.get("paragraphs") is not None:
+            paragraphs = tuple(
+                (
+                    Paragraph(
+                        id=paragraph.get("id"),
+                        type=paragraph.get("type"),
+                        sentences=tuple(
+                            (
+                                Sentence(
+                                    id=sentence.get("id"),
+                                    tokens=tuple(
+                                        (
+                                            Token(
+                                                id=token.get("id"),
+                                                text=token.get("text"),
+                                                offset=token.get("off"),
+                                                relevance=token.get("relevance"),
+                                            )
+                                            for token in sentence["tokens"]
+                                        )
+                                    ),
+                                )
+                                for sentence in paragraph.get("sentences")
+                            )
+                        ),
+                    )
+                    for paragraph in analysed.get("paragraphs")
+                )
+            )
+
+        result = cls(
+            original=original,
+            language=language,
+            version=version,
+            sentiment=sentiment,
+            paragraphs=paragraphs,
+            entities=entities,
+            relations=relations,
+            tags=tags,
+        )
+
+        return result
+
+    # Properties
+
+    @property
+    def original(self) -> str:
+        return self._original
 
     @property
     def language(self) -> str:  # FIXME Return domain object
@@ -252,7 +441,7 @@ class Document(Serializable):  # AGGREGATE
 
         :return: The detected language abbreviation.
         """
-        return self.analysed.get("language").get("detected")
+        return self._language
 
     @property
     def version(self) -> str:  # FIXME Return domain object.
@@ -261,10 +450,8 @@ class Document(Serializable):  # AGGREGATE
 
         :return: The service version.
         """
-        return self.analysed.get("version")
+        return self._version
 
-    @property
-    def account(self) -> Account:
         """
         Get the account information.
 
@@ -279,14 +466,7 @@ class Document(Serializable):  # AGGREGATE
 
         :return: The analysed entities.
         """
-        result = tuple(
-            (
-                Entity(id=entity["id"], stdForm=entity["stdForm"], type=entity["type"])
-                for entity in self.analysed.get("entities")
-            )
-        )
-
-        return result
+        return self._entities
 
     @property
     def tags(self) -> tuple[Tag]:
@@ -295,19 +475,7 @@ class Document(Serializable):  # AGGREGATE
 
         :return: The analysed tags.
         """
-        result = tuple(
-            (
-                Tag(
-                    id=tag.get("id"),
-                    stdForm=tag.get("stdForm"),
-                    type=tag.get("type"),
-                    relevance=tag.get("relevance"),
-                )
-                for tag in self.analysed.get("tags")
-            )
-        )
-
-        return result
+        return self._tags
 
     @property
     def relations(self) -> tuple[Relation]:
@@ -316,34 +484,16 @@ class Document(Serializable):  # AGGREGATE
 
         :return: The analysed relations.
         """
-        result = tuple(
-            (
-                Relation(
-                    id=relation["id"],
-                    name=relation["name"],
-                    type=relation["type"],
-                    args=relation["args"],
-                    textRepr=relation["textRepr"],
-                )
-                for relation in self.analysed["relations"]
-            )
-        )
-
-        return result
+        return self._relations
 
     @property
-    def sentiment(self) -> Sentiment:
+    def sentiment(self) -> Optional[Sentiment]:
         """
         Get the analysed sentiment.
 
         :return: The analysed sentiment.
         """
-        return Sentiment(
-            mean=self.analysed.get("docSentiment").get("mean"),
-            positive=self.analysed.get("docSentiment").get("positive"),
-            negative=self.analysed.get("docSentiment").get("negative"),
-            label=self.analysed.get("docSentiment").get("label"),
-        )
+        return self._sentiment
 
     @property
     def paragraphs(self) -> tuple[Paragraph]:
@@ -352,56 +502,29 @@ class Document(Serializable):  # AGGREGATE
 
         :return: The document paragraphs.
         """
-        result = tuple(
-            (
-                Paragraph(
-                    id=paragraph.get("id"),
-                    type=paragraph.get("type"),
-                    sentences=tuple(
-                        (
-                            Sentence(
-                                id=sentence.get("id"),
-                                tokens=tuple(
-                                    (
-                                        Token(
-                                            id=token.get("id"),
-                                            text=token.get("text"),
-                                            offset=token.get("off"),
-                                            relevance=token.get("relevance"),
-                                        )
-                                        for token in sentence["tokens"]
-                                    )
-                                ),
-                            )
-                            for sentence in paragraph.get("sentences")
-                        )
-                    ),
-                )
-                for paragraph in self.analysed.get("paragraphs")
-            )
-        )
+        return self._paragraphs
 
-        return result
+    # Serializers (convertors)
 
-    # ###############################################################################  #
-    #                                 SERIALIZATION                                    #
-    # ###############################################################################  #
-
-    def to_xml(self) -> XML:
+    def to_xml(self, encoding="utf-8") -> XML:
         """
-        Serialize entity to XML format.
+        Serialize object to XML format.
 
-        e.g. XML
+        :return: The serialized object.
 
-        <?xml version='1.0' encoding='utf8'?>
-        <document>
-            <content length="123">
-                [text]
-            </content>
-            <analysis version="3.2.1">
-                ...
-            </analysis>
-        </document>
+        The XML should look like the following example.
+
+        ..code: xml
+            <?xml version='1.0' encoding='utf8'?>
+            <document>
+                <content length="123">
+                    [text]
+                </content>
+                <analysis version="3.2.1">
+                    ...
+                </analysis>
+            </document>
+
         """
         root = ET.Element("document")
 
@@ -413,18 +536,33 @@ class Document(Serializable):  # AGGREGATE
         analysis = ET.SubElement(root, "analysis")
 
         # Add entity elements (nodes) to XML tree.
-        entities = ET.SubElement(analysis, "entities")
-        for obj in self.entities:
-            ET.SubElement(
-                entities, "entity", id=f"{obj.id}", type=f"{obj.type}"
-            ).text = f"{obj.stdForm}"
+        entities_node = ET.SubElement(analysis, "entities")
+        mentions_node = ET.SubElement(analysis, "mentions")
+        for entity in self.entities:
+            entity_node = ET.SubElement(
+                entities_node,
+                "entity",
+                id=f"{entity.id}",
+                type=f"{entity.type}",
+                stdForm=f"{entity.stdForm}",
+            )
+            # Add mention elements (nodes) to each entity element (node).
+            for mention in entity.mentions:
+                mention_node = ET.SubElement(
+                    mentions_node,
+                    "mention",
+                    id=mention.get("id"),
+                    entityId=entity.id,
+                    mwl=mention.get("mwl"),
+                    tokenIds=",".join(mention.get("tokenIds")),
+                ).text = mention.get("text")
 
         # Add tags elements (nodes) to XML tree.
         tags = ET.SubElement(analysis, "tags")
-        for obj in self.tags:
+        for tag in self.tags:
             ET.SubElement(
-                tags, "tag", id=f"{obj.id}", relevance=f"{obj.relevance}"
-            ).text = f"{obj.stdForm}"
+                tags, "tag", id=f"{tag.id}", relevance=f"{tag.relevance}"
+            ).text = f"{tag.stdForm}"
 
         # Add sentiment element (node) to XML tree.
         sentiment = ET.SubElement(
@@ -466,71 +604,23 @@ class Document(Serializable):  # AGGREGATE
                 tokens = ET.SubElement(sentence_node, "tokens")
                 for token in sentence.tokens:
                     ET.SubElement(
-                        tokens,
-                        "token",
-                        id=f"{token.id}",
-                        offset=f"{token.offset}",
-                        text=f"{token.text}",
-                    )
+                        tokens, "token", id=f"{token.id}", offset=f"{token.offset}"
+                    ).text = f"{token.text}"
 
         result: str = xml.dom.minidom.parseString(
-            ET.tostring(root, encoding="utf-8", method="xml")
+            ET.tostring(root, encoding=encoding, method="xml")
         ).toprettyxml()
 
         return result
 
-    @classmethod
-    def to_table(cls, objects: tuple(object)) -> pd.DataFrame:
+    def to_json(self) -> JSON:
+        return "JSON WILL BE HERE!"
+
+    def to_table(self) -> pd.DataFrame:
         """
         Convert objects into pandas data-frame.
-
-        :param objecs: The collection of domain objects.
         :return: The pandad data-frame with collected data.
         """
-        result = pd.DataFrame.from_dict([entry.as_dict() for entry in objects])
+        # result = pd.DataFrame.from_dict(self.analysed)
+        result = NotImplemented
         return result
-
-    # ###############################################################################  #
-    #                                   FACTORIES                                      #
-    # ###############################################################################  #
-
-    @classmethod
-    def create(cls, original, analysed: JSON) -> Document:
-        # language
-        language = analysed.get("language").get("detected")
-
-        # version
-        version = analysed.get("version")
-
-        # entities
-        entities = analysed.get("entities")
-
-        # tags
-        tags = analysed.get("tags")
-
-        # relations
-        relations = analysed.get("relations")
-
-        # mentions
-        # mentions = analysed.get("mentions")
-
-        result: Doument = cls(original=original, analysed=analysed)
-
-        return result
-
-
-# #################################################################################### #
-
-T = TypeVar("T")  #: The type to serialize.
-U = TypeVar("U")  #: The type after serialization.
-
-
-class Serializer(Generic[T, U]):
-    """
-    Serializer (mapper/converter) transforms the type `T` into `U` (e.g. XML or JSON serializer).
-    """
-
-    def serialize(entity: T) -> U:
-        """
-        Serialize the entity of type `T` to format of type `U`.
-        """
