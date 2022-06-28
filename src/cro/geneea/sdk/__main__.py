@@ -75,19 +75,6 @@ def main():
             output_format = args.format.lower()
         case _:
             print("The allowed format is ('xml', 'json', 'csv').")
-            result = client.get_analysis(text)
-            print(f"{result}")
-            print(f"---------------------")
-            print(f"Original: {result.original}")
-            print(f"---------------------")
-            print(f"Tags: {result.tags}")
-            print(f"---------------------")
-            print(f"Sentiment: {result.sentiment}")
-            print(f"---------------------")
-            print(f"Entities: {result.entities}")
-            print(f"---------------------")
-            print(f"Paragraphs: {result.paragraphs}")
-            # vs write to file with name = f"{args.input[0:args.input.index('.')]}_{args.type.lower()}.xml",
             sys.exit(1)
 
     match args.type:
@@ -109,4 +96,5 @@ def main():
             )
             sys.exit(1)
 
+    # vs write to file with name = f"{args.input[0:args.input.index('.')]}_{args.type.lower()}.xml",
     print(client.serialize(result, output_format=output_format))
