@@ -7,11 +7,7 @@ Contains a client implementing the SDK features.
 
 
 import logging
-import os
-from os import PathLike
 from typing import Optional
-
-import dotenv
 from requests import post
 
 from cro.geneea.sdk._domain import Account, Document, Entity, Relation, Sentiment, Tag
