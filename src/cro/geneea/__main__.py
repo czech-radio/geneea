@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 """
 The command line interface.
 """
@@ -10,7 +8,7 @@ import sys
 
 import dotenv
 
-from cro.geneea.sdk import Client
+from cro.geneea import Client
 
 
 def read_args():
@@ -56,7 +54,6 @@ def read_envs() -> dict:
 
 
 def main():
-
     args = read_args()
     envs = read_envs()
 

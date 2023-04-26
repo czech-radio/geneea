@@ -43,7 +43,7 @@ Python is dynamic language but it does not mean you should test agains nonsene v
 
 import pytest
 
-from cro.geneea.sdk import Account, Document, Entity, Relation, Sentiment, Tag
+from cro.geneea import Account, Document, Entity, Relation, Sentiment, Tag
 
 
 @pytest.mark.domain
