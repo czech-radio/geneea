@@ -23,13 +23,13 @@ Prerequisites:
 Install the latest package version from repository main branch.
 
 ```powershell
-pip install git+https://github.com/czech-radio/cro-geneea-client.git
+pip install git+https://github.com/czech-radio/geneea.git
 ```
 
 For development clone the repository and install with editable mode.
 
 ```powershell
-git clone https://github.com/czech-radio/cro-geneea-client.git
+git clone https://github.com/czech-radio/geneea.git
 pip install -e .[dev]
 ```
 
@@ -89,7 +89,7 @@ See example [notebook](./docs/examples/Document-Analysis.ipynb)
 
 ```python
 import os
-from cro.geneea.sdk import Client
+from cro.geneea import Client
 
 client = client(key = os.environ.get("GENEEA_API_KEY"))
 # Try `phrase = "Příliž žluťoučký kůň"`.

@@ -1,22 +1,13 @@
-# -*- coding: utf-8 -*-
-
-
 """
 Contains a client implementing the SDK features.
 """
 
-
 import logging
-import os
-from os import PathLike
 from typing import Optional
 
-import dotenv
 from requests import post
 
-from cro.geneea.sdk._domain import Account, Document, Entity, Relation, Sentiment, Tag
-
-__all__ = tuple(["Client"])
+from cro.geneea._domain import Account, Document, Entity, Relation, Sentiment, Tag
 
 
 LOGGER = logging.getLogger(__name__)

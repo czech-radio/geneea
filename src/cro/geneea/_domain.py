@@ -1,7 +1,6 @@
-# -*- coding: utf-8 -*-
-
-
-"""Contains a domain model for Geneea NLP REST (JSON) service."""
+"""
+Contains a domain model for Geneea NLP REST (JSON) service.
+"""
 
 
 from __future__ import annotations
@@ -12,23 +11,9 @@ import json
 import xml.dom.minidom
 import xml.etree.cElementTree as ET
 from dataclasses import dataclass
-from typing import Generic, List, Optional, TypeVar
+from typing import Generic, Optional, TypeVar
 
 import pandas as pd
-
-__all__ = tuple(
-    [
-        "Account",
-        "Entity",
-        "Tag",
-        "Sentence",
-        "Sentiment",
-        "Paragraphs",
-        "Relation",
-        "Mention",
-        "Document",
-    ]
-)
 
 
 Text = str  #: The text content alias.
@@ -72,6 +57,7 @@ class Serializer(Generic[T, U]):
         """
         Serialize the entity of type `T` to format of type `U`.
         """
+        return NotImplemented
 
 
 @dataclass(frozen=True, slots=True)
@@ -87,6 +73,7 @@ class Language:
         "en" accept
         "XX" reject
         """
+        return NotImplemented
 
 
 @dataclass(frozen=True, slots=True)
@@ -104,6 +91,7 @@ class Version:
         1.0.0 accept
         0.0.0 reject
         """
+        return NotImplemented
 
 
 @dataclass(frozen=True, slots=True)

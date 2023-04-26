@@ -6,9 +6,10 @@ The integration tests for :class:`Client`.
 """
 
 import os
+
 import pytest
 
-from cro.geneea.sdk import Account, Client, Document, Entity, Relation, Sentiment, Tag
+from cro.geneea import Account, Client, Document, Entity, Relation, Sentiment, Tag
 
 TEST_FILES_PATH = "docs/examples/input.txt"
 
