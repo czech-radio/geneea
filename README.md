@@ -1,6 +1,6 @@
-# 𝖈𝖗𝖔-𝖌𝖊𝖓𝖊𝖊𝖆-𝖘𝖉𝖐
+# geneea
 
-[RELEASES](https://github.com/czech-radio/cro-geneea-sdk/releases/) | [WEBSITE](https://czech-radio.github.io/cro-geneea-sdk/)
+[RELEASES](https://github.com/czech-radio/geneea/releases/) | [WEBSITE](https://czech-radio.github.io/geneea/)
 
 ![language](https://img.shields.io/badge/language-Python_v3.10+-blue.svg)
 ![version](https://img.shields.io/badge/version-0.6.0-blue.svg)
